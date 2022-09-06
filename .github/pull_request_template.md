@@ -1,10 +1,10 @@
 
-### Contexto
+### Context
 ​
-### Qué se está haciendo
+### What is being done
 ​
-#### En particular hay que revisar
+#### What to check
 ​
 
 -----------
-#### Info Adicional (pantallazos, links, fuentes, etc.)
+#### Additional info (links, screenshots, etc)
