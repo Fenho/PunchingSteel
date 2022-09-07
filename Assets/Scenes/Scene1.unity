@@ -181,7 +181,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -578452197, guid: e050f797cb4e4d542990f31e51f26a5f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 559838481}
   - component: {fileID: 559838480}
   - component: {fileID: 559838479}
+  - component: {fileID: 559838483}
   m_Layer: 0
   m_Name: player_0
   m_TagString: Untagged
@@ -388,6 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850f767708ec5034f8e7c927bd50e8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jabSpeed: 0.5
+  animator: {fileID: 0}
 --- !u!95 &559838480
 Animator:
   serializedVersion: 4
@@ -448,7 +451,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1818204825, guid: e41122a4324b97a4897c3ee01b6b7a2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -475,6 +478,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &559838483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559838478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 745942ded7a90d84ca90663c49addaf1, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dbfd4657-39c3-4219-a8c8-2511bf834820
+    m_ActionName: Ring/Evade[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 033c53ad-7841-4a27-8a72-bf58ebb2618a
+    m_ActionName: Ring/Jab[/XInputControllerWindows/buttonWest,/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f622e724-bfb4-4dc0-ba2e-c829e135ec14
+    m_ActionName: Ring/Block[/XInputControllerWindows/leftTrigger,/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8a3d1c9e-6f45-4091-b0cd-6772630a27d4
+    m_ActionName: Ring/RightDirect[/XInputControllerWindows/buttonSouth,/Keyboard/e]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Ring
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &609635466
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +549,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609635466}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &609635468
 Camera:
   m_ObjectHideFlags: 0
