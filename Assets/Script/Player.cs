@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private GameObject trainerGo;
     private Trainer trainer;
 
-    [SerializeField] private float jabSpeed = 0.6f;
+    [SerializeField] private float jabSpeed = 0.5f;
 
     public Animator animator;
     // Animation States
