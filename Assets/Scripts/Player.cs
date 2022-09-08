@@ -46,14 +46,11 @@ public class Player : MonoBehaviour
     private void Awake() {
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-<<<<<<< HEAD:Assets/Scripts/Player.cs
         health = GetComponent<Health>();
-=======
         trainerGo = GameObject.Find("Trainer");
         if (trainerGo != null) {
             trainer = trainerGo.GetComponent<Trainer>();
         }
->>>>>>> b866129103cfc81daf4bf861240813b413f69e4d:Assets/Script/Player.cs
         jabAction = playerInput.actions["Jab"];
         jabAction.performed += OnJab;
         rightAction = playerInput.actions["RightDirect"];
@@ -78,13 +75,8 @@ public class Player : MonoBehaviour
     }
 
     private void OnJab(InputAction.CallbackContext context) {
-<<<<<<< HEAD:Assets/Scripts/Player.cs
-        if (context.ReadValueAsButton() && !isJabbing && !isDodging && !isRightHitting) {
-            isJabbing = true; 
-=======
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isJabbing) {
             isJabbing = true;
->>>>>>> b866129103cfc81daf4bf861240813b413f69e4d:Assets/Script/Player.cs
             animator.Play(STATE_JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
             health.TakeDamageEnemy(10);
