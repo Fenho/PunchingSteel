@@ -29,11 +29,9 @@ public class Enemy : MonoBehaviour
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
     private string action;
-    // private string[] actions = new string[] { STATE_JAB, STATE_RIGHT, STATE_BLOCK, STATE_DODGE_LEFT, STATE_DODGE_RIGHT };
-    // private float[] probs = {2, 2, 2, 2, 2};
-    private string[] actions = new string[] { STATE_RIGHT, STATE_JAB };
-    private float[] probs = {2, 2};
-
+    private string[] actions = new string[] { STATE_JAB, STATE_RIGHT, STATE_BLOCK, STATE_DODGE_LEFT, STATE_DODGE_RIGHT };
+    private float[] probs = {2, 2, 2, 2, 2};
+    
     void Choose() {
         action = actions[Random.Range(0, actions.Length)];
     }
