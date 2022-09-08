@@ -17,11 +17,11 @@ public class GameOverScreen : MonoBehaviour
 
     public void RestartButton()
     {
-        SceneManager.LoadScene("Scene1");
+        SceneManager.LoadScene("Fight");
     }
 
     public void MainMenuButton()
     {
-        //SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Splash");
     }
 }
