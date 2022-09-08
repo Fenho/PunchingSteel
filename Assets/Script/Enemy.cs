@@ -15,87 +15,52 @@ public class Enemy : MonoBehaviour
     const string STATE_JAB_CUE = "jab-cue";
     const string STATE_RIGHT_CUE = "right-cue";
     // Animation Variables
-    private bool isJabbing = false;
-    private bool isRightHitting = false;
-    private bool isDodgingLeft = false;
-    private bool isDodgingRight = false;
-    private bool isBlocking = false;
+    [SerializeField] private bool isJabbing = false;
+    [SerializeField] private bool isRightHitting = false;
+    [SerializeField] private bool isDodgingLeft = false;
+    [SerializeField] private bool isDodgingRight = false;
+    [SerializeField] private bool isBlocking = false;
+    [SerializeField] private bool shouldCueRightHitting = true;
+    [SerializeField] private bool shouldCueJab = true;
 
     [SerializeField] private float jabSpeed = 0.5f;
+    [SerializeField] private float cueSpeed = 0.3f;
 
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
     private string action;
-    private string[] actions = new string[] { STATE_JAB, STATE_RIGHT, STATE_BLOCK, STATE_DODGE_LEFT, STATE_DODGE_RIGHT };
-    private float[] probs = {2, 2, 2, 2, 2};
-
-    // void Choose() {
-
-    //     float total = 0;
-
-    //     foreach (float elem in probs) {
-    //         total += elem;
-    //     }
-
-    //     float randomPoint = Random.value * total;
-
-    //     for (int i= 0; i < probs.Length; i++) {
-    //         if (randomPoint < probs[i]) {
-    //             action = actions[i];
-    //             return;
-    //         }
-    //         else {
-    //             randomPoint -= probs[i];
-    //         }
-    //     }
-    //     return;
-    //     // return probs.Length - 1;
-    // }
+    // private string[] actions = new string[] { STATE_JAB, STATE_RIGHT, STATE_BLOCK, STATE_DODGE_LEFT, STATE_DODGE_RIGHT };
+    // private float[] probs = {2, 2, 2, 2, 2};
+    private string[] actions = new string[] { STATE_RIGHT, STATE_JAB };
+    private float[] probs = {2, 2};
 
     void Choose() {
         action = actions[Random.Range(0, actions.Length)];
     }
 
-    // IEnumerator CueJab(float time)
-    // {
-    //     yield return new WaitForSeconds(time);
-    
-    //     // Code to execute after the delay
-    //     animator.Play(STATE_JAB);
-    //     StartCoroutine(LetAnimationRunForTime(jabSpeed));
-    // }
-
-    // IEnumerator CueRight(float time)
-    // {
-    //     yield return new WaitForSeconds(time);
-    
-    //     // Code to execute after the delay
-    //     animator.Play(STATE_RIGHT);
-    //     StartCoroutine(LetAnimationRunForTime(jabSpeed));
-    // }
-
-    void CueJab()
-    {
-        animator.Play(STATE_JAB);
-        StartCoroutine(LetAnimationRunForTime(jabSpeed));
-    }
-
-    void CueRight()
-    {
-        animator.Play(STATE_RIGHT);
-        StartCoroutine(LetAnimationRunForTime(jabSpeed));
-    }
 
     private void OnJab() {
         isJabbing = true;
-        animator.Play(STATE_JAB_CUE);
-        Invoke("CueJab", jabSpeed);
+        if (shouldCueJab) {
+            animator.Play(STATE_JAB_CUE);
+            StartCoroutine(DisableCues(cueSpeed));
+        } else {
+            animator.Play(STATE_JAB);
+            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        }
+        
     }
 
     private void OnRight() {
         isRightHitting = true;
-        animator.Play(STATE_RIGHT_CUE);
-        Invoke("CueRight", jabSpeed);
+        if (shouldCueRightHitting) {
+            animator.Play(STATE_RIGHT_CUE);
+            StartCoroutine(DisableCues(cueSpeed));
+        }
+        else {
+            animator.Play(STATE_RIGHT);
+            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        }
     }
 
     private void OnBlock() {
@@ -119,9 +84,18 @@ public class Enemy : MonoBehaviour
     IEnumerator LetAnimationRunForTime(float time)
     {
         yield return new WaitForSeconds(time);
-    
+
         // Code to execute after the delay
         BackToIdle();
+    }
+
+    IEnumerator DisableCues(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
+        shouldCueRightHitting = false;
+        shouldCueJab = false;
     }
 
     private void BackToIdle() {
@@ -131,6 +105,8 @@ public class Enemy : MonoBehaviour
         isRightHitting = false;
         isDodgingLeft = false;
         isDodgingRight = false;
+        shouldCueRightHitting = true;
+        shouldCueJab = true;
     }
 
     private void Awake() {
