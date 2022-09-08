@@ -13,8 +13,11 @@ public class Player : MonoBehaviour
     private InputAction dodgeRightAction;
     private float jabValue;
     [SerializeField] private float jabSpeed = 0.6f;
+    
+    // Health
 
     public Animator animator;
+
     // Animation States
     const string STATE_IDLE = "idle";
     const string STATE_JAB = "jab";
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
             isJabbing = true;
             animator.Play(STATE_JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            Health.TakeDamageEnemy(10);
         }
     }
 
@@ -68,6 +72,7 @@ public class Player : MonoBehaviour
             isRightHitting = true;
             animator.Play(STATE_RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            Health.TakeDamageEnemy(10);
         }
     }
 
