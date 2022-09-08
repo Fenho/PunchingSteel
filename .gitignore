@@ -70,6 +70,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 <<<<<<< HEAD
+<<<<<<< HEAD
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # VSCode project files
@@ -80,3 +81,6 @@ crashlytics-build.properties
 =======
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 >>>>>>> 54be0c9 (cambios)
+=======
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+>>>>>>> 54be0c9bdb92e26e60be3c48f3c82c816da60043
