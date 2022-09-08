@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 249212929}
   - component: {fileID: 249212928}
   - component: {fileID: 249212930}
+  - component: {fileID: 249212932}
   m_Layer: 0
   m_Name: enemy-robot-1_0
   m_TagString: Untagged
@@ -308,6 +309,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &249212932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249212927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dadc7fdeea75fe4085398cf6883f950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 07921f47e8c01574182bcc48ba531f26, type: 2}
+  duration: 0.3
 --- !u!1 &320396855
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,6 +643,7 @@ GameObject:
   - component: {fileID: 559838480}
   - component: {fileID: 559838479}
   - component: {fileID: 559838483}
+  - component: {fileID: 559838484}
   m_Layer: 0
   m_Name: player_0
   m_TagString: Untagged
@@ -788,6 +804,21 @@ MonoBehaviour:
   m_DefaultActionMap: Ring
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &559838484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559838478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a2ee5fcf9627942a4601a61c1cafc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHealth: 100
+  flashEffect: {fileID: 249212932}
+  enemyHealthBar: {fileID: 852964210}
 --- !u!1 &609635466
 GameObject:
   m_ObjectHideFlags: 0

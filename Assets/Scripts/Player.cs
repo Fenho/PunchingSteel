@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jabSpeed = 0.6f;
     
     // Health
+    private Health health;
 
     public Animator animator;
 
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
     private void Awake() {
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
+        health = GetComponent<Health>();
         jabAction = playerInput.actions["Jab"];
         jabAction.performed += OnJab;
         rightAction = playerInput.actions["RightDirect"];
@@ -62,10 +64,10 @@ public class Player : MonoBehaviour
 
     private void OnJab(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !isJabbing && !isDodging && !isRightHitting) {
-            isJabbing = true;
+            isJabbing = true; 
             animator.Play(STATE_JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            Health.TakeDamageEnemy(10);
+            health.TakeDamageEnemy(10);
         }
     }
 
@@ -74,7 +76,7 @@ public class Player : MonoBehaviour
             isRightHitting = true;
             animator.Play(STATE_RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            Health.TakeDamageEnemy(10);
+            health.TakeDamageEnemy(10);
         }
     }
 

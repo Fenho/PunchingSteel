@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] public static int playerHealth = 100;
-    [SerializeField] public static int enemyHealth = 100;
+    [SerializeField] private int enemyHealth = 100;
+    [SerializeField] private SimpleFlash flashEffect;
+    [SerializeField] private EnemyHealthBar enemyHealthBar;
 
-    public static void TakeDamagePLayer(int damage)
+    public void Start()
     {
-        playerHealth -= damage;
+        enemyHealthBar.SetMaxHealth(100);
     }
 
-    public static void TakeDamageEnemy(int damage) {
-        Debug.Log("Enemy took " + damage + " damage! Health: " + enemyHealth);
+    public void TakeDamageEnemy(int damage) 
+    {
+        flashEffect.Flash();
         enemyHealth -= damage;
+        enemyHealthBar.SetHealth(enemyHealth);
+        Debug.Log("Enemy took damage " + damage + "Health is now " + enemyHealth);
     }
 }
