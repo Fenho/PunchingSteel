@@ -161,7 +161,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 115.3}
+  m_AnchoredPosition: {x: 354, y: 79}
   m_SizeDelta: {x: 160, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &105302615
@@ -524,8 +524,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 192.07, y: -11}
-  m_SizeDelta: {x: -606.6616, y: 218}
+  m_AnchoredPosition: {x: 186, y: -11}
+  m_SizeDelta: {x: -511.6456, y: 218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &769445403
 MonoBehaviour:
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Gamepad Controls:\n\n  \u2022 Left Direction: Left Dodge\n  \u2022 Right
+  m_text: "Gamepad controls:\n\n  \u2022 Left Direction: Left Dodge\n  \u2022 Right
     Direction: RightDodge\n  \u2022 Left Trigger: Block\n  \u2022 LeftButton (X in
     XBox): Jab\n  \u2022 RightButton (A in XBox): Right Direct Hit"
   m_isRightToLeft: 0
@@ -661,7 +661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -312, y: -10.999998}
+  m_AnchoredPosition: {x: -271.2, y: -10.999998}
   m_SizeDelta: {x: -656.5222, y: 218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &951340718
@@ -983,7 +983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 331.9436, y: 154.85692}
+  m_AnchoredPosition: {x: 371.2, y: 154.85692}
   m_SizeDelta: {x: 631.3713, y: 31.0639}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1612525070
@@ -1118,8 +1118,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60}
-  m_SizeDelta: {x: 520.3938, y: 69.90399}
+  m_AnchoredPosition: {x: -273, y: -48.598038}
+  m_SizeDelta: {x: 381.6704, y: 47.1002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2097040888
 MonoBehaviour:
