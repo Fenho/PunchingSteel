@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 249212928}
   - component: {fileID: 249212930}
   - component: {fileID: 249212931}
+  - component: {fileID: 249212932}
   m_Layer: 0
   m_Name: enemy-robot-1_0
   m_TagString: Untagged
@@ -353,7 +354,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  isJabbing: 0
+  isRightHitting: 0
+  isDodgingLeft: 0
+  isDodgingRight: 0
+  isBlocking: 0
+  shouldCueRightHitting: 1
+  shouldCueJab: 1
   jabSpeed: 0.5
+  cueSpeed: 0.3
+--- !u!114 &249212932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249212927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e0c0f39de57c8479c601b1b3650c5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 767aafacdce5e8a47baeb5fbfdfa9a25, type: 2}
+  duration: 0.3
 --- !u!1 &376464603
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 100
-  flashEffect: {fileID: 249212931}
+  flashEffect: {fileID: 249212932}
   enemyHealthBar: {fileID: 1496528903}
 --- !u!1 &609635466
 GameObject:
