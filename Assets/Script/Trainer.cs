@@ -5,19 +5,25 @@ using UnityEngine.InputSystem;
 
 public class Trainer : MonoBehaviour
 {
+    // Music
+    public AudioSource audioSource;
+    public AudioClip punchSound1;
+    public AudioClip punchSound2;
+    public AudioClip dodgeSound1;
+    public AudioClip dodgeSound2;
+    public float volume=1.0f;
+
+    // Inputs
     private PlayerInput playerInput;
     private InputAction jabAction;
     private InputAction rightAction;
     private InputAction blockAction;
     private InputAction dodgeLeftAction;
     private InputAction dodgeRightAction;
-    public AudioSource audioSource;
-    public AudioClip punchSound1;
-    public AudioClip punchSound2;
-    public float volume=1.0f;
+    
     [SerializeField] private float jabSpeed = 0.6f;
-
     public Animator animator;
+
     // Animation States
     const string STATE_IDLE = "idle";
     const string STATE_JAB = "jab";
@@ -96,6 +102,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             isDodgingRight = true;
             animator.Play(STATE_DODGE_RIGHT);
+            audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
@@ -104,6 +111,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             isDodgingLeft = true;
             animator.Play(STATE_DODGE_LEFT);
+            audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }

@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool shouldCueRightHitting = true;
     [SerializeField] private bool shouldCueJab = true;
     [SerializeField] private bool shouldTakeTeamHealth = true;
+    [SerializeField] private bool shouldPlayDodgeSound = true;
 
     [SerializeField] private float jabSpeed = 0.5f;
     [SerializeField] private float cueSpeed = 0.3f;
@@ -33,6 +34,8 @@ public class Enemy : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound1;
     public AudioClip punchSound2;
+    public AudioClip dodgeSound1;
+    public AudioClip dodgeSound2;
     public float volume=1.0f;
 
     // Possible Actions
@@ -96,12 +99,20 @@ public class Enemy : MonoBehaviour
     private void OnDodgeRight() {
         isDodgingRight = true;
         animator.Play(STATE_DODGE_RIGHT);
+        if (shouldPlayDodgeSound) {
+            audioSource.PlayOneShot(dodgeSound1, volume);
+            shouldPlayDodgeSound = false;
+        }
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
     void OnDodgeLeft() {
         isDodgingLeft = true;
         animator.Play(STATE_DODGE_LEFT);
+        if (shouldPlayDodgeSound) {
+            audioSource.PlayOneShot(dodgeSound2, volume);
+            shouldPlayDodgeSound = false;
+        }
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
@@ -132,6 +143,7 @@ public class Enemy : MonoBehaviour
         shouldCueRightHitting = true;
         shouldCueJab = true;
         shouldTakeTeamHealth = true;
+        shouldPlayDodgeSound = true;
     }
 
     // Start is called before the first frame update

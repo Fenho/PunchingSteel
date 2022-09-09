@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound1;
     public AudioClip punchSound2;
+    public AudioClip dodgeSound1;
+    public AudioClip dodgeSound2;
     public float volume=1.0f;
 
     [SerializeField] private float jabSpeed = 0.5f;
@@ -114,6 +116,7 @@ public class Player : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingRight) {
             isDodgingRight = true;
             animator.Play(STATE_DODGE_RIGHT);
+            audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
@@ -122,6 +125,7 @@ public class Player : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingLeft) {
             isDodgingLeft = true;
             animator.Play(STATE_DODGE_LEFT);
+            audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
