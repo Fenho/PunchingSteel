@@ -3,27 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-public class Player : MonoBehaviour
+public class Trainer : MonoBehaviour
 {
-    public float maxHealth = 100;
-    public float currentHealth = 50;
     private PlayerInput playerInput;
     private InputAction jabAction;
     private InputAction rightAction;
     private InputAction blockAction;
     private InputAction dodgeLeftAction;
     private InputAction dodgeRightAction;
-    private GameObject trainerGo;
-    private Trainer trainer;
-
     [SerializeField] private float jabSpeed = 0.6f;
 
-    // Health
-    private Health health;
-
     public Animator animator;
-
     // Animation States
     const string STATE_IDLE = "idle";
     const string STATE_JAB = "jab";
@@ -32,11 +22,11 @@ public class Player : MonoBehaviour
     const string STATE_DODGE_RIGHT = "dodge-right";
     const string STATE_BLOCK = "block";
     // Animation Variables
-    private bool isJabbing = false;
-    private bool isRightHitting = false;
-    private bool isDodgingLeft = false;
-    private bool isDodgingRight = false;
-    private bool isBlocking = false;
+    public bool isJabbing = false;
+    public bool isRightHitting = false;
+    public bool isDodgingLeft = false;
+    public bool isDodgingRight = false;
+    public bool isBlocking = false;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -46,11 +36,6 @@ public class Player : MonoBehaviour
     private void Awake() {
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        trainerGo = GameObject.Find("Trainer");
-        if (trainerGo != null) {
-            trainer = trainerGo.GetComponent<Trainer>();
-        }
-        health = GetComponent<Health>();
         jabAction = playerInput.actions["Jab"];
         jabAction.performed += OnJab;
         rightAction = playerInput.actions["RightDirect"];
@@ -70,30 +55,29 @@ public class Player : MonoBehaviour
 
     }
 
-    private bool DoingSomething() {
+     private bool DoingSomething() {
         return isJabbing || isRightHitting || isDodgingLeft || isDodgingRight || isBlocking;
     }
 
+
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isJabbing) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             isJabbing = true;
             animator.Play(STATE_JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            health.TakeDamageEnemy(10);
         }
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isRightHitting) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             isRightHitting = true;
             animator.Play(STATE_RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            health.TakeDamageEnemy(10);
         }
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isBlocking) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             isBlocking = true;
             animator.Play(STATE_BLOCK);
         } else {
@@ -103,7 +87,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingRight) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             isDodgingRight = true;
             animator.Play(STATE_DODGE_RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
@@ -111,7 +95,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingLeft) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             isDodgingLeft = true;
             animator.Play(STATE_DODGE_LEFT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
