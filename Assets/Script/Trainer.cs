@@ -11,6 +11,10 @@ public class Trainer : MonoBehaviour
     private InputAction blockAction;
     private InputAction dodgeLeftAction;
     private InputAction dodgeRightAction;
+    public AudioSource audioSource;
+    public AudioClip punchSound1;
+    public AudioClip punchSound2;
+    public float volume=1.0f;
     [SerializeField] private float jabSpeed = 0.6f;
 
     public Animator animator;
@@ -64,6 +68,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             isJabbing = true;
             animator.Play(STATE_JAB);
+            audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
@@ -72,6 +77,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             isRightHitting = true;
             animator.Play(STATE_RIGHT);
+            audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }

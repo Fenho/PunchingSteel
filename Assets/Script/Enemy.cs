@@ -29,6 +29,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float jabSpeed = 0.5f;
     [SerializeField] private float cueSpeed = 0.3f;
 
+    // Music
+    public AudioSource audioSource;
+    public AudioClip punchSound1;
+    public AudioClip punchSound2;
+    public float volume=1.0f;
+
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
     private string action;
@@ -56,6 +62,7 @@ public class Enemy : MonoBehaviour
             animator.Play(STATE_JAB);
             if (shouldTakeTeamHealth) {
                 health.TakeDamageTeam(10);
+                audioSource.PlayOneShot(punchSound1, volume);
                 shouldTakeTeamHealth = false;
             }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
@@ -73,6 +80,7 @@ public class Enemy : MonoBehaviour
             animator.Play(STATE_RIGHT);
             if (shouldTakeTeamHealth) {
                 health.TakeDamageTeam(10);
+                audioSource.PlayOneShot(punchSound2, volume);
                 shouldTakeTeamHealth = false;
             }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
