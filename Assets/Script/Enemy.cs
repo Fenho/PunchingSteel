@@ -5,6 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator animator;
+    private Health health;
+
     // Animation States
     const string STATE_IDLE = "idle";
     const string STATE_JAB = "jab";
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool isBlocking = false;
     [SerializeField] private bool shouldCueRightHitting = true;
     [SerializeField] private bool shouldCueJab = true;
+    [SerializeField] private bool shouldTakeTeamHealth = true;
 
     [SerializeField] private float jabSpeed = 0.5f;
     [SerializeField] private float cueSpeed = 0.3f;
@@ -32,6 +35,13 @@ public class Enemy : MonoBehaviour
     private string[] actions = new string[] { STATE_JAB, STATE_RIGHT, STATE_BLOCK, STATE_DODGE_LEFT, STATE_DODGE_RIGHT };
     private float[] probs = {2, 2, 2, 2, 2};
     
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+        health = GetComponent<Health>();
+    }
+
+
     void Choose() {
         action = actions[Random.Range(0, actions.Length)];
     }
@@ -44,6 +54,10 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DisableCues(cueSpeed));
         } else {
             animator.Play(STATE_JAB);
+            if (shouldTakeTeamHealth) {
+                health.TakeDamageTeam(10);
+                shouldTakeTeamHealth = false;
+            }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
         
@@ -57,6 +71,10 @@ public class Enemy : MonoBehaviour
         }
         else {
             animator.Play(STATE_RIGHT);
+            if (shouldTakeTeamHealth) {
+                health.TakeDamageTeam(10);
+                shouldTakeTeamHealth = false;
+            }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
@@ -105,10 +123,7 @@ public class Enemy : MonoBehaviour
         isDodgingRight = false;
         shouldCueRightHitting = true;
         shouldCueJab = true;
-    }
-
-    private void Awake() {
-        animator = GetComponent<Animator>();
+        shouldTakeTeamHealth = true;
     }
 
     // Start is called before the first frame update
