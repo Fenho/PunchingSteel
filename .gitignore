@@ -73,6 +73,7 @@ crashlytics-build.properties
 
 # VSCode project files
 .vscode
+.vsconfig
 
 # User-specific .gitconfig
 .gitconfig
