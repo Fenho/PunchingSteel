@@ -226,7 +226,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBar
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3093036788722623820, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
 --- !u!224 &126732634 stripped
 RectTransform:
@@ -244,6 +245,7 @@ GameObject:
   - component: {fileID: 249212929}
   - component: {fileID: 249212928}
   - component: {fileID: 249212930}
+  - component: {fileID: 249212931}
   m_Layer: 0
   m_Name: enemy-robot-1_0
   m_TagString: Untagged
@@ -338,6 +340,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &249212931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249212927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e0c0f39de57c8479c601b1b3650c5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 767aafacdce5e8a47baeb5fbfdfa9a25, type: 2}
+  duration: 0.3
 --- !u!1 &376464603
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +438,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &456326404 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3093036788722623822, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
+  m_PrefabInstance: {fileID: 126732633}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &456326406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3093036788722623819, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
+  m_PrefabInstance: {fileID: 126732633}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456326404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &456326407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456326404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e009954da37f547b8f1ee6d4b49430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 456326406}
 --- !u!1 &502917170
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +525,7 @@ GameObject:
   - component: {fileID: 559838480}
   - component: {fileID: 559838479}
   - component: {fileID: 559838483}
+  - component: {fileID: 559838484}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Robot
@@ -500,6 +546,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jabSpeed: 0.5
+  maxHealth: 100
+  currentHealth: 50
   animator: {fileID: 0}
 --- !u!95 &559838480
 Animator:
@@ -638,6 +686,21 @@ MonoBehaviour:
   m_DefaultActionMap: Ring
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &559838484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559838478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a901be31030fac0488b6f63b3e977507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHealth: 100
+  flashEffect: {fileID: 249212931}
+  enemyHealthBar: {fileID: 1496528903}
 --- !u!1 &609635466
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +785,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &613000670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1225189958954227898, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
+  m_PrefabInstance: {fileID: 1496528899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1132592337
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,13 +961,38 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1225189958954227896, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
 --- !u!224 &1496528900 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1225189958954227899, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
   m_PrefabInstance: {fileID: 1496528899}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1496528902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1225189958954227897, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
+  m_PrefabInstance: {fileID: 1496528899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613000670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1496528903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613000670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eece955b9e428a42a5907370a31abf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1496528902}
 --- !u!1 &1707799035
 GameObject:
   m_ObjectHideFlags: 0
