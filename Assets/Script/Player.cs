@@ -25,10 +25,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float jabSpeed = 0.5f;
 
-    // Health
-    private Health health;
-    public float maxHealth = 100;
-    public float currentHealth = 50;
+    // Health and GameLogic
+    public GameLogic gameLogic;
+    [SerializeField] public string teamState = "idle";
 
     public Animator animator;
 
@@ -54,7 +53,6 @@ public class Player : MonoBehaviour
     private void Awake() {
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        health = GetComponent<Health>();
         trainerGo = GameObject.Find("Trainer");
         if (trainerGo != null) {
             trainer = trainerGo.GetComponent<Trainer>();
@@ -84,26 +82,29 @@ public class Player : MonoBehaviour
 
     private void OnJab(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isJabbing) {
+            teamState = "jab";
             isJabbing = true;
             animator.Play(STATE_JAB);
             audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            health.TakeDamageEnemy(10);
+            gameLogic.TakeDamageEnemy(10);
         }
     }
 
     private void OnRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isRightHitting) {
+            teamState = "right";
             isRightHitting = true;
             animator.Play(STATE_RIGHT);
             audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            health.TakeDamageEnemy(10);
+            gameLogic.TakeDamageEnemy(10);
         }
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isBlocking) {
+            teamState = "block";
             isBlocking = true;
             animator.Play(STATE_BLOCK);
         } else {
@@ -114,6 +115,7 @@ public class Player : MonoBehaviour
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingRight) {
+            teamState = "dodge-right";
             isDodgingRight = true;
             animator.Play(STATE_DODGE_RIGHT);
             audioSource.PlayOneShot(dodgeSound1, volume);
@@ -123,6 +125,7 @@ public class Player : MonoBehaviour
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingLeft) {
+            teamState = "dodge-left";
             isDodgingLeft = true;
             animator.Play(STATE_DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
@@ -148,6 +151,7 @@ public class Player : MonoBehaviour
         isRightHitting = false;
         isDodgingLeft = false;
         isDodgingRight = false;
+        teamState = "idle";
     }
 
     // Update is called once per frame

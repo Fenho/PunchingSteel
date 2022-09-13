@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator animator;
-    private Health health;
+    public GameLogic gameLogic;
 
     // Animation States
     const string STATE_IDLE = "idle";
@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float jabSpeed = 0.5f;
     [SerializeField] private float cueSpeed = 0.3f;
 
+    [SerializeField] public string enemyState = "idle";
+
     // Music
     public AudioSource audioSource;
     public AudioClip punchSound1;
@@ -47,7 +49,6 @@ public class Enemy : MonoBehaviour
 
     private void Awake() {
         animator = GetComponent<Animator>();
-        health = GetComponent<Health>();
     }
 
 
@@ -58,13 +59,14 @@ public class Enemy : MonoBehaviour
 
     private void OnJab() {
         isJabbing = true;
+        enemyState = "jab";
         if (shouldCueJab) {
             animator.Play(STATE_JAB_CUE);
             StartCoroutine(DisableCues(cueSpeed));
         } else {
             animator.Play(STATE_JAB);
             if (shouldTakeTeamHealth) {
-                health.TakeDamageTeam(10);
+                gameLogic.TakeDamageTeam(10);
                 audioSource.PlayOneShot(punchSound1, volume);
                 shouldTakeTeamHealth = false;
             }
@@ -75,6 +77,7 @@ public class Enemy : MonoBehaviour
 
     private void OnRight() {
         isRightHitting = true;
+        enemyState = "right";
         if (shouldCueRightHitting) {
             animator.Play(STATE_RIGHT_CUE);
             StartCoroutine(DisableCues(cueSpeed));
@@ -82,7 +85,7 @@ public class Enemy : MonoBehaviour
         else {
             animator.Play(STATE_RIGHT);
             if (shouldTakeTeamHealth) {
-                health.TakeDamageTeam(10);
+                gameLogic.TakeDamageTeam(10);
                 audioSource.PlayOneShot(punchSound2, volume);
                 shouldTakeTeamHealth = false;
             }
@@ -92,12 +95,14 @@ public class Enemy : MonoBehaviour
 
     private void OnBlock() {
         isBlocking = true;
+        enemyState = "block";
         animator.Play(STATE_BLOCK);
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
     private void OnDodgeRight() {
         isDodgingRight = true;
+        enemyState = "dodge-right";
         animator.Play(STATE_DODGE_RIGHT);
         if (shouldPlayDodgeSound) {
             audioSource.PlayOneShot(dodgeSound1, volume);
@@ -108,6 +113,7 @@ public class Enemy : MonoBehaviour
 
     void OnDodgeLeft() {
         isDodgingLeft = true;
+        enemyState = "dodge-left";
         animator.Play(STATE_DODGE_LEFT);
         if (shouldPlayDodgeSound) {
             audioSource.PlayOneShot(dodgeSound2, volume);
@@ -144,6 +150,7 @@ public class Enemy : MonoBehaviour
         shouldCueJab = true;
         shouldTakeTeamHealth = true;
         shouldPlayDodgeSound = true;
+        enemyState = "idle";
     }
 
     // Start is called before the first frame update

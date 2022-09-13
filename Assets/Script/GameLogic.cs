@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
-    public int playerHealth;
-    public int enemyHealth;
+    [SerializeField] private int enemyHealth = 100;
+    [SerializeField] private int teamHealth = 100;
+    [SerializeField] private SimpleFlash flashEffect;
+    [SerializeField] private EnemyHealthBar enemyHealthBar;
+    [SerializeField] private HealthBar teamHealthBar;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        
+        enemyHealthBar.SetMaxHealth(100);
+        teamHealthBar.SetMaxHealth(100);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamageEnemy(int damage) 
     {
-        
+        flashEffect.Flash();
+        enemyHealth -= damage;
+        enemyHealthBar.SetHealth(enemyHealth);
+    }
+
+    public void TakeDamageTeam(int damage)
+    {
+        teamHealth -= damage;
+        teamHealthBar.SetHealth(teamHealth);
     }
 }
