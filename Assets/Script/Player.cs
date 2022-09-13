@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     // Health and GameLogic
     public GameLogic gameLogic;
+    [SerializeField] public string teamState = "idle";
 
     public Animator animator;
 
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
 
     private void OnJab(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isJabbing) {
+            teamState = "jab";
             isJabbing = true;
             animator.Play(STATE_JAB);
             audioSource.PlayOneShot(punchSound1, volume);
@@ -91,6 +93,7 @@ public class Player : MonoBehaviour
 
     private void OnRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isRightHitting) {
+            teamState = "right";
             isRightHitting = true;
             animator.Play(STATE_RIGHT);
             audioSource.PlayOneShot(punchSound2, volume);
@@ -101,6 +104,7 @@ public class Player : MonoBehaviour
 
     private void OnBlock(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isBlocking) {
+            teamState = "block";
             isBlocking = true;
             animator.Play(STATE_BLOCK);
         } else {
@@ -111,6 +115,7 @@ public class Player : MonoBehaviour
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingRight) {
+            teamState = "dodge-right";
             isDodgingRight = true;
             animator.Play(STATE_DODGE_RIGHT);
             audioSource.PlayOneShot(dodgeSound1, volume);
@@ -120,6 +125,7 @@ public class Player : MonoBehaviour
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingLeft) {
+            teamState = "dodge-left";
             isDodgingLeft = true;
             animator.Play(STATE_DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
@@ -145,6 +151,7 @@ public class Player : MonoBehaviour
         isRightHitting = false;
         isDodgingLeft = false;
         isDodgingRight = false;
+        teamState = "idle";
     }
 
     // Update is called once per frame
