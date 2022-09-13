@@ -25,10 +25,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float jabSpeed = 0.5f;
 
-    // Health
-    private Health health;
-    public float maxHealth = 100;
-    public float currentHealth = 50;
+    // Health and GameLogic
+    public GameLogic gameLogic;
 
     public Animator animator;
 
@@ -54,7 +52,6 @@ public class Player : MonoBehaviour
     private void Awake() {
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        health = GetComponent<Health>();
         trainerGo = GameObject.Find("Trainer");
         if (trainerGo != null) {
             trainer = trainerGo.GetComponent<Trainer>();
@@ -88,7 +85,7 @@ public class Player : MonoBehaviour
             animator.Play(STATE_JAB);
             audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            health.TakeDamageEnemy(10);
+            gameLogic.TakeDamageEnemy(10);
         }
     }
 
@@ -98,7 +95,7 @@ public class Player : MonoBehaviour
             animator.Play(STATE_RIGHT);
             audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            health.TakeDamageEnemy(10);
+            gameLogic.TakeDamageEnemy(10);
         }
     }
 

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1225189958954227899}
   - component: {fileID: 1225189958954227897}
-  - component: {fileID: 1225189958954227896}
+  - component: {fileID: 2372020859843553437}
   m_Layer: 5
   m_Name: EnemyHealthBar
   m_TagString: Untagged
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1225189958954227896
+--- !u!114 &2372020859843553437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1225189958954227898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d4d5310d7ba145258be84c7c4e1dfd0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eece955b9e428a42a5907370a31abf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1225189958954227897}

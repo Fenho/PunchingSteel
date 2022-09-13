@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator animator;
-    private Health health;
+    public GameLogic gameLogic;
 
     // Animation States
     const string STATE_IDLE = "idle";
@@ -47,7 +47,6 @@ public class Enemy : MonoBehaviour
 
     private void Awake() {
         animator = GetComponent<Animator>();
-        health = GetComponent<Health>();
     }
 
 
@@ -64,7 +63,7 @@ public class Enemy : MonoBehaviour
         } else {
             animator.Play(STATE_JAB);
             if (shouldTakeTeamHealth) {
-                health.TakeDamageTeam(10);
+                gameLogic.TakeDamageTeam(10);
                 audioSource.PlayOneShot(punchSound1, volume);
                 shouldTakeTeamHealth = false;
             }
@@ -82,7 +81,7 @@ public class Enemy : MonoBehaviour
         else {
             animator.Play(STATE_RIGHT);
             if (shouldTakeTeamHealth) {
-                health.TakeDamageTeam(10);
+                gameLogic.TakeDamageTeam(10);
                 audioSource.PlayOneShot(punchSound2, volume);
                 shouldTakeTeamHealth = false;
             }
