@@ -54,7 +54,7 @@ public class Trainer : MonoBehaviour
 
     }
 
-     private bool DoingSomething() {
+    private bool DoingSomething() {
         return !trainerState.Equals(State.IDLE);
     }
 
@@ -94,6 +94,7 @@ public class Trainer : MonoBehaviour
             audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
+        return;
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
@@ -103,6 +104,7 @@ public class Trainer : MonoBehaviour
             audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
+        return;
     }
 
     IEnumerator LetAnimationRunForTime(float time)

@@ -109,6 +109,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    // private void TriggerBlock() {
+    //     if (trainer.isBlocking) {
+    //         teamState = "block";
+    //         isBlocking = true;
+    //         animator.Play(STATE_BLOCK);
+    //     } else {
+    //         isBlocking = false;
+    //         animator.Play(STATE_IDLE);
+    //     }
+    // }
+
     private void OnDodgeRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.DODGE_RIGHT) {
             playerState = teamState = State.DODGE_RIGHT;
