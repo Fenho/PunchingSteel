@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class StaticVars : MonoBehaviour
 {
@@ -11,13 +12,7 @@ public class StaticVars : MonoBehaviour
 
     public static void addPoints(int points)
     {
-        if (points < 0 && score < -points)
-        {
-            score = 0;
-        }
-        else{
-            score += points;
-        }
+        score = Math.Max(0, score + points);
     }
 
     public static void winGame()
