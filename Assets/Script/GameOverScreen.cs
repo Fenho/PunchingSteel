@@ -7,12 +7,21 @@ using UnityEngine.SceneManagement;
 public class GameOverScreen : MonoBehaviour
 {
     public Text pointsText;
+    public Text winLoseText;
 
-    public void Setup(int score)
+    public void Start(){
+        Setup();
+    }
+
+    public void Setup()
     {
         gameObject.SetActive(true);
-        pointsText.text = score.ToString() + " points";
-
+        pointsText.text = StaticVars.score.ToString() + " points";
+        if(StaticVars.win){
+            winLoseText.text = "You Win!! :)";
+        } else {
+            winLoseText.text = "You Lose. :(";
+        }
     }
 
     public void RestartButton()

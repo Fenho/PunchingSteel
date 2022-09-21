@@ -366,6 +366,7 @@ MonoBehaviour:
   shouldPlayDodgeSound: 1
   jabSpeed: 0.5
   cueSpeed: 0.3
+  enemyState: idle
   audioSource: {fileID: 1556166936}
   punchSound1: {fileID: 8300000, guid: 33a16e6089b554a46846ff688e64d79c, type: 3}
   punchSound2: {fileID: 8300000, guid: 67aec7ffa97f58f98bb6322e21b3a41c, type: 3}
@@ -712,6 +713,7 @@ MonoBehaviour:
   volume: 1
   jabSpeed: 0.5
   gameLogic: {fileID: 851369195}
+  teamState: idle
   animator: {fileID: 0}
 --- !u!95 &559838480
 Animator:
@@ -1205,6 +1207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851369196}
   - component: {fileID: 851369195}
+  - component: {fileID: 851369197}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -1244,6 +1247,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &851369197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851369194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1298fd0a12d614cb299de445bff40540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &932373146
 GameObject:
   m_ObjectHideFlags: 0
