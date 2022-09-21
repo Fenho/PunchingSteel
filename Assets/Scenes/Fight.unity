@@ -355,11 +355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   gameLogic: {fileID: 851369195}
-  isJabbing: 0
-  isRightHitting: 0
-  isDodgingLeft: 0
-  isDodgingRight: 0
-  isBlocking: 0
   shouldCueRightHitting: 1
   shouldCueJab: 1
   shouldTakeTeamHealth: 1
@@ -715,6 +710,7 @@ MonoBehaviour:
   gameLogic: {fileID: 851369195}
   teamState: idle
   animator: {fileID: 0}
+  playerState: idle
 --- !u!95 &559838480
 Animator:
   serializedVersion: 4
@@ -1232,6 +1228,9 @@ MonoBehaviour:
   flashEffect: {fileID: 249212932}
   enemyHealthBar: {fileID: 1496528903}
   teamHealthBar: {fileID: 456326407}
+  enemy: {fileID: 249212931}
+  robot: {fileID: 559838479}
+  blockDamageFactor: 0.5
 --- !u!4 &851369196
 Transform:
   m_ObjectHideFlags: 0
@@ -2663,11 +2662,7 @@ MonoBehaviour:
   volume: 0.5
   jabSpeed: 0.6
   animator: {fileID: 0}
-  isJabbing: 0
-  isRightHitting: 0
-  isDodgingLeft: 0
-  isDodgingRight: 0
-  isBlocking: 0
+  trainerState: idle
 --- !u!1 &1870538529
 GameObject:
   m_ObjectHideFlags: 0

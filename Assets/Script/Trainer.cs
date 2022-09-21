@@ -23,20 +23,9 @@ public class Trainer : MonoBehaviour
     
     [SerializeField] private float jabSpeed = 0.6f;
     public Animator animator;
-
-    // Animation States
-    const string STATE_IDLE = "idle";
-    const string STATE_JAB = "jab";
-    const string STATE_RIGHT = "right";
-    const string STATE_DODGE_LEFT = "dodge-left";
-    const string STATE_DODGE_RIGHT = "dodge-right";
-    const string STATE_BLOCK = "block";
+    
     // Animation Variables
-    public bool isJabbing = false;
-    public bool isRightHitting = false;
-    public bool isDodgingLeft = false;
-    public bool isDodgingRight = false;
-    public bool isBlocking = false;
+    [SerializeField] public string trainerState = State.IDLE;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -66,14 +55,14 @@ public class Trainer : MonoBehaviour
     }
 
      private bool DoingSomething() {
-        return isJabbing || isRightHitting || isDodgingLeft || isDodgingRight || isBlocking;
+        return !trainerState.Equals(State.IDLE);
     }
 
 
     private void OnJab(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            isJabbing = true;
-            animator.Play(STATE_JAB);
+            trainerState = State.JAB;
+            animator.Play(State.JAB);
             audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -81,8 +70,8 @@ public class Trainer : MonoBehaviour
 
     private void OnRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            isRightHitting = true;
-            animator.Play(STATE_RIGHT);
+            trainerState = State.RIGHT;
+            animator.Play(State.RIGHT);
             audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -90,18 +79,18 @@ public class Trainer : MonoBehaviour
 
     private void OnBlock(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            isBlocking = true;
-            animator.Play(STATE_BLOCK);
+            trainerState = State.BLOCK;
+            animator.Play(State.BLOCK);
         } else {
-            isBlocking = false;
-            animator.Play(STATE_IDLE);
+            trainerState = State.IDLE;
+            animator.Play(State.IDLE);
         }
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            isDodgingRight = true;
-            animator.Play(STATE_DODGE_RIGHT);
+            trainerState = State.DODGE_RIGHT;
+            animator.Play(State.DODGE_RIGHT);
             audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -109,8 +98,8 @@ public class Trainer : MonoBehaviour
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            isDodgingLeft = true;
-            animator.Play(STATE_DODGE_LEFT);
+            trainerState = State.DODGE_LEFT;
+            animator.Play(State.DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -119,21 +108,16 @@ public class Trainer : MonoBehaviour
     IEnumerator LetAnimationRunForTime(float time)
     {
         yield return new WaitForSeconds(time);
-    
-        // Code to execute after the delay
         BackToIdle();
     }
 
     private void BackToIdle() {
-        if (isBlocking) {
-            animator.Play(STATE_BLOCK);
+        if (trainerState == State.BLOCK) {
+            animator.Play(State.BLOCK);
         } else {
-            animator.Play(STATE_IDLE);
+            animator.Play(State.IDLE);
         }
-        isJabbing = false;
-        isRightHitting = false;
-        isDodgingLeft = false;
-        isDodgingRight = false;
+        trainerState = State.IDLE;
     }
 
     // Update is called once per frame

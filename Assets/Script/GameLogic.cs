@@ -9,6 +9,9 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private SimpleFlash flashEffect;
     [SerializeField] private EnemyHealthBar enemyHealthBar;
     [SerializeField] private HealthBar teamHealthBar;
+    [SerializeField] private Enemy enemy;
+    [SerializeField] private Player robot;
+    [SerializeField] private float blockDamageFactor = 0.5f;
 
     public void Start()
     {
@@ -16,16 +19,35 @@ public class GameLogic : MonoBehaviour
         teamHealthBar.SetMaxHealth(100);
     }
 
-    public void TakeDamageEnemy(int damage) 
+    public bool TakeDamageEnemy(int damage) 
     {
+        if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
+            return false;
+        }
+
+        if (robot.teamState == State.BLOCK) {
+            damage = (int) (damage * blockDamageFactor);
+        }
+
         flashEffect.Flash();
         enemyHealth -= damage;
         enemyHealthBar.SetHealth(enemyHealth);
+        return true;
     }
 
-    public void TakeDamageTeam(int damage)
+    // Returns true if team was damaged
+    public bool TakeDamageTeam(int damage)
     {
+        if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
+            return false;
+        }
+
+        if (enemy.enemyState == State.BLOCK) {
+            damage = (int) (damage * blockDamageFactor);
+        }
+
         teamHealth -= damage;
         teamHealthBar.SetHealth(teamHealth);
+        return true;
     }
 }
