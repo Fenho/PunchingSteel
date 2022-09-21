@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Trainer
   - Robot
+  - TrainerMoves
   layers:
   - Default
   - TransparentFX
