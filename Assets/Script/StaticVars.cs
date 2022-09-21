@@ -11,7 +11,13 @@ public class StaticVars : MonoBehaviour
 
     public static void addPoints(int points)
     {
-        score += points;
+        if (points < 0 && score < -points)
+        {
+            score = 0;
+        }
+        else{
+            score += points;
+        }
     }
 
     public static void winGame()

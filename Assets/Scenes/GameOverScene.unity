@@ -1259,3 +1259,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsText: {fileID: 1852743136}
+  winLoseText: {fileID: 318909642}
