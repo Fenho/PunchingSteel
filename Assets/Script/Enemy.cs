@@ -7,21 +7,7 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     public GameLogic gameLogic;
 
-    // Animation States
-    const string STATE_IDLE = "idle";
-    const string STATE_JAB = "jab";
-    const string STATE_RIGHT = "right";
-    const string STATE_DODGE_LEFT = "dodge-left";
-    const string STATE_DODGE_RIGHT = "dodge-right";
-    const string STATE_BLOCK = "block";
-    const string STATE_JAB_CUE = "jab-cue";
-    const string STATE_RIGHT_CUE = "right-cue";
     // Animation Variables
-    [SerializeField] private bool isJabbing = false;
-    [SerializeField] private bool isRightHitting = false;
-    [SerializeField] private bool isDodgingLeft = false;
-    [SerializeField] private bool isDodgingRight = false;
-    [SerializeField] private bool isBlocking = false;
     [SerializeField] private bool shouldCueRightHitting = true;
     [SerializeField] private bool shouldCueJab = true;
     [SerializeField] private bool shouldTakeTeamHealth = true;
@@ -30,7 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float jabSpeed = 0.5f;
     [SerializeField] private float cueSpeed = 0.3f;
 
-    [SerializeField] public string enemyState = "idle";
+    [SerializeField] public string enemyState = State.IDLE;
 
     // Music
     public AudioSource audioSource;
@@ -38,12 +24,13 @@ public class Enemy : MonoBehaviour
     public AudioClip punchSound2;
     public AudioClip dodgeSound1;
     public AudioClip dodgeSound2;
-    public float volume=1.0f;
+    public AudioClip missSound;
+    public float volume = 1.0f;
 
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
     private string action;
-    private string[] actions = new string[] { STATE_JAB, STATE_RIGHT, STATE_BLOCK, STATE_DODGE_LEFT, STATE_DODGE_RIGHT };
+    private string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT};
     private float[] probs = {2, 2, 2, 2, 2};
     
 
@@ -58,16 +45,19 @@ public class Enemy : MonoBehaviour
 
 
     private void OnJab() {
-        isJabbing = true;
-        enemyState = "jab";
+        enemyState = State.JAB;
         if (shouldCueJab) {
-            animator.Play(STATE_JAB_CUE);
+            animator.Play(State.JAB_CUE);
             StartCoroutine(DisableCues(cueSpeed));
         } else {
-            animator.Play(STATE_JAB);
+            animator.Play(State.JAB);
             if (shouldTakeTeamHealth) {
-                gameLogic.TakeDamageTeam(10);
-                audioSource.PlayOneShot(punchSound1, volume);
+                bool tookDamage = gameLogic.TakeDamageTeam(10);
+                if (tookDamage) {
+                    audioSource.PlayOneShot(punchSound1, volume);
+                } else {
+                    audioSource.PlayOneShot(missSound, volume);
+                }
                 shouldTakeTeamHealth = false;
             }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
@@ -76,17 +66,20 @@ public class Enemy : MonoBehaviour
     }
 
     private void OnRight() {
-        isRightHitting = true;
-        enemyState = "right";
+        enemyState = State.RIGHT;
         if (shouldCueRightHitting) {
-            animator.Play(STATE_RIGHT_CUE);
+            animator.Play(State.RIGHT_CUE);
             StartCoroutine(DisableCues(cueSpeed));
         }
         else {
-            animator.Play(STATE_RIGHT);
+            animator.Play(State.RIGHT);
             if (shouldTakeTeamHealth) {
-                gameLogic.TakeDamageTeam(10);
-                audioSource.PlayOneShot(punchSound2, volume);
+                bool tookDamage = gameLogic.TakeDamageTeam(10);
+                if (tookDamage) {
+                    audioSource.PlayOneShot(punchSound2, volume);
+                } else {
+                    audioSource.PlayOneShot(missSound, volume);
+                }
                 shouldTakeTeamHealth = false;
             }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
@@ -94,16 +87,14 @@ public class Enemy : MonoBehaviour
     }
 
     private void OnBlock() {
-        isBlocking = true;
-        enemyState = "block";
-        animator.Play(STATE_BLOCK);
+        enemyState = State.BLOCK;
+        animator.Play(State.BLOCK);
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
     private void OnDodgeRight() {
-        isDodgingRight = true;
-        enemyState = "dodge-right";
-        animator.Play(STATE_DODGE_RIGHT);
+        enemyState = State.DODGE_RIGHT;
+        animator.Play(State.DODGE_RIGHT);
         if (shouldPlayDodgeSound) {
             audioSource.PlayOneShot(dodgeSound1, volume);
             shouldPlayDodgeSound = false;
@@ -112,9 +103,8 @@ public class Enemy : MonoBehaviour
     }
 
     void OnDodgeLeft() {
-        isDodgingLeft = true;
-        enemyState = "dodge-left";
-        animator.Play(STATE_DODGE_LEFT);
+        enemyState = State.DODGE_LEFT;
+        animator.Play(State.DODGE_LEFT);
         if (shouldPlayDodgeSound) {
             audioSource.PlayOneShot(dodgeSound2, volume);
             shouldPlayDodgeSound = false;
@@ -133,50 +123,43 @@ public class Enemy : MonoBehaviour
     IEnumerator DisableCues(float time)
     {
         yield return new WaitForSeconds(time);
-
-        // Code to execute after the delay
         shouldCueRightHitting = false;
         shouldCueJab = false;
     }
 
     private void BackToIdle() {
-        animator.Play(STATE_IDLE);
-        action = STATE_IDLE;
-        isJabbing = false;
-        isRightHitting = false;
-        isDodgingLeft = false;
-        isDodgingRight = false;
+        animator.Play(State.IDLE);
+        action = State.IDLE;
         shouldCueRightHitting = true;
         shouldCueJab = true;
         shouldTakeTeamHealth = true;
         shouldPlayDodgeSound = true;
-        enemyState = "idle";
+        enemyState = State.IDLE;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Choose", 2.0f, 3f);
-        // Invoke("Choose", 2.0f);
+        InvokeRepeating("Choose", 2.0f, 3.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
         // action = actions[Choose(probs)];
-        if (action == STATE_JAB) {
+        if (action == State.JAB) {
             OnJab();
         }
-        if (action == STATE_RIGHT) {
+        if (action == State.RIGHT) {
             OnRight();
         }
-        if (action == STATE_BLOCK) {
+        if (action == State.BLOCK) {
             OnBlock();
         }
-        if (action == STATE_DODGE_LEFT) {
+        if (action == State.DODGE_LEFT) {
             OnDodgeLeft();
         }
-        if (action == STATE_DODGE_RIGHT) {
+        if (action == State.DODGE_RIGHT) {
             OnDodgeRight();
         }
     }
