@@ -22,6 +22,10 @@ public class Trainer : MonoBehaviour
     private InputAction dodgeRightAction;
     
     [SerializeField] private float jabSpeed = 0.6f;
+
+    public GameLogic gameLogic;
+    [SerializeField] public string teamState = State.IDLE;
+    
     public Animator animator;
     
     // Animation Variables
@@ -89,9 +93,9 @@ public class Trainer : MonoBehaviour
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            trainerState = State.DODGE_RIGHT;
+            trainerState = teamState = State.DODGE_RIGHT;
             animator.Play(State.DODGE_RIGHT);
-            audioSource.PlayOneShot(dodgeSound1, volume);
+            // audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
         return;
