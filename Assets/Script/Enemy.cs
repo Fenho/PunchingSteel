@@ -24,12 +24,13 @@ public class Enemy : MonoBehaviour
     public AudioClip punchSound2;
     public AudioClip dodgeSound1;
     public AudioClip dodgeSound2;
+    public AudioClip missSound;
     public float volume = 1.0f;
 
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
     private string action;
-    private string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT };
+    private string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT};
     private float[] probs = {2, 2, 2, 2, 2};
     
 
@@ -51,8 +52,12 @@ public class Enemy : MonoBehaviour
         } else {
             animator.Play(State.JAB);
             if (shouldTakeTeamHealth) {
-                gameLogic.TakeDamageTeam(10);
-                audioSource.PlayOneShot(punchSound1, volume);
+                bool tookDamage = gameLogic.TakeDamageTeam(10);
+                if (tookDamage) {
+                    audioSource.PlayOneShot(punchSound1, volume);
+                } else {
+                    audioSource.PlayOneShot(missSound, volume);
+                }
                 shouldTakeTeamHealth = false;
             }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
@@ -69,8 +74,12 @@ public class Enemy : MonoBehaviour
         else {
             animator.Play(State.RIGHT);
             if (shouldTakeTeamHealth) {
-                gameLogic.TakeDamageTeam(10);
-                audioSource.PlayOneShot(punchSound2, volume);
+                bool tookDamage = gameLogic.TakeDamageTeam(10);
+                if (tookDamage) {
+                    audioSource.PlayOneShot(punchSound2, volume);
+                } else {
+                    audioSource.PlayOneShot(missSound, volume);
+                }
                 shouldTakeTeamHealth = false;
             }
             StartCoroutine(LetAnimationRunForTime(jabSpeed));

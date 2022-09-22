@@ -19,13 +19,14 @@ public class GameLogic : MonoBehaviour
         teamHealthBar.SetMaxHealth(100);
     }
 
+    // Returns true if the enemy took damage
     public bool TakeDamageEnemy(int damage) 
     {
-        if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
+        if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
             return false;
         }
 
-        if (robot.teamState == State.BLOCK) {
+        if (enemy.enemyState == State.BLOCK) {
             damage = (int) (damage * blockDamageFactor);
         }
 
@@ -38,11 +39,11 @@ public class GameLogic : MonoBehaviour
     // Returns true if team was damaged
     public bool TakeDamageTeam(int damage)
     {
-        if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
+        if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
             return false;
         }
 
-        if (enemy.enemyState == State.BLOCK) {
+        if (robot.teamState == State.BLOCK) {
             damage = (int) (damage * blockDamageFactor);
         }
 

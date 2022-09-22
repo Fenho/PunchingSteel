@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     public AudioClip punchSound2;
     public AudioClip dodgeSound1;
     public AudioClip dodgeSound2;
+    public AudioClip missSound;
+
     public float volume = 1.0f;
 
     [SerializeField] private float jabSpeed = 0.5f;
@@ -73,9 +75,13 @@ public class Player : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB) {
             playerState = teamState = State.JAB;
             animator.Play(State.JAB);
-            audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            gameLogic.TakeDamageEnemy(10);
+            bool tookDamage = gameLogic.TakeDamageEnemy(10);
+            if (tookDamage) {
+                audioSource.PlayOneShot(punchSound1, volume);
+            } else {
+                audioSource.PlayOneShot(missSound, volume);
+            }
         }
     }
 
@@ -83,9 +89,13 @@ public class Player : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT) {
             playerState = teamState = State.RIGHT;
             animator.Play(State.RIGHT);
-            audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            gameLogic.TakeDamageEnemy(10);
+            bool tookDamage = gameLogic.TakeDamageEnemy(10);
+            if (tookDamage) {
+                audioSource.PlayOneShot(punchSound2, volume);
+            } else {
+                audioSource.PlayOneShot(missSound, volume);
+            }
         }
     }
 
