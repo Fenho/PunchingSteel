@@ -52,9 +52,9 @@ public class Player : MonoBehaviour
         jabAction.performed += OnJab;
         rightAction = playerInput.actions["RightDirect"];
         rightAction.performed += OnRight;
-        blockAction = playerInput.actions["Block"];
-        blockAction.performed += OnBlock;
-        blockAction.canceled += OnBlock;
+        // blockAction = playerInput.actions["Block"];
+        // blockAction.performed += OnBlock;
+        // blockAction.canceled += OnBlock;
         dodgeRightAction = playerInput.actions["DodgeRight"];
         dodgeRightAction.performed += OnDodgeRight;
         dodgeLeftAction = playerInput.actions["DodgeLeft"];
@@ -70,6 +70,10 @@ public class Player : MonoBehaviour
     private bool DoingSomething() {
         return !playerState.Equals(State.IDLE);
     }
+
+    // private bool isTeamDoingSomething() {
+    //     return !teamState.Equals(State.IDLE);
+    // }
 
     private void OnJab(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB) {
@@ -100,17 +104,11 @@ public class Player : MonoBehaviour
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.BLOCK) {
-            playerState = teamState = State.BLOCK;
-            animator.Play(State.BLOCK);
-        } else {
-            playerState = teamState = State.IDLE;
-            animator.Play(State.IDLE);
-        }
+        return;
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.DODGE_RIGHT) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             playerState = teamState = State.DODGE_RIGHT;
             animator.Play(State.DODGE_RIGHT);
             audioSource.PlayOneShot(dodgeSound1, volume);
@@ -119,7 +117,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.DODGE_LEFT) {
+        if (context.ReadValueAsButton() && !DoingSomething()) {
             playerState = teamState = State.DODGE_LEFT;
             animator.Play(State.DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
@@ -145,5 +143,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (trainer.trainerState == State.BLOCK) {
+            playerState = teamState = State.BLOCK;
+            animator.Play(State.BLOCK);
+        }
+        if (trainer.trainerState != State.BLOCK && !(DoingSomething() && !playerState.Equals(State.BLOCK))) {
+            playerState = teamState = State.IDLE;
+            animator.Play(State.IDLE);
+        }
     }
 }

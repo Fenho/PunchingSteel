@@ -22,6 +22,7 @@ public class Trainer : MonoBehaviour
     private InputAction dodgeRightAction;
     
     [SerializeField] private float jabSpeed = 0.6f;
+    
     public Animator animator;
     
     // Animation Variables
@@ -54,7 +55,7 @@ public class Trainer : MonoBehaviour
 
     }
 
-     private bool DoingSomething() {
+    private bool DoingSomething() {
         return !trainerState.Equals(State.IDLE);
     }
 
@@ -63,7 +64,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.JAB;
             animator.Play(State.JAB);
-            audioSource.PlayOneShot(punchSound1, volume);
+            // audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
@@ -72,7 +73,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.RIGHT;
             animator.Play(State.RIGHT);
-            audioSource.PlayOneShot(punchSound2, volume);
+            // audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
@@ -91,18 +92,20 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.DODGE_RIGHT;
             animator.Play(State.DODGE_RIGHT);
-            audioSource.PlayOneShot(dodgeSound1, volume);
+            // audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
+        return;
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.DODGE_LEFT;
             animator.Play(State.DODGE_LEFT);
-            audioSource.PlayOneShot(dodgeSound2, volume);
+            // audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
+        return;
     }
 
     IEnumerator LetAnimationRunForTime(float time)
