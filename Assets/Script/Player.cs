@@ -21,29 +21,20 @@ public class Player : MonoBehaviour
     public AudioClip punchSound2;
     public AudioClip dodgeSound1;
     public AudioClip dodgeSound2;
-    public float volume=1.0f;
+    public AudioClip missSound;
+
+    public float volume = 1.0f;
 
     [SerializeField] private float jabSpeed = 0.5f;
 
     // Health and GameLogic
     public GameLogic gameLogic;
-    [SerializeField] public string teamState = "idle";
+    [SerializeField] public string teamState = State.IDLE;
 
     public Animator animator;
 
-    // Animation States
-    const string STATE_IDLE = "idle";
-    const string STATE_JAB = "jab";
-    const string STATE_RIGHT = "right";
-    const string STATE_DODGE_LEFT = "dodge-left";
-    const string STATE_DODGE_RIGHT = "dodge-right";
-    const string STATE_BLOCK = "block";
     // Animation Variables
-    private bool isJabbing = false;
-    private bool isRightHitting = false;
-    private bool isDodgingLeft = false;
-    private bool isDodgingRight = false;
-    private bool isBlocking = false;
+    [SerializeField] public string playerState = State.IDLE;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -77,57 +68,60 @@ public class Player : MonoBehaviour
     }
 
     private bool DoingSomething() {
-        return isJabbing || isRightHitting || isDodgingLeft || isDodgingRight || isBlocking;
+        return !playerState.Equals(State.IDLE);
     }
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isJabbing) {
-            teamState = "jab";
-            isJabbing = true;
-            animator.Play(STATE_JAB);
-            audioSource.PlayOneShot(punchSound1, volume);
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB) {
+            playerState = teamState = State.JAB;
+            animator.Play(State.JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            gameLogic.TakeDamageEnemy(10);
+            bool tookDamage = gameLogic.TakeDamageEnemy(10);
+            if (tookDamage) {
+                audioSource.PlayOneShot(punchSound1, volume);
+            } else {
+                audioSource.PlayOneShot(missSound, volume);
+            }
         }
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isRightHitting) {
-            teamState = "right";
-            isRightHitting = true;
-            animator.Play(STATE_RIGHT);
-            audioSource.PlayOneShot(punchSound2, volume);
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT) {
+            playerState = teamState = State.RIGHT;
+            animator.Play(State.RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            gameLogic.TakeDamageEnemy(10);
+            bool tookDamage = gameLogic.TakeDamageEnemy(10);
+            if (tookDamage) {
+                audioSource.PlayOneShot(punchSound2, volume);
+            } else {
+                audioSource.PlayOneShot(missSound, volume);
+            }
         }
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isBlocking) {
-            teamState = "block";
-            isBlocking = true;
-            animator.Play(STATE_BLOCK);
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.BLOCK) {
+            playerState = teamState = State.BLOCK;
+            animator.Play(State.BLOCK);
         } else {
-            isBlocking = false;
-            animator.Play(STATE_IDLE);
+            playerState = teamState = State.IDLE;
+            animator.Play(State.IDLE);
         }
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingRight) {
-            teamState = "dodge-right";
-            isDodgingRight = true;
-            animator.Play(STATE_DODGE_RIGHT);
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.DODGE_RIGHT) {
+            playerState = teamState = State.DODGE_RIGHT;
+            animator.Play(State.DODGE_RIGHT);
             audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.isDodgingLeft) {
-            teamState = "dodge-left";
-            isDodgingLeft = true;
-            animator.Play(STATE_DODGE_LEFT);
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.DODGE_LEFT) {
+            playerState = teamState = State.DODGE_LEFT;
+            animator.Play(State.DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -136,22 +130,16 @@ public class Player : MonoBehaviour
     IEnumerator LetAnimationRunForTime(float time)
     {
         yield return new WaitForSeconds(time);
-    
-        // Code to execute after the delay
         BackToIdle();
     }
 
     private void BackToIdle() {
-        if (isBlocking) {
-            animator.Play(STATE_BLOCK);
+        if (playerState == State.BLOCK) {
+            animator.Play(State.BLOCK);
         } else {
-            animator.Play(STATE_IDLE);
+            animator.Play(State.IDLE);
         }
-        isJabbing = false;
-        isRightHitting = false;
-        isDodgingLeft = false;
-        isDodgingRight = false;
-        teamState = "idle";
+        playerState = teamState = State.IDLE;
     }
 
     // Update is called once per frame
