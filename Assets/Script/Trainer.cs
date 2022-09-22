@@ -27,6 +27,12 @@ public class Trainer : MonoBehaviour
     
     // Animation Variables
     [SerializeField] public string trainerState = State.IDLE;
+    
+    // Stamina
+    [SerializeField] private StaminaBar stamina;
+    // Every second the player will lose stamina
+    int duration = 1; 
+    float next = 0;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -126,5 +132,9 @@ public class Trainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.time >= next && trainerState == State.BLOCK) {
+            stamina.SetStamina(20);
+            next = Time.time + duration; 
+        }
     }
 }

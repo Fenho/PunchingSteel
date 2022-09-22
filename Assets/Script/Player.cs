@@ -36,6 +36,14 @@ public class Player : MonoBehaviour
     // Animation Variables
     [SerializeField] public string playerState = State.IDLE;
 
+    // Stamina
+    public int maxStamina = 100;
+    public int currentStamina = 100;
+    [SerializeField] private StaminaBar stamina;
+    // Every second the player will lose stamina
+    int interval = 1; 
+    float nextTime = 0;
+    
     private void OnDisable() {
         jabAction.Disable();
         rightAction.Disable();
@@ -64,7 +72,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        stamina.SetMaxStamina(100);
     }
 
     private bool DoingSomething() {
@@ -76,11 +84,12 @@ public class Player : MonoBehaviour
     // }
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB) {
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > 20) {
             playerState = teamState = State.JAB;
             animator.Play(State.JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
             bool tookDamage = gameLogic.TakeDamageEnemy(10);
+            stamina.SetStamina(20);
             if (tookDamage) {
                 audioSource.PlayOneShot(punchSound1, volume);
             } else {
@@ -90,10 +99,11 @@ public class Player : MonoBehaviour
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT) {
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > 20) {
             playerState = teamState = State.RIGHT;
             animator.Play(State.RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            stamina.SetStamina(20);
             bool tookDamage = gameLogic.TakeDamageEnemy(10);
             if (tookDamage) {
                 audioSource.PlayOneShot(punchSound2, volume);
@@ -143,6 +153,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.time >= nextTime) {
+            stamina.SetStamina(-10);
+            nextTime += interval; 
+        }
         if (trainer.trainerState == State.BLOCK) {
             playerState = teamState = State.BLOCK;
             animator.Play(State.BLOCK);
