@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public AudioClip dodgeSound1;
     public AudioClip dodgeSound2;
     public AudioClip missSound;
+    public AudioClip blockSound;
 
     public float volume = 1.0f;
 
@@ -43,6 +44,10 @@ public class Player : MonoBehaviour
     // Every second the player will lose stamina
     int interval = 1; 
     float nextTime = 0;
+
+    public void PlayBlockSound() {
+        audioSource.PlayOneShot(blockSound, volume);
+    }
     
     private void OnDisable() {
         jabAction.Disable();
@@ -88,12 +93,14 @@ public class Player : MonoBehaviour
             playerState = teamState = State.JAB;
             animator.Play(State.JAB);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            bool tookDamage = gameLogic.TakeDamageEnemy(10);
+            GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
             stamina.SetStamina(20);
-            if (tookDamage) {
+            if (punchResult == GameLogic.PunchResult.HIT) {
                 audioSource.PlayOneShot(punchSound1, volume);
-            } else {
+            } else if (punchResult == GameLogic.PunchResult.MISS) {
                 audioSource.PlayOneShot(missSound, volume);
+            } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                audioSource.PlayOneShot(blockSound, volume);
             }
         }
     }
@@ -103,12 +110,14 @@ public class Player : MonoBehaviour
             playerState = teamState = State.RIGHT;
             animator.Play(State.RIGHT);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
             stamina.SetStamina(20);
-            bool tookDamage = gameLogic.TakeDamageEnemy(10);
-            if (tookDamage) {
+            if (punchResult == GameLogic.PunchResult.HIT) {
                 audioSource.PlayOneShot(punchSound2, volume);
-            } else {
+            } else if (punchResult == GameLogic.PunchResult.MISS) {
                 audioSource.PlayOneShot(missSound, volume);
+            } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                audioSource.PlayOneShot(blockSound, volume);
             }
         }
     }
@@ -121,6 +130,7 @@ public class Player : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             playerState = teamState = State.DODGE_RIGHT;
             animator.Play(State.DODGE_RIGHT);
+            stamina.SetStamina(20);
             audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -130,6 +140,7 @@ public class Player : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             playerState = teamState = State.DODGE_LEFT;
             animator.Play(State.DODGE_LEFT);
+            stamina.SetStamina(20);
             audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
