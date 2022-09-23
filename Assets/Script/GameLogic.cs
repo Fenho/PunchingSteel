@@ -13,6 +13,12 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private Player robot;
     [SerializeField] private float blockDamageFactor = 0.5f;
 
+    public enum PunchResult {
+        MISS,
+        BLOCK,
+        HIT,
+    }
+
     public void Start()
     {
         enemyHealthBar.SetMaxHealth(100);
@@ -20,35 +26,52 @@ public class GameLogic : MonoBehaviour
     }
 
     // Returns true if the enemy took damage
-    public bool TakeDamageEnemy(int damage) 
+    public PunchResult TakeDamageEnemy(int damage) 
     {
+        PunchResult action = PunchResult.MISS;
+
+        int randomValue = Random.Range(0, 99);
+
+        if (enemy.enemyState == State.IDLE && randomValue < 90) {
+            enemy.SetBlocking();
+            Debug.Log(enemy.enemyState);
+        }
+
         if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
-            return false;
+            return action;
         }
 
         if (enemy.enemyState == State.BLOCK) {
+            action = PunchResult.BLOCK;
             damage = (int) (damage * blockDamageFactor);
+        } else {
+            action = PunchResult.HIT;
         }
 
         flashEffect.Flash();
         enemyHealth -= damage;
         enemyHealthBar.SetHealth(enemyHealth);
-        return true;
+        return action;
     }
 
     // Returns true if team was damaged
-    public bool TakeDamageTeam(int damage)
+    public PunchResult TakeDamageTeam(int damage)
     {
+        PunchResult action = PunchResult.MISS;
+
         if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
-            return false;
+            return action;
         }
 
         if (robot.teamState == State.BLOCK) {
+            action = PunchResult.BLOCK;
             damage = (int) (damage * blockDamageFactor);
+        } else {
+            action = PunchResult.HIT;
         }
 
         teamHealth -= damage;
         teamHealthBar.SetHealth(teamHealth);
-        return true;
+        return action;
     }
 }

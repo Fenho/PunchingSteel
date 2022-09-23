@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     public Animator animator;
     public GameLogic gameLogic;
 
     // Animation Variables
-    [SerializeField] private bool shouldCueRightHitting = true;
-    [SerializeField] private bool shouldCueJab = true;
-    [SerializeField] private bool shouldTakeTeamHealth = true;
-    [SerializeField] private bool shouldPlayDodgeSound = true;
+    [SerializeField] protected bool shouldCueRightHitting = true;
+    [SerializeField] protected bool shouldCueJab = true;
+    [SerializeField] protected bool shouldTakeTeamHealth = true;
+    [SerializeField] protected bool shouldPlayDodgeSound = true;
 
-    [SerializeField] private float jabSpeed = 0.5f;
-    [SerializeField] private float cueSpeed = 0.3f;
+    [SerializeField] protected float jabSpeed = 0.5f;
+    [SerializeField] protected float cueSpeed = 0.3f;
 
     [SerializeField] public string enemyState = State.IDLE;
 
@@ -25,26 +25,28 @@ public class Enemy : MonoBehaviour
     public AudioClip dodgeSound1;
     public AudioClip dodgeSound2;
     public AudioClip missSound;
+    public AudioClip blockSound;
+
     public float volume = 1.0f;
 
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
-    private string action;
-    private string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT};
-    private float[] probs = {2, 2, 2, 2, 2};
+    protected string action;
+    protected string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT};
     
+    public void SetBlocking() {
+        enemyState = action = State.BLOCK;
+    }
 
-    private void Awake() {
+    public void PlayBlockSound() {
+        audioSource.PlayOneShot(blockSound, volume);
+    }
+
+    protected void Awake() {
         animator = GetComponent<Animator>();
     }
 
-
-    void Choose() {
-        action = actions[Random.Range(0, actions.Length)];
-    }
-
-
-    private void OnJab() {
+    protected void OnJab() {
         enemyState = State.JAB;
         if (shouldCueJab) {
             animator.Play(State.JAB_CUE);
@@ -52,11 +54,13 @@ public class Enemy : MonoBehaviour
         } else {
             animator.Play(State.JAB);
             if (shouldTakeTeamHealth) {
-                bool tookDamage = gameLogic.TakeDamageTeam(10);
-                if (tookDamage) {
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(10);
+                if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound1, volume);
-                } else {
+                } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
+                } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                    audioSource.PlayOneShot(blockSound, volume);
                 }
                 shouldTakeTeamHealth = false;
             }
@@ -65,7 +69,7 @@ public class Enemy : MonoBehaviour
         
     }
 
-    private void OnRight() {
+    protected void OnRight() {
         enemyState = State.RIGHT;
         if (shouldCueRightHitting) {
             animator.Play(State.RIGHT_CUE);
@@ -74,11 +78,13 @@ public class Enemy : MonoBehaviour
         else {
             animator.Play(State.RIGHT);
             if (shouldTakeTeamHealth) {
-                bool tookDamage = gameLogic.TakeDamageTeam(10);
-                if (tookDamage) {
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(10);
+                if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
-                } else {
+                } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
+                } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                    audioSource.PlayOneShot(blockSound, volume);
                 }
                 shouldTakeTeamHealth = false;
             }
@@ -86,27 +92,27 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnBlock() {
+    protected void OnBlock() {
         enemyState = State.BLOCK;
         animator.Play(State.BLOCK);
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
-    private void OnDodgeRight() {
-        enemyState = State.DODGE_RIGHT;
-        animator.Play(State.DODGE_RIGHT);
+    protected void OnDodgeLeft() {
+        enemyState = State.DODGE_LEFT;
+        animator.Play(State.DODGE_LEFT);
         if (shouldPlayDodgeSound) {
-            audioSource.PlayOneShot(dodgeSound1, volume);
+            audioSource.PlayOneShot(dodgeSound2, volume);
             shouldPlayDodgeSound = false;
         }
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
-    void OnDodgeLeft() {
-        enemyState = State.DODGE_LEFT;
-        animator.Play(State.DODGE_LEFT);
+    protected void OnDodgeRight() {
+        enemyState = State.DODGE_RIGHT;
+        animator.Play(State.DODGE_RIGHT);
         if (shouldPlayDodgeSound) {
-            audioSource.PlayOneShot(dodgeSound2, volume);
+            audioSource.PlayOneShot(dodgeSound1, volume);
             shouldPlayDodgeSound = false;
         }
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
@@ -127,7 +133,7 @@ public class Enemy : MonoBehaviour
         shouldCueJab = false;
     }
 
-    private void BackToIdle() {
+    protected void BackToIdle() {
         animator.Play(State.IDLE);
         action = State.IDLE;
         shouldCueRightHitting = true;
@@ -137,16 +143,13 @@ public class Enemy : MonoBehaviour
         enemyState = State.IDLE;
     }
 
+    protected abstract void Choose();
+
     // Start is called before the first frame update
-    void Start()
-    {
-        InvokeRepeating("Choose", 2.0f, 3.0f);
-    }
+    protected abstract void Start();
 
     // Update is called once per frame
-    void Update()
-    {
-        // action = actions[Choose(probs)];
+    protected void Update() {
         if (action == State.JAB) {
             OnJab();
         }

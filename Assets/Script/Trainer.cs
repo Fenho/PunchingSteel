@@ -23,7 +23,7 @@ public class Trainer : MonoBehaviour
     
     [SerializeField] private float jabSpeed = 0.6f;
     
-    public Animator animator;
+    private Animator animator;
     
     // Animation Variables
     [SerializeField] public string trainerState = State.IDLE;
@@ -70,6 +70,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.JAB;
             animator.Play(State.JAB);
+            stamina.SetStamina(10);
             // audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -79,6 +80,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.RIGHT;
             animator.Play(State.RIGHT);
+            stamina.SetStamina(10);
             // audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
