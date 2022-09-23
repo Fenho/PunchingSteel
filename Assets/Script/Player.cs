@@ -48,13 +48,16 @@ public class Player : MonoBehaviour
     public void PlayBlockSound() {
         audioSource.PlayOneShot(blockSound, volume);
     }
-    
+
+    private SimpleFlash flashEffect;
+
     private void OnDisable() {
         jabAction.Disable();
         rightAction.Disable();
     }
 
     private void Awake() {
+        flashEffect = GetComponent<SimpleFlash>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         trainerGo = GameObject.Find("Trainer");
@@ -84,40 +87,49 @@ public class Player : MonoBehaviour
         return !playerState.Equals(State.IDLE);
     }
 
-    // private bool isTeamDoingSomething() {
-    //     return !teamState.Equals(State.IDLE);
-    // }
+    private bool isTeamBlocking() {
+        if(teamState.Equals(State.BLOCK)){
+            flashEffect.Flash();
+            stamina.SetStamina(100);
+            return true;
+        }
+        return false ;
+    }
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > 20) {
-            playerState = teamState = State.JAB;
-            animator.Play(State.JAB);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
-            stamina.SetStamina(20);
-            if (punchResult == GameLogic.PunchResult.HIT) {
-                audioSource.PlayOneShot(punchSound1, volume);
-            } else if (punchResult == GameLogic.PunchResult.MISS) {
-                audioSource.PlayOneShot(missSound, volume);
-            } else if (punchResult == GameLogic.PunchResult.BLOCK) {
-                audioSource.PlayOneShot(blockSound, volume);
+        if (!isTeamBlocking()) {
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > 20) {
+                playerState = teamState = State.JAB;
+                animator.Play(State.JAB);
+                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
+                stamina.SetStamina(20);
+                if (punchResult == GameLogic.PunchResult.HIT) {
+                    audioSource.PlayOneShot(punchSound1, volume);
+                } else if (punchResult == GameLogic.PunchResult.MISS) {
+                    audioSource.PlayOneShot(missSound, volume);
+                } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                    audioSource.PlayOneShot(blockSound, volume);
+                }
             }
         }
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > 20) {
-            playerState = teamState = State.RIGHT;
-            animator.Play(State.RIGHT);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
-            stamina.SetStamina(20);
-            if (punchResult == GameLogic.PunchResult.HIT) {
-                audioSource.PlayOneShot(punchSound2, volume);
-            } else if (punchResult == GameLogic.PunchResult.MISS) {
-                audioSource.PlayOneShot(missSound, volume);
-            } else if (punchResult == GameLogic.PunchResult.BLOCK) {
-                audioSource.PlayOneShot(blockSound, volume);
+        if (!isTeamBlocking()) {
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > 20) {
+                playerState = teamState = State.RIGHT;
+                animator.Play(State.RIGHT);
+                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
+                stamina.SetStamina(20);
+                if (punchResult == GameLogic.PunchResult.HIT) {
+                    audioSource.PlayOneShot(punchSound2, volume);
+                } else if (punchResult == GameLogic.PunchResult.MISS) {
+                    audioSource.PlayOneShot(missSound, volume);
+                } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                    audioSource.PlayOneShot(blockSound, volume);
+                }
             }
         }
     }
@@ -127,22 +139,24 @@ public class Player : MonoBehaviour
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            playerState = teamState = State.DODGE_RIGHT;
-            animator.Play(State.DODGE_RIGHT);
-            stamina.SetStamina(20);
-            audioSource.PlayOneShot(dodgeSound1, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        if (!isTeamBlocking()) {
+            if (context.ReadValueAsButton() && !DoingSomething()) {
+                playerState = teamState = State.DODGE_RIGHT;
+                animator.Play(State.DODGE_RIGHT);
+                audioSource.PlayOneShot(dodgeSound1, volume);
+                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            }
         }
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            playerState = teamState = State.DODGE_LEFT;
-            animator.Play(State.DODGE_LEFT);
-            stamina.SetStamina(20);
-            audioSource.PlayOneShot(dodgeSound2, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        if (!isTeamBlocking()) {
+            if (context.ReadValueAsButton() && !DoingSomething()) {
+                playerState = teamState = State.DODGE_LEFT;
+                animator.Play(State.DODGE_LEFT);
+                audioSource.PlayOneShot(dodgeSound2, volume);
+                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            }
         }
     }
 
