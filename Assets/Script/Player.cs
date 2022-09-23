@@ -112,6 +112,10 @@ public class Player : MonoBehaviour
                     audioSource.PlayOneShot(blockSound, volume);
                 }
             }
+            else if (stamina.slider.value < 30)
+            {
+                flashEffect.Flash2();
+            }
         }
     }
 
@@ -130,6 +134,10 @@ public class Player : MonoBehaviour
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
                 }
+            }
+            else if (stamina.slider.value < 30)
+            {
+                flashEffect.Flash2();
             }
         }
     }
