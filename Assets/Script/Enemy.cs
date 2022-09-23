@@ -33,6 +33,9 @@ public abstract class Enemy : MonoBehaviour
     // Jab, Right, Block, DodgeLeft, DodgeRight
     protected string action;
     protected string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT};
+
+    // Health
+    private int DAMAGE = 10;
     
     public void SetBlocking() {
         enemyState = action = State.BLOCK;
@@ -54,7 +57,7 @@ public abstract class Enemy : MonoBehaviour
         } else {
             animator.Play(State.JAB);
             if (shouldTakeTeamHealth) {
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(10);
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound1, volume);
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
@@ -78,7 +81,7 @@ public abstract class Enemy : MonoBehaviour
         else {
             animator.Play(State.RIGHT);
             if (shouldTakeTeamHealth) {
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(10);
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
                 } else if (punchResult == GameLogic.PunchResult.MISS) {

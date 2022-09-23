@@ -6,7 +6,6 @@ public class Enemy2 : Enemy
 {
     // public Animator animator;
     // public GameLogic gameLogic;
-    private float[] probs = new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
 
     protected override void Choose() {
         int randomValue = Random.Range(0, 99);
@@ -24,6 +23,6 @@ public class Enemy2 : Enemy
     // Start is called before the first frame update
     protected override void Start()
     {
-        InvokeRepeating("Choose", 1.2f, 1.2f);
+        InvokeRepeating("Choose", 1.5f, 1.5f);
     }
 }

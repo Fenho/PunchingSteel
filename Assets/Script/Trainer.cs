@@ -30,8 +30,10 @@ public class Trainer : MonoBehaviour
     
     // Stamina
     [SerializeField] private StaminaBar stamina;
+    public int HIT_STAMINA_PENALTY = 10;
+    private int BLOCK_STAMINA_PENALTY = 5;
     // Every second the player will lose stamina
-    int duration = 1; 
+    int duration = 2; 
     float next = 0;
 
     private void OnDisable() {
@@ -70,7 +72,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.JAB;
             animator.Play(State.JAB);
-            stamina.SetStamina(10);
+            stamina.SetStamina(HIT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -80,7 +82,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.RIGHT;
             animator.Play(State.RIGHT);
-            stamina.SetStamina(10);
+            stamina.SetStamina(HIT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -135,8 +137,8 @@ public class Trainer : MonoBehaviour
     void Update()
     {
         if (Time.time >= next && trainerState == State.BLOCK) {
-            stamina.SetStamina(20);
-            next = Time.time + duration; 
+            stamina.SetStamina(BLOCK_STAMINA_PENALTY);
+            next = Time.time + duration/2; 
         }
     }
 }
