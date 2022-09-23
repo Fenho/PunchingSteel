@@ -49,8 +49,7 @@ public class Player : MonoBehaviour
         audioSource.PlayOneShot(blockSound, volume);
     }
 
-    [SerializeField] private SimpleFlash flashEffect;
-    [SerializeField] private SimpleFlash flashEffect2;
+    private SimpleFlash flashEffect;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -58,6 +57,7 @@ public class Player : MonoBehaviour
     }
 
     private void Awake() {
+        flashEffect = GetComponent<SimpleFlash>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         trainerGo = GameObject.Find("Trainer");
