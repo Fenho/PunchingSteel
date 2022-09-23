@@ -11,7 +11,7 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private HealthBar teamHealthBar;
     [SerializeField] private Enemy enemy;
     [SerializeField] private Player robot;
-    [SerializeField] private float blockDamageFactor = 0.5f;
+    [SerializeField] private float blockDamageFactor = 0.03f;
 
     public enum PunchResult {
         MISS,
@@ -32,9 +32,8 @@ public class GameLogic : MonoBehaviour
 
         int randomValue = Random.Range(0, 99);
 
-        if (enemy.enemyState == State.IDLE && randomValue < 90) {
+        if (enemy.enemyState == State.IDLE && randomValue < 50) {
             enemy.SetBlocking();
-            Debug.Log(enemy.enemyState);
         }
 
         if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
