@@ -50,7 +50,8 @@ public class Player : MonoBehaviour
     }
 
     [SerializeField] private SimpleFlash flashEffect;
-    
+    [SerializeField] private SimpleFlash flashEffect2;
+
     private void OnDisable() {
         jabAction.Disable();
         rightAction.Disable();
@@ -96,65 +97,39 @@ public class Player : MonoBehaviour
     }
 
     private void OnJab(InputAction.CallbackContext context) {
-<<<<<<< HEAD
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > 20) {
-            playerState = teamState = State.JAB;
-            animator.Play(State.JAB);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
-            stamina.SetStamina(20);
-            if (punchResult == GameLogic.PunchResult.HIT) {
-                audioSource.PlayOneShot(punchSound1, volume);
-            } else if (punchResult == GameLogic.PunchResult.MISS) {
-                audioSource.PlayOneShot(missSound, volume);
-            } else if (punchResult == GameLogic.PunchResult.BLOCK) {
-                audioSource.PlayOneShot(blockSound, volume);
-=======
-        if (isTeamBlocking()) {
+        if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > 20) {
                 playerState = teamState = State.JAB;
                 animator.Play(State.JAB);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
-                bool tookDamage = gameLogic.TakeDamageEnemy(10);
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
                 stamina.SetStamina(20);
-                if (tookDamage) {
+                if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound1, volume);
-                } else {
+                } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
+                } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                    audioSource.PlayOneShot(blockSound, volume);
                 }
->>>>>>> 341acc1 (cambios en stamina)
             }
         }
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-<<<<<<< HEAD
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > 20) {
-            playerState = teamState = State.RIGHT;
-            animator.Play(State.RIGHT);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
-            GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
-            stamina.SetStamina(20);
-            if (punchResult == GameLogic.PunchResult.HIT) {
-                audioSource.PlayOneShot(punchSound2, volume);
-            } else if (punchResult == GameLogic.PunchResult.MISS) {
-                audioSource.PlayOneShot(missSound, volume);
-            } else if (punchResult == GameLogic.PunchResult.BLOCK) {
-                audioSource.PlayOneShot(blockSound, volume);
-=======
-        if (isTeamBlocking()) {
+        if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > 20) {
                 playerState = teamState = State.RIGHT;
                 animator.Play(State.RIGHT);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(10);
                 stamina.SetStamina(20);
-                bool tookDamage = gameLogic.TakeDamageEnemy(10);
-                if (tookDamage) {
+                if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
-                } else {
+                } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
+                } else if (punchResult == GameLogic.PunchResult.BLOCK) {
+                    audioSource.PlayOneShot(blockSound, volume);
                 }
->>>>>>> 341acc1 (cambios en stamina)
             }
         }
     }
@@ -164,42 +139,24 @@ public class Player : MonoBehaviour
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-<<<<<<< HEAD
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            playerState = teamState = State.DODGE_RIGHT;
-            animator.Play(State.DODGE_RIGHT);
-            stamina.SetStamina(20);
-            audioSource.PlayOneShot(dodgeSound1, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
-=======
-        if (isTeamBlocking()) {
+        if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething()) {
                 playerState = teamState = State.DODGE_RIGHT;
                 animator.Play(State.DODGE_RIGHT);
                 audioSource.PlayOneShot(dodgeSound1, volume);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
             }
->>>>>>> 341acc1 (cambios en stamina)
         }
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-<<<<<<< HEAD
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            playerState = teamState = State.DODGE_LEFT;
-            animator.Play(State.DODGE_LEFT);
-            stamina.SetStamina(20);
-            audioSource.PlayOneShot(dodgeSound2, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
-=======
-        if (isTeamBlocking()) {
+        if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething()) {
                 playerState = teamState = State.DODGE_LEFT;
                 animator.Play(State.DODGE_LEFT);
                 audioSource.PlayOneShot(dodgeSound2, volume);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
             }
->>>>>>> 341acc1 (cambios en stamina)
         }
     }
 
