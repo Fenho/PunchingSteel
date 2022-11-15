@@ -19,7 +19,7 @@ public class HealthBar : MonoBehaviour
     public void SetHealth(int health)
     {
         slider.value = health;
-        StaticVars.addPoints( -health );
+        //StaticVars.addPoints( -health );
         if (health <= 0) {
             StaticVars.loseGame();
             SceneManager.LoadScene("GameOverScene");
