@@ -17,6 +17,10 @@ public class RobotTutorial : MonoBehaviour
     private TrainerTutorial trainer;
     
     public TextMeshProUGUI feedbackText;
+    public TextMeshProUGUI trainerText;
+    public TextMeshProUGUI robotText;
+
+    public Button playButton;
 
     public static int n_punches_right = 0;
     public static int n_punches_left = 0;
@@ -69,8 +73,20 @@ public class RobotTutorial : MonoBehaviour
         dodgeRightAction.performed += OnDodgeRight;
         dodgeLeftAction = playerInput.actions["DodgeLeft"];
         dodgeLeftAction.performed += OnDodgeLeft;
+
+        StartCoroutine(initialWaiter());
     }
 
+    IEnumerator initialWaiter()
+    {
+
+        //Wait for 4 seconds
+        yield return new WaitForSeconds(3);
+        trainerText.text = "Trainer: Press O";
+        robotText.text = "Robot: Press E";
+        feedbackText.text = "Try the Right Jab!";
+        
+    }
 
     private bool DoingSomething() {
         return !playerState.Equals(State.IDLE);
@@ -88,11 +104,14 @@ public class RobotTutorial : MonoBehaviour
             
             audioSource.PlayOneShot(punchSound1, volume);
             n_punches_right += 1;
-            feedbackText.text = "That's it! Again!";
             n_punches_left += 1;
+            feedbackText.text = "That's it! Again! "+ n_punches_left;
+            
             if (n_punches_left == 3){
                 dodgeActivated = true;
-                feedbackText.text = "Let's try dodging";
+                feedbackText.text = "Let's try Dodging";
+                trainerText.text = "Trainer: Press J or L";
+                robotText.text = "Robot: Press A or D";
             }
 
             
@@ -107,11 +126,12 @@ public class RobotTutorial : MonoBehaviour
             
             audioSource.PlayOneShot(punchSound2, volume);
             n_punches_right += 1;
-            Debug.Log(n_punches_right);
-            feedbackText.text = "Great! Again!";
+            feedbackText.text = "Great! Again! " + n_punches_right;
             if (n_punches_right == 3){
                 jabActivated = true;
-                feedbackText.text = "Now try a left jab!";
+                feedbackText.text = "Now try a Left Jab!";
+                trainerText.text = "Trainer: Press U";
+                robotText.text = "Robot: Press Q";
             }
         }
     }
@@ -127,9 +147,10 @@ public class RobotTutorial : MonoBehaviour
             audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
 
-            feedbackText.text = "Great dodge! Again!";
             n_punches_left += 1;
             n_dodges += 1;
+            feedbackText.text = "Great dodge! Again! "+ n_dodges;
+            
             if (n_dodges == 3){
                 blockActivated = true;
                 feedbackText.text = "Finally, try blocking!";
@@ -143,6 +164,14 @@ public class RobotTutorial : MonoBehaviour
             animator.Play(State.DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
+
+            n_punches_left += 1;
+            n_dodges += 1;
+            feedbackText.text = "Great dodge! Again! "+ n_dodges;
+            if (n_dodges == 3){
+                blockActivated = true;
+                feedbackText.text = "Finally, try blocking!";
+            }
         }
     }
 
@@ -167,6 +196,14 @@ public class RobotTutorial : MonoBehaviour
         if (trainer.trainerState == State.BLOCK) {
             playerState = teamState = State.BLOCK;
             animator.Play(State.BLOCK);
+
+            n_blocks += 1;
+            if (n_blocks >= 3){
+                feedbackText.text = "You make a Punching Team!";
+                robotText.text = "Wanna play?";
+                trainerText.text = "Let's do it!";
+                playButton.gameObject.SetActive(true);
+            }
         }
         if (trainer.trainerState != State.BLOCK && !(DoingSomething() && !playerState.Equals(State.BLOCK))) {
             playerState = teamState = State.IDLE;
