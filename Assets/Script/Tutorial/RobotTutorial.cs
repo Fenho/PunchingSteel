@@ -103,9 +103,13 @@ public class RobotTutorial : MonoBehaviour
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
             
             audioSource.PlayOneShot(punchSound1, volume);
-            n_punches_right += 1;
-            n_punches_left += 1;
-            feedbackText.text = "That's it! Again! "+ n_punches_left;
+
+            if (n_punches_left < 3){
+                n_punches_right += 1;
+                n_punches_left += 1;
+                feedbackText.text = "That's it! Again! "+ n_punches_left;
+            }
+            
             
             if (n_punches_left == 3){
                 dodgeActivated = true;
@@ -125,8 +129,12 @@ public class RobotTutorial : MonoBehaviour
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
             
             audioSource.PlayOneShot(punchSound2, volume);
-            n_punches_right += 1;
-            feedbackText.text = "Great! Again! " + n_punches_right;
+
+            if (n_punches_right < 3){
+                n_punches_right += 1;
+                feedbackText.text = "Great! Again! " + n_punches_right;
+            }
+            
             if (n_punches_right == 3){
                 jabActivated = true;
                 feedbackText.text = "Now try a Left Jab!";
@@ -147,9 +155,12 @@ public class RobotTutorial : MonoBehaviour
             audioSource.PlayOneShot(dodgeSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
 
-            n_punches_left += 1;
-            n_dodges += 1;
-            feedbackText.text = "Great dodge! Again! "+ n_dodges;
+            if (n_dodges < 3){
+                n_punches_left += 1;
+                n_dodges += 1;
+                feedbackText.text = "Great dodge! Again! "+ n_dodges;
+            }
+            
             
             if (n_dodges == 3){
                 blockActivated = true;
@@ -165,9 +176,11 @@ public class RobotTutorial : MonoBehaviour
             audioSource.PlayOneShot(dodgeSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
 
-            n_punches_left += 1;
-            n_dodges += 1;
-            feedbackText.text = "Great dodge! Again! "+ n_dodges;
+            if (n_dodges < 3){
+                n_punches_left += 1;
+                n_dodges += 1;
+                feedbackText.text = "Great dodge! Again! "+ n_dodges;
+            }
             if (n_dodges == 3){
                 blockActivated = true;
                 feedbackText.text = "Finally, try blocking!";
