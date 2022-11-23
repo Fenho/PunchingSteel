@@ -29,6 +29,56 @@ public class StaticVars : MonoBehaviour
         score = Math.Max(0, score + points);
     }
 
+    public static void addPointsByType(string type)
+    {
+        int assignedScore = 0;
+        switch (type){
+            case "LeftJabTeam":
+                assignedScore = pointsLeftJabTeam;
+                break;
+            case "RightJabTeam":
+                assignedScore = pointsRightJabTeam;
+                break;
+            case "LeftJabMissTeam":
+                assignedScore = pointsLeftJabMissTeam;
+                break;
+            case "RightJabMissTeam":
+                assignedScore = pointsRightJabMissTeam;
+                break;
+            case "LeftJabBlockTeam":
+                assignedScore = pointsLeftJabBlockTeam;
+                break;
+            case "RightJabBlockTeam":
+                assignedScore = pointsRightJabBlockTeam;
+                break;
+            case "LeftJabEnemy":
+                assignedScore = pointsLeftJabEnemy;
+                break;
+            case "RightJabEnemy":
+                assignedScore = pointsRightJabEnemy;
+                break;
+            case "LeftDodgeTeam":
+                assignedScore = pointsLeftDodgeTeam;
+                break;
+            case "RightDodgeTeam":
+                assignedScore = pointsRightDodgeTeam;
+                break;
+            case "UncoordinatedTeam":
+                assignedScore = pointsLeftJabTeam;
+                break;
+            case "missEnemy":
+                assignedScore = missEnemy;
+                break;
+            case "blockEnemy":
+                assignedScore = blockEnemy;
+                break;
+            default:
+                assignedScore = 0;
+                break;
+        }
+        score = Math.Max(0, score + assignedScore);
+    }
+
     public static void winGame()
     {
         win = true;

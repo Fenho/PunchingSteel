@@ -109,17 +109,18 @@ public class Player : MonoBehaviour
                 stamina.SetStamina(HIT_STAMINA_PENALTY);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound1, volume);
-                    StaticVars.addPoints(100);
+                    StaticVars.addPointsByType("LeftJabTeam");
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
-                    StaticVars.addPoints(-10);
+                    StaticVars.addPointsByType("LeftJabMissTeam");
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
-                    StaticVars.addPoints(-10);
+                    StaticVars.addPointsByType("LeftJabBlockTeam");
                 }
             }
             else if (stamina.slider.value <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY)) {
                 flashEffect.Flash2();
+                StaticVars.addPointsByType("UncoordinatedTeam");
             }
         }
     }
@@ -134,18 +135,19 @@ public class Player : MonoBehaviour
                 stamina.SetStamina(HIT_STAMINA_PENALTY);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
-                    StaticVars.addPoints(100);
+                    StaticVars.addPointsByType("RightJabTeam");
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
-                    StaticVars.addPoints(-10);
+                    StaticVars.addPointsByType("RightJabMissTeam");
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
-                    StaticVars.addPoints(-10);
+                    StaticVars.addPointsByType("RightJabBlockTeam");
                 }
             }
             else if (stamina.slider.value <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY))
             {
                 flashEffect.Flash2();
+                StaticVars.addPointsByType("UncoordinatedTeam");
             }
         }
     }
@@ -161,11 +163,12 @@ public class Player : MonoBehaviour
                 animator.Play(State.DODGE_RIGHT);
                 stamina.SetStamina(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound1, volume);
-                StaticVars.addPoints(50);
+                StaticVars.addPointsByType("RightDodgeTeam");
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
             } else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
                 stamina.SetStamina(5);
+                StaticVars.addPointsByType("UncoordinatedTeam");
             }
         }
     }
@@ -177,12 +180,13 @@ public class Player : MonoBehaviour
                 animator.Play(State.DODGE_LEFT);
                 stamina.SetStamina(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound2, volume);
-                StaticVars.addPoints(50);
+                StaticVars.addPointsByType("LeftDodgeTeam");
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
             }
             else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
                 stamina.SetStamina(5);
+                StaticVars.addPointsByType("UncoordinatedTeam");
             }
         }
     }
