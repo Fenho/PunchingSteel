@@ -12,8 +12,6 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private Enemy enemy;
     [SerializeField] private Player robot;
     [SerializeField] private float blockDamageFactor = 0.03f;
-    [SerializeField] private EndGameAnimations endGameAnimations;
-
 
     public enum PunchResult {
         MISS,
@@ -59,7 +57,6 @@ public class GameLogic : MonoBehaviour
     public PunchResult TakeDamageTeam(int damage)
     {
         PunchResult action = PunchResult.MISS;
-        endGameAnimations.playKO();
         if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
             return action;
         }

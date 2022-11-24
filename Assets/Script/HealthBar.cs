@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
+    [SerializeField] private EndGameAnimations endGameAnimations;
+
 
     public void SetMaxHealth (int health)
     {
@@ -22,7 +24,15 @@ public class HealthBar : MonoBehaviour
         //StaticVars.addPoints( -health );
         if (health <= 0) {
             StaticVars.loseGame();
-            SceneManager.LoadScene("GameOverScene");
+            endGameAnimations.playKO();
+            StartCoroutine(LetAnimationRunForTime(2f));
         }
+    }
+
+    IEnumerator LetAnimationRunForTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        // Code to execute after the delay
+        SceneManager.LoadScene("GameOverScene");
     }
 }
