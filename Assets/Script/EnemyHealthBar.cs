@@ -17,7 +17,7 @@ public class EnemyHealthBar : MonoBehaviour
     public void SetHealth(int health)
     {
         slider.value = health;
-        StaticVars.addPoints( health );
+        //StaticVars.addPoints( health );
         if (health <= 0) {
             StaticVars.winGame();
             SceneManager.LoadScene("GameOverScene");

@@ -59,11 +59,14 @@ public abstract class Enemy : MonoBehaviour
             if (shouldTakeTeamHealth) {
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
+                    StaticVars.addPointsByType("LeftJabEnemy");
                     audioSource.PlayOneShot(punchSound1, volume);
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
+                    StaticVars.addPointsByType("missEnemy");
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
+                    StaticVars.addPointsByType("blockEnemy");
                 }
                 shouldTakeTeamHealth = false;
             }
@@ -84,10 +87,13 @@ public abstract class Enemy : MonoBehaviour
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
+                    StaticVars.addPointsByType("RightJabEnemy");
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
                     audioSource.PlayOneShot(missSound, volume);
+                    StaticVars.addPointsByType("missEnemy");
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
+                    StaticVars.addPointsByType("blockEnemy");
                 }
                 shouldTakeTeamHealth = false;
             }
