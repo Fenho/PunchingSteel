@@ -57,7 +57,6 @@ public class GameLogic : MonoBehaviour
     public PunchResult TakeDamageTeam(int damage)
     {
         PunchResult action = PunchResult.MISS;
-
         if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
             return action;
         }
