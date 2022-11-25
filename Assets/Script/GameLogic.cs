@@ -41,7 +41,12 @@ public class GameLogic : MonoBehaviour
         } else {
             action = PunchResult.HIT;
         }
-        DamageEnemy(damage, 20);
+        if (enemy.GetType() == "TrainingBag") {
+            DamageEnemy(damage, 20);
+        }
+        else {
+            DamageEnemy(damage);
+        }
         return action;
     }
 
@@ -64,7 +69,7 @@ public class GameLogic : MonoBehaviour
     }
 
     public void DamageEnemy(int amount, int healthFloor = 0) {
-        if (enemyHealth - amount <= healthFloor) {
+        if (enemyHealth - amount <= healthFloor && healthFloor != 0) {
             enemyHealth = MAX_HEALTH;
         } else {
             enemyHealth -= amount;

@@ -31,4 +31,9 @@ public class TrainingBag : Enemy
     {
 
     }
+
+    override public string GetType()
+    {
+        return "TrainingBag";
+    }
 }

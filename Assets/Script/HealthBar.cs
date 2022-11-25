@@ -9,7 +9,6 @@ public class HealthBar : MonoBehaviour
     public Slider slider;
     [SerializeField] private EndGameAnimations endGameAnimations;
 
-
     public void SetMaxHealth (int health)
     {
         slider.maxValue = health;
