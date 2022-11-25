@@ -166,6 +166,7 @@ public class Player : AbstractRobot
                 flashEffect.Flash2();
                 StaticVars.addPointsByType("UncoordinatedTeam");
                 SendMessageToObserver("OnNotEnoughStamina");
+                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY);
             }
         }
     }
@@ -195,6 +196,7 @@ public class Player : AbstractRobot
                 flashEffect.Flash2();
                 StaticVars.addPointsByType("UncoordinatedTeam");
                 SendMessageToObserver("OnNotEnoughStamina");
+                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY);
             }
         }
     }

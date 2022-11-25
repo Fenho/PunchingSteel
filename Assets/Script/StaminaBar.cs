@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
+    public NoStaminaScript noStaminaScript;
     public Slider slider;
 
     public void SetMaxStamina (int stamina)
@@ -21,10 +22,14 @@ public class StaminaBar : MonoBehaviour
         else if (slider.value - stamina <= 0){
             slider.value = 0;
         }
+        else if(slider.value - stamina <= 0){
+            slider.value = 0;
+            Debug.Log("No Stamina");
+            noStaminaScript.ShowText();
+        }
         else{
             slider.value -= stamina;
         }
-
     }
 
     public void IncreaseStaminaBy(int stamina)
