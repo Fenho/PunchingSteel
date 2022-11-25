@@ -13,14 +13,27 @@ public class StaminaBar : MonoBehaviour
         slider.value = stamina;
     }
 
-    public void SetStamina(int stamina)
+    public void DecreaseStaminaBy(int stamina)
     {
-        if(slider.value - stamina >= 100){
-            slider.value = 100;
+        if(slider.value - stamina >= slider.maxValue){
+            slider.value = slider.maxValue;
+        }
+        else if (slider.value - stamina <= 0){
+            slider.value = 0;
         }
         else{
             slider.value -= stamina;
         }
 
+    }
+
+    public void IncreaseStaminaBy(int stamina)
+    {
+        if(slider.value + stamina >= slider.maxValue){
+            slider.value += slider.maxValue;
+        }
+        else {
+            slider.value += stamina;
+        }
     }
 }
