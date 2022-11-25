@@ -120,6 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850f767708ec5034f8e7c927bd50e8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  observer: {fileID: 0}
+  playerInput: {fileID: 8907585382558615470}
+  animator: {fileID: 8907585382558615469}
+  flashEffect: {fileID: 6944672651651284389}
+  trainerGo: {fileID: 0}
+  trainer: {fileID: 0}
   audioSource: {fileID: 0}
   punchSound1: {fileID: 8300000, guid: 7165d79d58354f968ab83709f10a1700, type: 3}
   punchSound2: {fileID: 8300000, guid: 8e38f8337669c28f18c6e04f7cb52f97, type: 3}
@@ -128,16 +134,14 @@ MonoBehaviour:
   missSound: {fileID: 8300000, guid: 5ae2055b0287795b6b44e58a0ba9501d, type: 3}
   blockSound: {fileID: 8300000, guid: 72e024b7c4a7b2c4d9eea22109ae6567, type: 3}
   volume: 1
-  jabSpeed: 0.5
+  jabSpeed: 0.6
   gameLogic: {fileID: 0}
   teamState: idle
-  animator: {fileID: 0}
   playerState: idle
-  maxStamina: 100
-  currentStamina: 100
   stamina: {fileID: 0}
-  flashEffect: {fileID: 0}
-  flashEffect2: {fileID: 0}
+  jabActivated: 1
+  dodgeActivated: 1
+  blockActivated: 1
 --- !u!114 &8907585382558615470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,4 +205,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashMaterial: {fileID: 2100000, guid: f9c437a4764b1014ab83f97bc9f4916f, type: 2}
-  duration: 0
+  flashMaterial2: {fileID: 2100000, guid: 837ece5c1bf0f2c419e3aecd96fda022, type: 2}
+  duration: 0.3

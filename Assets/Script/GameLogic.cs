@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
-    [SerializeField] private int enemyHealth = 100;
-    [SerializeField] private int teamHealth = 100;
-    [SerializeField] private SimpleFlash flashEffect;
+    private static int MAX_HEALTH = 100;
+    private int enemyHealth = MAX_HEALTH;
+    private int teamHealth = MAX_HEALTH;
     [SerializeField] private EnemyHealthBar enemyHealthBar;
     [SerializeField] private HealthBar teamHealthBar;
     [SerializeField] private Enemy enemy;
@@ -21,35 +21,27 @@ public class GameLogic : MonoBehaviour
 
     public void Start()
     {
-        enemyHealthBar.SetMaxHealth(100);
-        teamHealthBar.SetMaxHealth(100);
+        enemyHealthBar.SetMaxHealth(enemyHealth);
+        teamHealthBar.SetMaxHealth(teamHealth);
     }
 
     // Returns true if the enemy took damage
-    public PunchResult TakeDamageEnemy(int damage) 
+    public PunchResult TakeDamageEnemy(int damage, string side) 
     {
         PunchResult action = PunchResult.MISS;
-
-        int randomValue = Random.Range(0, 99);
-
-        if (enemy.enemyState == State.IDLE && randomValue < 50) {
-            enemy.SetBlocking();
-        }
 
         if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
             return action;
         }
-
+        enemy.TakeDamage(side); // This is just for animation purposes
+        enemy.ReactToHit(); // Useful to determine if the enemy is going to block or not (useful for having enemies with different behaviours)
         if (enemy.enemyState == State.BLOCK) {
             action = PunchResult.BLOCK;
             damage = (int) (damage * blockDamageFactor);
         } else {
             action = PunchResult.HIT;
         }
-
-        flashEffect.Flash();
-        enemyHealth -= damage;
-        enemyHealthBar.SetHealth(enemyHealth);
+        DamageEnemy(damage, 20);
         return action;
     }
 
@@ -68,9 +60,32 @@ public class GameLogic : MonoBehaviour
         } else {
             action = PunchResult.HIT;
         }
-
-        teamHealth -= damage;
-        teamHealthBar.SetHealth(teamHealth);
+        DamageTeam(damage);
         return action;
+    }
+
+    public void DamageEnemy(int amount, int healthFloor = 0) {
+        if (enemyHealth - amount <= healthFloor) {
+            enemyHealth = MAX_HEALTH;
+        } else {
+            enemyHealth -= amount;
+        }
+        enemyHealth -= amount;
+        enemyHealthBar.SetHealth(enemyHealth);
+    }
+
+    public void DamageTeam(int amount) {
+        teamHealth -= amount;
+        teamHealthBar.SetHealth(teamHealth);
+    }
+
+    public void HealEnemy(int amount) {
+        enemyHealth += amount;
+        enemyHealthBar.SetHealth(enemyHealth);
+    }
+
+    public void HealTeam(int amount) {
+        teamHealth += amount;
+        teamHealthBar.SetHealth(teamHealth);
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 971526838162785155}
   - component: {fileID: 971526838162785157}
   m_Layer: 0
-  m_Name: GameLogic2
+  m_Name: GameLogic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: 100
   teamHealth: 100
-  flashEffect: {fileID: 0}
   enemyHealthBar: {fileID: 0}
   teamHealthBar: {fileID: 0}
   enemy: {fileID: 0}

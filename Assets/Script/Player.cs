@@ -4,18 +4,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class Player : MonoBehaviour
+public class Player : AbstractRobot
 {
-    private PlayerInput playerInput;
-    private InputAction jabAction;
-    private InputAction rightAction;
-    private InputAction blockAction;
-    private InputAction dodgeLeftAction;
-    private InputAction dodgeRightAction;
-    private GameObject trainerGo;
-    private Trainer trainer;
+    // Observer
+    [SerializeField] private GameObject observer;
 
-    // Music
+    // Input management
+    [SerializeField] protected PlayerInput playerInput;
+    protected InputAction jabAction;
+    protected InputAction rightAction;
+    protected InputAction blockAction;
+    protected InputAction dodgeLeftAction;
+    protected InputAction dodgeRightAction;
+
+    public Animator animator;
+    [SerializeField] protected SimpleFlash flashEffect;
+    [SerializeField] protected GameObject trainerGo;
+    [SerializeField] protected Trainer trainer;
+
+    // Sounds
     public AudioSource audioSource;
     public AudioClip punchSound1;
     public AudioClip punchSound2;
@@ -26,40 +33,31 @@ public class Player : MonoBehaviour
 
     public float volume = 1.0f;
 
-    [SerializeField] private float jabSpeed = 0.5f;
+    [SerializeField] protected float jabSpeed = 0.5f;
 
     // Health and GameLogic
-    private int DAMAGE = 15;
+    protected int DAMAGE = 15;
     public GameLogic gameLogic;
     [SerializeField] public string teamState = State.IDLE;
-
-    public Animator animator;
 
     // Animation Variables
     [SerializeField] public string playerState = State.IDLE;
 
     // Stamina
-    public int maxStamina = 100;
-    public int currentStamina = 100;
-    private int DODGE_STAMINA_PENALTY = 12;
-    private int HIT_STAMINA_PENALTY = 20;
-    [SerializeField] private StaminaBar stamina;
-    // Every second the player will lose stamina
-    int interval = 1; 
-    float nextTime = 0;
+    protected int maxStamina = 100;
+    protected int currentStamina = 100;
+    protected int DODGE_STAMINA_PENALTY = 12;
+    protected int HIT_STAMINA_PENALTY = 20;
+    [SerializeField] protected StaminaBar stamina;
+    // Every second the player will win stamina
+    protected float interval = 1.0f; 
+    protected float nextTime = 0;
 
-    public void PlayBlockSound() {
-        audioSource.PlayOneShot(blockSound, volume);
-    }
+    public bool jabActivated = true;
+    public bool dodgeActivated = true;
+    public bool blockActivated = true;
 
-    private SimpleFlash flashEffect;
-
-    private void OnDisable() {
-        jabAction.Disable();
-        rightAction.Disable();
-    }
-
-    private void Awake() {
+    public void Awake() {
         flashEffect = GetComponent<SimpleFlash>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
@@ -71,19 +69,28 @@ public class Player : MonoBehaviour
         jabAction.performed += OnJab;
         rightAction = playerInput.actions["RightDirect"];
         rightAction.performed += OnRight;
-        // blockAction = playerInput.actions["Block"];
-        // blockAction.performed += OnBlock;
-        // blockAction.canceled += OnBlock;
         dodgeRightAction = playerInput.actions["DodgeRight"];
         dodgeRightAction.performed += OnDodgeRight;
         dodgeLeftAction = playerInput.actions["DodgeLeft"];
         dodgeLeftAction.performed += OnDodgeLeft;
+        blockAction = playerInput.actions["Block"];
+        blockAction.performed += OnBlock;
+        observer = GameObject.FindWithTag("Observer");
     }
 
     // Start is called before the first frame update
     void Start()
     {
         stamina.SetMaxStamina(100);
+    }
+    
+    public void PlayBlockSound() {
+        audioSource.PlayOneShot(blockSound, volume);
+    }
+
+    private void OnDisable() {
+        jabAction.Disable();
+        rightAction.Disable();
     }
 
     private bool DoingSomething() {
@@ -93,20 +100,56 @@ public class Player : MonoBehaviour
     private bool isTeamBlocking() {
         if(teamState.Equals(State.BLOCK)){
             flashEffect.Flash();
-            stamina.SetStamina(100);
+            stamina.DecreaseStaminaBy(100);
             return true;
         }
         return false ;
     }
 
-    private void OnJab(InputAction.CallbackContext context) {
+    private void SendMessageToObserver(string message) {
+        if (observer != null) {
+            observer.SendMessage(message);
+        }
+    }
+
+    public void ActivateJab()
+    {
+        jabActivated = true;
+    }
+
+    public void DisableJab()
+    {
+        jabActivated = false;
+    }
+
+    public void ActivateDodge()
+    {
+        dodgeActivated = true;
+    }
+
+    public void DisableDodge()
+    {
+        dodgeActivated = false;
+    }
+
+    public void ActivateBlock()
+    {
+        blockActivated = true;
+    }
+
+    public void DisableBlock()
+    {
+        blockActivated = false;
+    }
+
+    public override void OnJab(InputAction.CallbackContext context) {
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > HIT_STAMINA_PENALTY) {
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
                 playerState = teamState = State.JAB;
                 animator.Play(State.JAB);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE);
-                stamina.SetStamina(HIT_STAMINA_PENALTY);
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE, "Right");
+                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound1, volume);
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
@@ -114,21 +157,23 @@ public class Player : MonoBehaviour
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
                 }
+                SendMessageToObserver("OnJab");
             }
             else if (stamina.slider.value <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY)) {
                 flashEffect.Flash2();
+                SendMessageToObserver("OnNotEnoughStamina");
             }
         }
     }
 
-    private void OnRight(InputAction.CallbackContext context) {
+    public override void OnRight(InputAction.CallbackContext context) {
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
                 playerState = teamState = State.RIGHT;
                 animator.Play(State.RIGHT);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE);
-                stamina.SetStamina(HIT_STAMINA_PENALTY);
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE, "Left");
+                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
                 } else if (punchResult == GameLogic.PunchResult.MISS) {
@@ -136,47 +181,54 @@ public class Player : MonoBehaviour
                 } else if (punchResult == GameLogic.PunchResult.BLOCK) {
                     audioSource.PlayOneShot(blockSound, volume);
                 }
+                SendMessageToObserver("OnRight");
             }
             else if (stamina.slider.value <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY))
             {
                 flashEffect.Flash2();
+                SendMessageToObserver("OnNotEnoughStamina");
             }
         }
     }
 
-    private void OnBlock(InputAction.CallbackContext context) {
-        return;
-    }
-
-    private void OnDodgeRight(InputAction.CallbackContext context) {
+    public override void OnDodgeRight(InputAction.CallbackContext context) {
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY) {
+            if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = State.DODGE_RIGHT;
                 animator.Play(State.DODGE_RIGHT);
-                stamina.SetStamina(DODGE_STAMINA_PENALTY);
+                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound1, volume);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                SendMessageToObserver("OnDodge");
             } else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
-                stamina.SetStamina(5);
+                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
+                SendMessageToObserver("OnDodgePenalty");
             }
         }
     }
 
-    private void OnDodgeLeft(InputAction.CallbackContext context) {
+    public override void OnDodgeLeft(InputAction.CallbackContext context) {
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY) {
+            if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = State.DODGE_LEFT;
                 animator.Play(State.DODGE_LEFT);
-                stamina.SetStamina(DODGE_STAMINA_PENALTY);
+                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound2, volume);
                 StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                SendMessageToObserver("OnDodge");
             }
             else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
-                stamina.SetStamina(5);
+                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
+                SendMessageToObserver("OnDodgePenalty");
             }
         }
+    }
+
+    public void OnBlock(InputAction.CallbackContext context) {
+        SendMessageToObserver("OnRobotBlock");
+        return;
     }
 
     IEnumerator LetAnimationRunForTime(float time)
@@ -194,16 +246,25 @@ public class Player : MonoBehaviour
         playerState = teamState = State.IDLE;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Regen() {
         if (Time.time >= nextTime) {
-            stamina.SetStamina(-10);
+            // Debug.Log("Time.time: " + Time.time);
+            // Debug.Log("Interval: " + interval);
+            // Debug.Log("NextTime: " + nextTime);
+            stamina.IncreaseStaminaBy(10);
             nextTime += interval; 
+            // Debug.Log("NextTime: " + nextTime);
         }
-        if (trainer.trainerState == State.BLOCK) {
+    }
+
+    // Update is called once per frame
+    protected virtual void Update()
+    {
+        Regen();
+        if (trainer.trainerState == State.BLOCK && blockActivated) {
             playerState = teamState = State.BLOCK;
             animator.Play(State.BLOCK);
+            SendMessageToObserver("OnBlock");
         }
         if (trainer.trainerState != State.BLOCK && !(DoingSomething() && !playerState.Equals(State.BLOCK))) {
             playerState = teamState = State.IDLE;

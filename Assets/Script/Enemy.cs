@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     public Animator animator;
+    public SpriteRenderer spriteRenderer;
     public GameLogic gameLogic;
 
     // Animation Variables
@@ -17,6 +18,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float cueSpeed = 0.3f;
 
     [SerializeField] public string enemyState = State.IDLE;
+
+    [SerializeField] protected SimpleFlash flashEffect;
 
     // Music
     public AudioSource audioSource;
@@ -46,6 +49,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected void Awake() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
@@ -121,7 +125,7 @@ public abstract class Enemy : MonoBehaviour
         StartCoroutine(LetAnimationRunForTime(jabSpeed));
     }
 
-    IEnumerator LetAnimationRunForTime(float time)
+    protected IEnumerator LetAnimationRunForTime(float time)
     {
         yield return new WaitForSeconds(time);
 
@@ -129,7 +133,7 @@ public abstract class Enemy : MonoBehaviour
         BackToIdle();
     }
 
-    IEnumerator DisableCues(float time)
+    protected IEnumerator DisableCues(float time)
     {
         yield return new WaitForSeconds(time);
         shouldCueRightHitting = false;
@@ -146,13 +150,26 @@ public abstract class Enemy : MonoBehaviour
         enemyState = State.IDLE;
     }
 
+    public virtual void TakeDamage(string side) {
+        flashEffect.Flash();
+    }
+
+    public virtual void ReactToHit() {
+        int randomValue = Random.Range(0, 99);
+
+        if (enemyState == State.IDLE && randomValue < 50) {
+            SetBlocking();
+        }
+    }
+
     protected abstract void Choose();
 
     // Start is called before the first frame update
     protected abstract void Start();
 
     // Update is called once per frame
-    protected void Update() {
+    protected void Update()
+    {
         if (action == State.JAB) {
             OnJab();
         }
