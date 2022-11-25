@@ -192,4 +192,8 @@ public abstract class Enemy : MonoBehaviour
             OnDodgeRight();
         }
     }
+
+    public virtual string GetType() {
+        return "Enemy";
+    }
 }

@@ -5,12 +5,11 @@ using UnityEngine;
 public class NoStaminaScript : MonoBehaviour
 {
     public GameObject noStaminaText;
-    public float timeToWait = 0.1f;
+    public float timeToWait = 3f;
     public float m_leftTime = 0;
     // Start is called before the first frame update
     void Start()
     {
-        noStaminaText.SetActive(false);
     }
 
     public void ShowText()
