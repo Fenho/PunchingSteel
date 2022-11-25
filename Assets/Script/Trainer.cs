@@ -26,7 +26,7 @@ public class Trainer : MonoBehaviour
     private Animator animator;
     
     // Animation Variables
-    [SerializeField] public string trainerState = State.IDLE;
+    public string trainerState = State.IDLE;
     
     // Stamina
     [SerializeField] private StaminaBar stamina;
@@ -72,7 +72,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.JAB;
             animator.Play(State.JAB);
-            stamina.SetStamina(HIT_STAMINA_PENALTY);
+            stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -82,7 +82,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething()) {
             trainerState = State.RIGHT;
             animator.Play(State.RIGHT);
-            stamina.SetStamina(HIT_STAMINA_PENALTY);
+            stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabSpeed));
         }
@@ -137,7 +137,7 @@ public class Trainer : MonoBehaviour
     void Update()
     {
         if (Time.time >= next && trainerState == State.BLOCK) {
-            stamina.SetStamina(BLOCK_STAMINA_PENALTY);
+            stamina.DecreaseStaminaBy(BLOCK_STAMINA_PENALTY);
             next = Time.time + duration/2; 
         }
     }
