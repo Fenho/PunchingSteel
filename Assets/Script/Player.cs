@@ -142,8 +142,14 @@ public class Player : AbstractRobot
         blockActivated = false;
     }
 
+     private bool isInPauseMenu()
+    {
+        return StaticVars.isInPauseMenu;
+    }
+
+
     public override void OnJab(InputAction.CallbackContext context) {
-        if (!isTeamBlocking()) {
+        if (!isTeamBlocking() && !isInPauseMenu()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
                 playerState = teamState = State.JAB;
                 animator.Play(State.JAB);
@@ -172,7 +178,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnRight(InputAction.CallbackContext context) {
-        if (!isTeamBlocking()) {
+        if (!isTeamBlocking() && !isInPauseMenu()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
                 playerState = teamState = State.RIGHT;
                 animator.Play(State.RIGHT);
@@ -202,7 +208,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeRight(InputAction.CallbackContext context) {
-        if (!isTeamBlocking()) {
+        if (!isTeamBlocking() && !isInPauseMenu()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = State.DODGE_RIGHT;
                 animator.Play(State.DODGE_RIGHT);
@@ -221,7 +227,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (!isTeamBlocking()) {
+        if (!isTeamBlocking() && !isInPauseMenu()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = State.DODGE_LEFT;
                 animator.Play(State.DODGE_LEFT);

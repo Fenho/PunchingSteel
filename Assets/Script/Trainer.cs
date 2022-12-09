@@ -67,9 +67,14 @@ public class Trainer : MonoBehaviour
         return !trainerState.Equals(State.IDLE);
     }
 
+    private bool isInPauseMenu()
+    {
+        return StaticVars.isInPauseMenu;
+    }
+
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !isInPauseMenu()) {
             trainerState = State.JAB;
             animator.Play(State.JAB);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
@@ -79,7 +84,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !isInPauseMenu()) {
             trainerState = State.RIGHT;
             animator.Play(State.RIGHT);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
@@ -89,7 +94,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !isInPauseMenu()) {
             trainerState = State.BLOCK;
             animator.Play(State.BLOCK);
         } else {
@@ -99,7 +104,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !isInPauseMenu()) {
             trainerState = State.DODGE_RIGHT;
             animator.Play(State.DODGE_RIGHT);
             // audioSource.PlayOneShot(dodgeSound1, volume);
@@ -109,7 +114,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !isInPauseMenu()) {
             trainerState = State.DODGE_LEFT;
             animator.Play(State.DODGE_LEFT);
             // audioSource.PlayOneShot(dodgeSound2, volume);

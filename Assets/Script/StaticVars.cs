@@ -24,6 +24,8 @@ public class StaticVars : MonoBehaviour
     public static int blockEnemy = 5;
     public static int pointsBlockTeam;
 
+    public static bool isInPauseMenu;
+
     public static void addPoints(int points)
     {
         score = Math.Max(0, score + points);
@@ -87,5 +89,15 @@ public class StaticVars : MonoBehaviour
     public static void loseGame()
     {
         win = false;
+    }
+
+    public static void enterPause()
+    {
+        isInPauseMenu = true;
+    }
+
+    public static void exitPause()
+    {
+        isInPauseMenu = false;
     }
 }
