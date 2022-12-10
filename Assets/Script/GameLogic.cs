@@ -52,34 +52,37 @@ public class GameLogic : MonoBehaviour
 
     public PunchResult CheckRobotDodge()
     {
-        if (enemy.GetEnemyType() == "Enemy") {
-            if (enemy.enemyState == EnemyState.RIGHT && robot.teamState == RobotState.DODGE_LEFT) {
-                return PunchResult.MISS;
-            }
-            if (enemy.enemyState == EnemyState.JAB && robot.teamState == RobotState.DODGE_RIGHT) {
-                return PunchResult.MISS;
-            }
-        }
-        if (enemy.GetEnemyType() == "HeadBoxEnemy") {
-            if (enemy.enemyState == EnemyState.RIGHT && !(robot.teamState == RobotState.DODGE_LEFT)) {
-                return PunchResult.MISS;
-            }
-            if (enemy.enemyState == EnemyState.JAB && !(robot.teamState == RobotState.DODGE_RIGHT)) {
-                return PunchResult.MISS;
-            }
-            if (enemy.enemyState == EnemyState.HEAD_BUTT && (robot.teamState == RobotState.DODGE_LEFT || robot.teamState == RobotState.DODGE_RIGHT)) {
-                return PunchResult.MISS;
-            }
-            if (enemy.enemyState == EnemyState.DOUBLE && !(robot.teamState == RobotState.DODGE_LEFT || robot.teamState == RobotState.DODGE_RIGHT)) {
-                return PunchResult.MISS;
-            }
-            // Triple is undodgable
+        switch(enemy.GetEnemyType())
+        {
+            case "Enemy":
+                if (enemy.enemyState == EnemyState.RIGHT && robot.teamState == RobotState.DODGE_LEFT) {
+                    return PunchResult.MISS;
+                }
+                if (enemy.enemyState == EnemyState.JAB && robot.teamState == RobotState.DODGE_RIGHT) {
+                    return PunchResult.MISS;
+                }
+                break;
+            case "HeadBoxEnemy":
+                if (enemy.enemyState == EnemyState.RIGHT && !(robot.teamState == RobotState.DODGE_LEFT)) {
+                    return PunchResult.MISS;
+                }
+                if (enemy.enemyState == EnemyState.JAB && !(robot.teamState == RobotState.DODGE_RIGHT)) {
+                    return PunchResult.MISS;
+                }
+                if (enemy.enemyState == EnemyState.HEAD_BUTT && (robot.teamState == RobotState.DODGE_LEFT || robot.teamState == RobotState.DODGE_RIGHT)) {
+                    return PunchResult.MISS;
+                }
+                if (enemy.enemyState == EnemyState.DOUBLE && !(robot.teamState == RobotState.DODGE_LEFT || robot.teamState == RobotState.DODGE_RIGHT)) {
+                    return PunchResult.MISS;
+                }
+                // Triple is undodgable
+                break;
         }
         return PunchResult.HIT;
     }
 
     // Returns true if team was damaged
-    public PunchResult TakeDamageTeam(int damage) // Hay que hacer diferenciación por enemigo (un jab de HeadBox no es esquivable por la derecha, per osi por la izquierda o quedándose quieto)
+    public PunchResult TakeDamageTeam(int damage)
     {
         PunchResult action = CheckRobotDodge();
         if (action == PunchResult.MISS) return action;

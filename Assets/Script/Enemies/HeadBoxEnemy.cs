@@ -24,7 +24,7 @@ public class HeadBoxEnemy : Enemy
         } else {
             animator.Play(EnemyState.HEAD_BUTT);
             if (shouldTakeTeamHealth) {
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(HEAD_BUTT_DAMAGE); // Aquí hacer diferenciación entre golpes
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(HEAD_BUTT_DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     StaticVars.addPointsByType("LeftJabEnemy");
                     audioSource.PlayOneShot(punchSound1, volume); // Sonido debería ser distinto, capaz uno metálico
@@ -50,7 +50,7 @@ public class HeadBoxEnemy : Enemy
         } else {
             animator.Play(EnemyState.DOUBLE);
             if (shouldTakeTeamHealth) {
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DOUBLE_DAMAGE); // Aquí hacer diferenciación entre golpes
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DOUBLE_DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     StaticVars.addPointsByType("LeftJabEnemy");
                     audioSource.PlayOneShot(punchSound1, volume); // Sonido debería ser distinto, capaz uno metálico
@@ -75,7 +75,7 @@ public class HeadBoxEnemy : Enemy
         } else {
             animator.Play(EnemyState.TRIPLE);
             if (shouldTakeTeamHealth) {
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(TRIPLE_DAMAGE); // Aquí hacer diferenciación entre golpes
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(TRIPLE_DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     StaticVars.addPointsByType("LeftJabEnemy");
                     audioSource.PlayOneShot(punchSound1, volume); // Sonido debería ser distinto, capaz uno metálico
