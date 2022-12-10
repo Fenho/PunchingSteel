@@ -13,7 +13,7 @@ public class TrainingBag : Enemy
             spriteRenderer.flipX = false;
         }
         animator.Play($"damage{side}");
-        StartCoroutine(LetAnimationRunForTime(cueSpeed + 0.5f));
+        StartCoroutine(LetAnimationRunForTime(cueTime + 0.5f));
     }
 
     public override void ReactToHit() {
@@ -32,7 +32,7 @@ public class TrainingBag : Enemy
 
     }
 
-    override public string GetType()
+    override public string GetEnemyType()
     {
         return "TrainingBag";
     }

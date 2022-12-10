@@ -30,18 +30,18 @@ public class GameLogic : MonoBehaviour
     {
         PunchResult action = PunchResult.MISS;
 
-        if (enemy.enemyState == State.DODGE_LEFT || enemy.enemyState == State.DODGE_RIGHT) {
+        if (enemy.enemyState == RobotState.DODGE_LEFT || enemy.enemyState == RobotState.DODGE_RIGHT) {
             return action;
         }
         enemy.TakeDamage(side); // This is just for animation purposes
         enemy.ReactToHit(); // Useful to determine if the enemy is going to block or not (useful for having enemies with different behaviours)
-        if (enemy.enemyState == State.BLOCK) {
+        if (enemy.enemyState == RobotState.BLOCK) {
             action = PunchResult.BLOCK;
             damage = (int) (damage * blockDamageFactor);
         } else {
             action = PunchResult.HIT;
         }
-        if (enemy.GetType() == "TrainingBag") {
+        if (enemy.GetEnemyType() == "TrainingBag") {
             DamageEnemy(damage, 20);
         }
         else {
@@ -50,15 +50,40 @@ public class GameLogic : MonoBehaviour
         return action;
     }
 
-    // Returns true if team was damaged
-    public PunchResult TakeDamageTeam(int damage)
+    public PunchResult CheckRobotDodge()
     {
-        PunchResult action = PunchResult.MISS;
-        if (robot.teamState == State.DODGE_LEFT || robot.teamState == State.DODGE_RIGHT) {
-            return action;
+        if (enemy.GetEnemyType() == "Enemy") {
+            if (enemy.enemyState == EnemyState.RIGHT && robot.teamState == RobotState.DODGE_LEFT) {
+                return PunchResult.MISS;
+            }
+            if (enemy.enemyState == EnemyState.JAB && robot.teamState == RobotState.DODGE_RIGHT) {
+                return PunchResult.MISS;
+            }
         }
+        if (enemy.GetEnemyType() == "HeadBoxEnemy") {
+            if (enemy.enemyState == EnemyState.RIGHT && !(robot.teamState == RobotState.DODGE_LEFT)) {
+                return PunchResult.MISS;
+            }
+            if (enemy.enemyState == EnemyState.JAB && !(robot.teamState == RobotState.DODGE_RIGHT)) {
+                return PunchResult.MISS;
+            }
+            if (enemy.enemyState == EnemyState.HEAD_BUTT && (robot.teamState == RobotState.DODGE_LEFT || robot.teamState == RobotState.DODGE_RIGHT)) {
+                return PunchResult.MISS;
+            }
+            if (enemy.enemyState == EnemyState.DOUBLE && !(robot.teamState == RobotState.DODGE_LEFT || robot.teamState == RobotState.DODGE_RIGHT)) {
+                return PunchResult.MISS;
+            }
+            // Triple is undodgable
+        }
+        return PunchResult.HIT;
+    }
 
-        if (robot.teamState == State.BLOCK) {
+    // Returns true if team was damaged
+    public PunchResult TakeDamageTeam(int damage) // Hay que hacer diferenciación por enemigo (un jab de HeadBox no es esquivable por la derecha, per osi por la izquierda o quedándose quieto)
+    {
+        PunchResult action = CheckRobotDodge();
+        if (action == PunchResult.MISS) return action;
+        if (robot.teamState == RobotState.BLOCK) {
             action = PunchResult.BLOCK;
             damage = (int) (damage * blockDamageFactor);
         } else {
