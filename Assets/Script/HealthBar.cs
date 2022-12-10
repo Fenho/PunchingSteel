@@ -8,6 +8,11 @@ public class HealthBar : MonoBehaviour
 {
     public Slider slider;
     [SerializeField] private EndGameAnimations endGameAnimations;
+    public float koAnimationDuration = 8.0f;
+    // Ideally, the StaticVars should hold the reference to the GameSounds,
+    // but as it is a static class we can't link it to the GameSounds instance.
+    // The GameLogic is not called when the game is over, so we can't use it either.
+    public GameSounds gameSounds;
 
     public void SetMaxHealth (int health)
     {
@@ -23,12 +28,13 @@ public class HealthBar : MonoBehaviour
         //StaticVars.addPoints( -health );
         if (health <= 0) {
             StaticVars.loseGame();
+            gameSounds.PlayEndGame();
             endGameAnimations.playKO();
-            StartCoroutine(LetAnimationRunForTime(2f));
+            StartCoroutine(LoadGameOverAfterDelay(koAnimationDuration));
         }
     }
 
-    IEnumerator LetAnimationRunForTime(float time)
+    IEnumerator LoadGameOverAfterDelay(float time)
     {
         yield return new WaitForSeconds(time);
         // Code to execute after the delay

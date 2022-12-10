@@ -97,6 +97,10 @@ public class Player : AbstractRobot
         return !playerState.Equals(State.IDLE);
     }
 
+    private bool IsGameOver() {
+        return StaticVars.gameOver;
+    }
+
     private bool isTeamBlocking() {
         if(teamState.Equals(State.BLOCK)){
             flashEffect.Flash();
@@ -143,6 +147,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnJab(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
                 playerState = teamState = State.JAB;
@@ -172,6 +177,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnRight(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
                 playerState = teamState = State.RIGHT;
@@ -202,6 +208,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeRight(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = State.DODGE_RIGHT;
@@ -221,6 +228,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeLeft(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = State.DODGE_LEFT;
@@ -241,6 +249,7 @@ public class Player : AbstractRobot
     }
 
     public void OnBlock(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         SendMessageToObserver("OnRobotBlock");
         return;
     }
@@ -274,6 +283,7 @@ public class Player : AbstractRobot
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (IsGameOver()) return;
         Regen();
         if (trainer.trainerState == State.BLOCK && blockActivated) {
             playerState = teamState = State.BLOCK;
