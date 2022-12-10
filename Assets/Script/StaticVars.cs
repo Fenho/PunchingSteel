@@ -23,6 +23,7 @@ public class StaticVars : MonoBehaviour
     public static int missEnemy = 10;
     public static int blockEnemy = 5;
     public static int pointsBlockTeam;
+    public static bool gameOver = false;
 
     public static void addPoints(int points)
     {
@@ -82,10 +83,17 @@ public class StaticVars : MonoBehaviour
     public static void winGame()
     {
         win = true;
+        gameOver = true;
     }
 
     public static void loseGame()
     {
         win = false;
+        gameOver = true;
+    }
+
+    public static void setGameOver(bool value)
+    {
+        gameOver = value;
     }
 }

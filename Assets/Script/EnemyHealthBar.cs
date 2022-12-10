@@ -8,7 +8,8 @@ public class EnemyHealthBar : MonoBehaviour
 {
     public Slider slider;
     [SerializeField] private EndGameAnimations endGameAnimations;
-
+    public float koAnimationDuration = 8.0f;
+    public GameSounds gameSounds;
 
     public void SetMaxHealth(int health)
     {
@@ -22,12 +23,13 @@ public class EnemyHealthBar : MonoBehaviour
         //StaticVars.addPoints( health );
         if (health <= 0) {
             StaticVars.winGame();
+            gameSounds.PlayEndGame();
             endGameAnimations.playKO();
-            StartCoroutine(LetAnimationRunForTime(2f));
+            StartCoroutine(LoadGameOverAfterDelay(koAnimationDuration));
         }
     }
 
-    IEnumerator LetAnimationRunForTime(float time)
+    IEnumerator LoadGameOverAfterDelay(float time)
     {
         yield return new WaitForSeconds(time);
         // Code to execute after the delay

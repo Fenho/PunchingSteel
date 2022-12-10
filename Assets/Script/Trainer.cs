@@ -67,9 +67,12 @@ public class Trainer : MonoBehaviour
         return !trainerState.Equals(State.IDLE);
     }
 
+    private bool IsGameOver() {
+        return StaticVars.gameOver;
+    }
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
             trainerState = State.JAB;
             animator.Play(State.JAB);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
@@ -79,7 +82,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
             trainerState = State.RIGHT;
             animator.Play(State.RIGHT);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
@@ -89,7 +92,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
             trainerState = State.BLOCK;
             animator.Play(State.BLOCK);
         } else {
@@ -99,7 +102,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
             trainerState = State.DODGE_RIGHT;
             animator.Play(State.DODGE_RIGHT);
             // audioSource.PlayOneShot(dodgeSound1, volume);
@@ -109,7 +112,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
             trainerState = State.DODGE_LEFT;
             animator.Play(State.DODGE_LEFT);
             // audioSource.PlayOneShot(dodgeSound2, volume);
@@ -136,6 +139,9 @@ public class Trainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsGameOver()) {
+            return;
+        }
         if (Time.time >= next && trainerState == State.BLOCK) {
             stamina.DecreaseStaminaBy(BLOCK_STAMINA_PENALTY);
             next = Time.time + duration/2; 

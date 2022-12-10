@@ -176,6 +176,10 @@ public abstract class Enemy : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
+        // Do not update if game is over
+        if (StaticVars.gameOver) {
+            return;
+        }
         if (action == State.JAB) {
             OnJab();
         }
