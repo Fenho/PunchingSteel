@@ -14,10 +14,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected bool shouldTakeTeamHealth = true;
     [SerializeField] protected bool shouldPlayDodgeSound = true;
 
-    [SerializeField] protected float jabSpeed = 0.5f;
-    [SerializeField] protected float cueSpeed = 0.3f;
+    [SerializeField] protected float jabTime = 0.3f;
+    [SerializeField] protected float cueTime = 0.3f;
 
-    [SerializeField] public string enemyState = State.IDLE;
+    [SerializeField] public string enemyState = EnemyState.IDLE;
 
     [SerializeField] protected SimpleFlash flashEffect;
 
@@ -35,13 +35,13 @@ public abstract class Enemy : MonoBehaviour
     // Possible Actions
     // Jab, Right, Block, DodgeLeft, DodgeRight
     protected string action;
-    protected string[] actions = new string[] { State.JAB, State.RIGHT, State.BLOCK, State.DODGE_LEFT, State.DODGE_RIGHT};
+    protected string[] actions = new string[] { EnemyState.JAB, EnemyState.RIGHT, EnemyState.BLOCK, EnemyState.DODGE_LEFT, EnemyState.DODGE_RIGHT};
 
     // Health
-    private int DAMAGE = 10;
+    protected int DAMAGE = 10;
     
     public void SetBlocking() {
-        enemyState = action = State.BLOCK;
+        enemyState = action = EnemyState.BLOCK;
     }
 
     public void PlayBlockSound() {
@@ -54,12 +54,12 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected void OnJab() {
-        enemyState = State.JAB;
+        enemyState = EnemyState.JAB;
         if (shouldCueJab) {
-            animator.Play(State.JAB_CUE);
-            StartCoroutine(DisableCues(cueSpeed));
+            animator.Play(EnemyState.JAB_CUE);
+            StartCoroutine(PlayCue(cueTime));
         } else {
-            animator.Play(State.JAB);
+            animator.Play(EnemyState.JAB);
             if (shouldTakeTeamHealth) {
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
@@ -74,19 +74,19 @@ public abstract class Enemy : MonoBehaviour
                 }
                 shouldTakeTeamHealth = false;
             }
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
         
     }
 
     protected void OnRight() {
-        enemyState = State.RIGHT;
+        enemyState = EnemyState.RIGHT;
         if (shouldCueRightHitting) {
-            animator.Play(State.RIGHT_CUE);
-            StartCoroutine(DisableCues(cueSpeed));
+            animator.Play(EnemyState.RIGHT_CUE);
+            StartCoroutine(PlayCue(cueTime));
         }
         else {
-            animator.Play(State.RIGHT);
+            animator.Play(EnemyState.RIGHT);
             if (shouldTakeTeamHealth) {
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageTeam(DAMAGE);
                 if (punchResult == GameLogic.PunchResult.HIT) {
@@ -101,34 +101,34 @@ public abstract class Enemy : MonoBehaviour
                 }
                 shouldTakeTeamHealth = false;
             }
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
     }
 
     protected void OnBlock() {
-        enemyState = State.BLOCK;
-        animator.Play(State.BLOCK);
-        StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        enemyState = EnemyState.BLOCK;
+        animator.Play(EnemyState.BLOCK);
+        StartCoroutine(LetAnimationRunForTime(jabTime));
     }
 
     protected void OnDodgeLeft() {
-        enemyState = State.DODGE_LEFT;
-        animator.Play(State.DODGE_LEFT);
+        enemyState = EnemyState.DODGE_LEFT;
+        animator.Play(EnemyState.DODGE_LEFT);
         if (shouldPlayDodgeSound) {
             audioSource.PlayOneShot(dodgeSound2, volume);
             shouldPlayDodgeSound = false;
         }
-        StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        StartCoroutine(LetAnimationRunForTime(jabTime));
     }
 
     protected void OnDodgeRight() {
-        enemyState = State.DODGE_RIGHT;
-        animator.Play(State.DODGE_RIGHT);
+        enemyState = EnemyState.DODGE_RIGHT;
+        animator.Play(EnemyState.DODGE_RIGHT);
         if (shouldPlayDodgeSound) {
             audioSource.PlayOneShot(dodgeSound1, volume);
             shouldPlayDodgeSound = false;
         }
-        StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        StartCoroutine(LetAnimationRunForTime(jabTime));
     }
 
     protected IEnumerator LetAnimationRunForTime(float time)
@@ -139,21 +139,29 @@ public abstract class Enemy : MonoBehaviour
         BackToIdle();
     }
 
-    protected IEnumerator DisableCues(float time)
+    protected IEnumerator PlayCue(float time)
     {
         yield return new WaitForSeconds(time);
+        DisableCues();
+    }
+
+    protected virtual void DisableCues() {
         shouldCueRightHitting = false;
         shouldCueJab = false;
     }
 
-    protected void BackToIdle() {
-        animator.Play(State.IDLE);
-        action = State.IDLE;
+    protected virtual void EnableCues() {
         shouldCueRightHitting = true;
         shouldCueJab = true;
+    }
+
+    protected void BackToIdle() {
+        animator.Play(EnemyState.IDLE);
+        action = EnemyState.IDLE;
+        EnableCues();
         shouldTakeTeamHealth = true;
         shouldPlayDodgeSound = true;
-        enemyState = State.IDLE;
+        enemyState = EnemyState.IDLE;
     }
 
     public virtual void TakeDamage(string side) {
@@ -163,7 +171,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void ReactToHit() {
         int randomValue = Random.Range(0, 99);
 
-        if (enemyState == State.IDLE && randomValue < 50) {
+        if (enemyState == EnemyState.IDLE && randomValue < 50) {
             SetBlocking();
         }
     }
@@ -174,26 +182,26 @@ public abstract class Enemy : MonoBehaviour
     protected abstract void Start();
 
     // Update is called once per frame
-    protected void Update()
+    protected virtual void Update()
     {
-        if (action == State.JAB) {
+        if (action == EnemyState.JAB) {
             OnJab();
         }
-        if (action == State.RIGHT) {
+        if (action == EnemyState.RIGHT) {
             OnRight();
         }
-        if (action == State.BLOCK) {
+        if (action == EnemyState.BLOCK) {
             OnBlock();
         }
-        if (action == State.DODGE_LEFT) {
+        if (action == EnemyState.DODGE_LEFT) {
             OnDodgeLeft();
         }
-        if (action == State.DODGE_RIGHT) {
+        if (action == EnemyState.DODGE_RIGHT) {
             OnDodgeRight();
         }
     }
 
-    public virtual string GetType() {
+    public virtual string GetEnemyType() {
         return "Enemy";
     }
 }
