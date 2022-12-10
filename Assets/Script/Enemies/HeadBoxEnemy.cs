@@ -139,6 +139,10 @@ public class HeadBoxEnemy : Enemy
     // Update is called once per frame
     protected override void Update()
     {
+        // Do not update if game is over
+        if (StaticVars.gameOver) {
+            return;
+        }
         if (action == EnemyState.JAB) {
             OnJab();
         }

@@ -23,6 +23,7 @@ public class GameLogic : MonoBehaviour
     {
         enemyHealthBar.SetMaxHealth(enemyHealth);
         teamHealthBar.SetMaxHealth(teamHealth);
+        StaticVars.setGameOver(false);
     }
 
     // Returns true if the enemy took damage

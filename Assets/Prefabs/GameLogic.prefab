@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a2ee5fcf9627942a4601a61c1cafc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 100
-  teamHealth: 100
   enemyHealthBar: {fileID: 0}
   teamHealthBar: {fileID: 0}
   enemy: {fileID: 0}

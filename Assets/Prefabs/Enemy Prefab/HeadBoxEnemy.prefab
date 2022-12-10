@@ -141,8 +141,8 @@ MonoBehaviour:
   shouldCueJab: 1
   shouldTakeTeamHealth: 1
   shouldPlayDodgeSound: 1
-  jabSpeed: 0.5
-  cueSpeed: 0.3
+  jabTime: 0.3
+  cueTime: 0.3
   enemyState: idle
   flashEffect: {fileID: 3865442019369589896}
   audioSource: {fileID: 0}
