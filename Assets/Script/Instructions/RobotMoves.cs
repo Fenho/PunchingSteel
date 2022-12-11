@@ -24,14 +24,14 @@ public class RobotMoves : MonoBehaviour
 
     public float volume = 1.0f;
 
-    [SerializeField] private float jabSpeed = 0.5f;
+    [SerializeField] private float jabTime = 0.5f;
 
-    [SerializeField] public string teamState = State.IDLE;
+    [SerializeField] public string teamState = RobotState.IDLE;
 
     public Animator animator;
 
     // Animation Variables
-    [SerializeField] public string playerState = State.IDLE;
+    [SerializeField] public string playerState = RobotState.IDLE;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -60,18 +60,18 @@ public class RobotMoves : MonoBehaviour
 
 
     private bool DoingSomething() {
-        return !playerState.Equals(State.IDLE);
+        return !playerState.Equals(RobotState.IDLE);
     }
 
     // private bool isTeamDoingSomething() {
-    //     return !teamState.Equals(State.IDLE);
+    //     return !teamState.Equals(RobotState.IDLE);
     // }
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB) {
-            playerState = teamState = State.JAB;
-            animator.Play(State.JAB);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.JAB) {
+            playerState = teamState = RobotState.JAB;
+            animator.Play(RobotState.JAB);
+            StartCoroutine(LetAnimationRunForTime(jabTime));
             
             audioSource.PlayOneShot(punchSound1, volume);
             
@@ -79,10 +79,10 @@ public class RobotMoves : MonoBehaviour
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT) {
-            playerState = teamState = State.RIGHT;
-            animator.Play(State.RIGHT);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+        if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.RIGHT) {
+            playerState = teamState = RobotState.RIGHT;
+            animator.Play(RobotState.RIGHT);
+            StartCoroutine(LetAnimationRunForTime(jabTime));
             
             audioSource.PlayOneShot(punchSound2, volume);
         }
@@ -94,19 +94,19 @@ public class RobotMoves : MonoBehaviour
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            playerState = teamState = State.DODGE_RIGHT;
-            animator.Play(State.DODGE_RIGHT);
+            playerState = teamState = RobotState.DODGE_RIGHT;
+            animator.Play(RobotState.DODGE_RIGHT);
             audioSource.PlayOneShot(dodgeSound1, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
         if (context.ReadValueAsButton() && !DoingSomething()) {
-            playerState = teamState = State.DODGE_LEFT;
-            animator.Play(State.DODGE_LEFT);
+            playerState = teamState = RobotState.DODGE_LEFT;
+            animator.Play(RobotState.DODGE_LEFT);
             audioSource.PlayOneShot(dodgeSound2, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
     }
 
@@ -117,24 +117,24 @@ public class RobotMoves : MonoBehaviour
     }
 
     private void BackToIdle() {
-        if (playerState == State.BLOCK) {
-            animator.Play(State.BLOCK);
+        if (playerState == RobotState.BLOCK) {
+            animator.Play(RobotState.BLOCK);
         } else {
-            animator.Play(State.IDLE);
+            animator.Play(RobotState.IDLE);
         }
-        playerState = teamState = State.IDLE;
+        playerState = teamState = RobotState.IDLE;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (trainer.trainerState == State.BLOCK) {
-            playerState = teamState = State.BLOCK;
-            animator.Play(State.BLOCK);
+        if (trainer.trainerState == RobotState.BLOCK) {
+            playerState = teamState = RobotState.BLOCK;
+            animator.Play(RobotState.BLOCK);
         }
-        if (trainer.trainerState != State.BLOCK && !(DoingSomething() && !playerState.Equals(State.BLOCK))) {
-            playerState = teamState = State.IDLE;
-            animator.Play(State.IDLE);
+        if (trainer.trainerState != RobotState.BLOCK && !(DoingSomething() && !playerState.Equals(RobotState.BLOCK))) {
+            playerState = teamState = RobotState.IDLE;
+            animator.Play(RobotState.IDLE);
         }
     }
 }
