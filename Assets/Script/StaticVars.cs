@@ -25,6 +25,7 @@ public class StaticVars : MonoBehaviour
     public static int pointsBlockTeam;
 
     public static bool isInPauseMenu;
+    public static bool isMuted = false;
 
     public static void addPoints(int points)
     {

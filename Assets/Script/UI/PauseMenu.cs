@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
     public static bool isInPause = false;
+    public static bool muteMusic = false;
 
     public void Pause(){
         pauseMenu.SetActive(true);
