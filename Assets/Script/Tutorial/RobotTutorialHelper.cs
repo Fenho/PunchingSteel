@@ -23,13 +23,13 @@ public class RobotTutorialHelper : AbstractRobotTutorialHelper
     // protected override void Update()
     // {
     //     Regen();
-    //     if (trainer.trainerState == State.BLOCK) {
-    //         playerState = teamState = State.BLOCK;
-    //         animator.Play(State.BLOCK);
+    //     if (trainer.trainerState == RobotState.BLOCK) {
+    //         playerState = teamState = RobotState.BLOCK;
+    //         animator.Play(RobotState.BLOCK);
     //     }
-    //     if (trainer.trainerState != State.BLOCK && !(DoingSomething() && !playerState.Equals(State.BLOCK))) {
-    //         playerState = teamState = State.IDLE;
-    //         animator.Play(State.IDLE);
+    //     if (trainer.trainerState != RobotState.BLOCK && !(DoingSomething() && !playerState.Equals(RobotState.BLOCK))) {
+    //         playerState = teamState = RobotState.IDLE;
+    //         animator.Play(RobotState.IDLE);
     //     }
     // }
     public override void OnJab(InputAction.CallbackContext context)
