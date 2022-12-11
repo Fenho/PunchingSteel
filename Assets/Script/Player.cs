@@ -33,15 +33,15 @@ public class Player : AbstractRobot
 
     public float volume = 1.0f;
 
-    [SerializeField] protected float jabSpeed = 0.5f;
+    [SerializeField] protected float jabTime = 0.5f;
 
     // Health and GameLogic
     protected int DAMAGE = 15;
     public GameLogic gameLogic;
-    [SerializeField] public string teamState = State.IDLE;
+    [SerializeField] public string teamState = RobotState.IDLE;
 
     // Animation Variables
-    [SerializeField] public string playerState = State.IDLE;
+    [SerializeField] public string playerState = RobotState.IDLE;
 
     // Stamina
     protected int maxStamina = 100;
@@ -94,11 +94,15 @@ public class Player : AbstractRobot
     }
 
     private bool DoingSomething() {
-        return !playerState.Equals(State.IDLE);
+        return !playerState.Equals(RobotState.IDLE);
+    }
+
+    private bool IsGameOver() {
+        return StaticVars.gameOver;
     }
 
     private bool isTeamBlocking() {
-        if(teamState.Equals(State.BLOCK)){
+        if(teamState.Equals(RobotState.BLOCK)){
             flashEffect.Flash();
             stamina.DecreaseStaminaBy(100);
             return true;
@@ -143,11 +147,12 @@ public class Player : AbstractRobot
     }
 
     public override void OnJab(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
-                playerState = teamState = State.JAB;
-                animator.Play(State.JAB);
-                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
+                playerState = teamState = RobotState.JAB;
+                animator.Play(RobotState.JAB);
+                StartCoroutine(LetAnimationRunForTime(jabTime));
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE, "Right");
                 stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
                 if (punchResult == GameLogic.PunchResult.HIT) {
@@ -172,11 +177,12 @@ public class Player : AbstractRobot
     }
 
     public override void OnRight(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == State.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
-                playerState = teamState = State.RIGHT;
-                animator.Play(State.RIGHT);
-                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
+                playerState = teamState = RobotState.RIGHT;
+                animator.Play(RobotState.RIGHT);
+                StartCoroutine(LetAnimationRunForTime(jabTime));
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE, "Left");
                 stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
                 if (punchResult == GameLogic.PunchResult.HIT) {
@@ -202,14 +208,15 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeRight(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
-                playerState = teamState = State.DODGE_RIGHT;
-                animator.Play(State.DODGE_RIGHT);
+                playerState = teamState = RobotState.DODGE_RIGHT;
+                animator.Play(RobotState.DODGE_RIGHT);
                 stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound1, volume);
                 StaticVars.addPointsByType("RightDodgeTeam");
-                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                StartCoroutine(LetAnimationRunForTime(jabTime));
                 SendMessageToObserver("OnDodge");
             } else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
@@ -221,14 +228,15 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeLeft(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
-                playerState = teamState = State.DODGE_LEFT;
-                animator.Play(State.DODGE_LEFT);
+                playerState = teamState = RobotState.DODGE_LEFT;
+                animator.Play(RobotState.DODGE_LEFT);
                 stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound2, volume);
                 StaticVars.addPointsByType("LeftDodgeTeam");
-                StartCoroutine(LetAnimationRunForTime(jabSpeed));
+                StartCoroutine(LetAnimationRunForTime(jabTime));
                 SendMessageToObserver("OnDodge");
             }
             else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
@@ -241,6 +249,7 @@ public class Player : AbstractRobot
     }
 
     public void OnBlock(InputAction.CallbackContext context) {
+        if (IsGameOver()) return;
         SendMessageToObserver("OnRobotBlock");
         return;
     }
@@ -252,12 +261,12 @@ public class Player : AbstractRobot
     }
 
     private void BackToIdle() {
-        if (playerState == State.BLOCK) {
-            animator.Play(State.BLOCK);
+        if (playerState == RobotState.BLOCK) {
+            animator.Play(RobotState.BLOCK);
         } else {
-            animator.Play(State.IDLE);
+            animator.Play(RobotState.IDLE);
         }
-        playerState = teamState = State.IDLE;
+        playerState = teamState = RobotState.IDLE;
     }
 
     void Regen() {
@@ -274,15 +283,16 @@ public class Player : AbstractRobot
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (IsGameOver()) return;
         Regen();
-        if (trainer.trainerState == State.BLOCK && blockActivated) {
-            playerState = teamState = State.BLOCK;
-            animator.Play(State.BLOCK);
+        if (trainer.trainerState == RobotState.BLOCK && blockActivated) {
+            playerState = teamState = RobotState.BLOCK;
+            animator.Play(RobotState.BLOCK);
             SendMessageToObserver("OnBlock");
         }
-        if (trainer.trainerState != State.BLOCK && !(DoingSomething() && !playerState.Equals(State.BLOCK))) {
-            playerState = teamState = State.IDLE;
-            animator.Play(State.IDLE);
+        if (trainer.trainerState != RobotState.BLOCK && !(DoingSomething() && !playerState.Equals(RobotState.BLOCK))) {
+            playerState = teamState = RobotState.IDLE;
+            animator.Play(RobotState.IDLE);
         }
     }
 }

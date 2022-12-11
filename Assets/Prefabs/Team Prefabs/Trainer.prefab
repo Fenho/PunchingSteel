@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 214599467388050694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.621, y: -3.63, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 132.618, y: 134.53342, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -175,6 +175,7 @@ MonoBehaviour:
   dodgeSound1: {fileID: 8300000, guid: 52ee5002bf22e389c9f7c495777f7efc, type: 3}
   dodgeSound2: {fileID: 8300000, guid: 86c5c90ca779cd9a28da653901caaf36, type: 3}
   volume: 0.5
-  jabSpeed: 0.6
-  animator: {fileID: 0}
+  jabTime: 0.6
   trainerState: idle
+  stamina: {fileID: 0}
+  HIT_STAMINA_PENALTY: 10

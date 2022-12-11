@@ -10,13 +10,13 @@ public class Enemy2 : Enemy
     protected override void Choose() {
         int randomValue = Random.Range(0, 99);
         if (randomValue < 45) {
-            action = State.RIGHT;
+            action = RobotState.RIGHT;
         } else if (randomValue < 90) {
-            action = State.JAB;
+            action = RobotState.JAB;
         } else if (randomValue < 95) {
-            action = State.DODGE_LEFT;
+            action = RobotState.DODGE_LEFT;
         } else {
-            action = State.DODGE_RIGHT;
+            action = RobotState.DODGE_RIGHT;
         }
     }
 

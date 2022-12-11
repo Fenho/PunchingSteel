@@ -1,4 +1,4 @@
-public class State {
+public class RobotState {
     public static string IDLE => "idle";
     public static string JAB => "jab";
     public static string RIGHT => "right";

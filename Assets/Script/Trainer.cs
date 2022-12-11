@@ -21,12 +21,12 @@ public class Trainer : MonoBehaviour
     private InputAction dodgeLeftAction;
     private InputAction dodgeRightAction;
     
-    [SerializeField] private float jabSpeed = 0.6f;
+    [SerializeField] private float jabTime = 0.6f;
     
     private Animator animator;
     
     // Animation Variables
-    public string trainerState = State.IDLE;
+    public string trainerState = RobotState.IDLE;
     
     // Stamina
     [SerializeField] private StaminaBar stamina;
@@ -64,56 +64,59 @@ public class Trainer : MonoBehaviour
     }
 
     private bool DoingSomething() {
-        return !trainerState.Equals(State.IDLE);
+        return !trainerState.Equals(RobotState.IDLE);
     }
 
+    private bool IsGameOver() {
+        return StaticVars.gameOver;
+    }
 
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            trainerState = State.JAB;
-            animator.Play(State.JAB);
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+            trainerState = RobotState.JAB;
+            animator.Play(RobotState.JAB);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound1, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            trainerState = State.RIGHT;
-            animator.Play(State.RIGHT);
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+            trainerState = RobotState.RIGHT;
+            animator.Play(RobotState.RIGHT);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound2, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            trainerState = State.BLOCK;
-            animator.Play(State.BLOCK);
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+            trainerState = RobotState.BLOCK;
+            animator.Play(RobotState.BLOCK);
         } else {
-            trainerState = State.IDLE;
-            animator.Play(State.IDLE);
+            trainerState = RobotState.IDLE;
+            animator.Play(RobotState.IDLE);
         }
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            trainerState = State.DODGE_RIGHT;
-            animator.Play(State.DODGE_RIGHT);
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+            trainerState = RobotState.DODGE_RIGHT;
+            animator.Play(RobotState.DODGE_RIGHT);
             // audioSource.PlayOneShot(dodgeSound1, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
         return;
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething()) {
-            trainerState = State.DODGE_LEFT;
-            animator.Play(State.DODGE_LEFT);
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+            trainerState = RobotState.DODGE_LEFT;
+            animator.Play(RobotState.DODGE_LEFT);
             // audioSource.PlayOneShot(dodgeSound2, volume);
-            StartCoroutine(LetAnimationRunForTime(jabSpeed));
+            StartCoroutine(LetAnimationRunForTime(jabTime));
         }
         return;
     }
@@ -125,18 +128,21 @@ public class Trainer : MonoBehaviour
     }
 
     private void BackToIdle() {
-        if (trainerState == State.BLOCK) {
-            animator.Play(State.BLOCK);
+        if (trainerState == RobotState.BLOCK) {
+            animator.Play(RobotState.BLOCK);
         } else {
-            animator.Play(State.IDLE);
+            animator.Play(RobotState.IDLE);
         }
-        trainerState = State.IDLE;
+        trainerState = RobotState.IDLE;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time >= next && trainerState == State.BLOCK) {
+        if (IsGameOver()) {
+            return;
+        }
+        if (Time.time >= next && trainerState == RobotState.BLOCK) {
             stamina.DecreaseStaminaBy(BLOCK_STAMINA_PENALTY);
             next = Time.time + duration/2; 
         }
