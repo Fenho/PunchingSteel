@@ -146,8 +146,14 @@ public class Player : AbstractRobot
         blockActivated = false;
     }
 
+     private bool isInPauseMenu()
+    {
+        return StaticVars.isInPauseMenu;
+    }
+
+
     public override void OnJab(InputAction.CallbackContext context) {
-        if (IsGameOver()) return;
+        if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
                 playerState = teamState = RobotState.JAB;
@@ -177,7 +183,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnRight(InputAction.CallbackContext context) {
-        if (IsGameOver()) return;
+        if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
                 playerState = teamState = RobotState.RIGHT;
@@ -208,7 +214,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeRight(InputAction.CallbackContext context) {
-        if (IsGameOver()) return;
+        if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = RobotState.DODGE_RIGHT;
@@ -228,7 +234,7 @@ public class Player : AbstractRobot
     }
 
     public override void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (IsGameOver()) return;
+        if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
                 playerState = teamState = RobotState.DODGE_LEFT;

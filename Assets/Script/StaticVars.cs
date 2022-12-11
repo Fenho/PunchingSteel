@@ -25,6 +25,9 @@ public class StaticVars : MonoBehaviour
     public static int pointsBlockTeam;
     public static bool gameOver = false;
 
+    public static bool isInPauseMenu;
+    public static bool isMuted = false;
+
     public static void addPoints(int points)
     {
         score = Math.Max(0, score + points);
@@ -95,5 +98,15 @@ public class StaticVars : MonoBehaviour
     public static void setGameOver(bool value)
     {
         gameOver = value;
+    }
+
+    public static void enterPause()
+    {
+        isInPauseMenu = true;
+    }
+
+    public static void exitPause()
+    {
+        isInPauseMenu = false;
     }
 }

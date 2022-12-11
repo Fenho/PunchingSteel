@@ -67,12 +67,19 @@ public class Trainer : MonoBehaviour
         return !trainerState.Equals(RobotState.IDLE);
     }
 
+    private bool isInPauseMenu()
+    {
+        return StaticVars.isInPauseMenu;
+    }
+
     private bool IsGameOver() {
         return StaticVars.gameOver;
     }
 
+    
+
     private void OnJab(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.JAB;
             animator.Play(RobotState.JAB);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
@@ -82,7 +89,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.RIGHT;
             animator.Play(RobotState.RIGHT);
             stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
@@ -92,7 +99,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnBlock(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.BLOCK;
             animator.Play(RobotState.BLOCK);
         } else {
@@ -102,7 +109,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnDodgeRight(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.DODGE_RIGHT;
             animator.Play(RobotState.DODGE_RIGHT);
             // audioSource.PlayOneShot(dodgeSound1, volume);
@@ -112,7 +119,7 @@ public class Trainer : MonoBehaviour
     }
 
     private void OnDodgeLeft(InputAction.CallbackContext context) {
-        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver()) {
+        if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.DODGE_LEFT;
             animator.Play(RobotState.DODGE_LEFT);
             // audioSource.PlayOneShot(dodgeSound2, volume);
