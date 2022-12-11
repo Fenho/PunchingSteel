@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 971526838162785155, guid: ca9dfb349b2749f45bc16ce670fb42d6, type: 3}
       propertyPath: teamHealthBar
       value: 
-      objectReference: {fileID: 240071841}
+      objectReference: {fileID: 0}
     - target: {fileID: 971526838162785155, guid: ca9dfb349b2749f45bc16ce670fb42d6, type: 3}
       propertyPath: enemyHealthBar
       value: 
@@ -329,17 +329,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &240071841 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3093036788722623820, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
-  m_PrefabInstance: {fileID: 411362516}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e009954da37f547b8f1ee6d4b49430, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &240071843 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3093036788722623821, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
@@ -370,7 +359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3093036788722623821, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3093036788722623821, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
       propertyPath: m_AnchorMax.x
@@ -966,6 +955,18 @@ PrefabInstance:
     - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
       propertyPath: m_RootOrder
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.0755887
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.1633396
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.18325081
       objectReference: {fileID: 0}
     - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1642,7 +1643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1015629723741362509, guid: 4daa934579182a846916c0cf0f8b5aa9, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1015629723741362509, guid: 4daa934579182a846916c0cf0f8b5aa9, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2262,7 +2263,7 @@ MonoBehaviour:
   dodgeSound1: {fileID: 8300000, guid: 52ee5002bf22e389c9f7c495777f7efc, type: 3}
   dodgeSound2: {fileID: 8300000, guid: 86c5c90ca779cd9a28da653901caaf36, type: 3}
   volume: 1
-  jabSpeed: 0.6
+  jabTime: 0.6
   trainerState: idle
   stamina: {fileID: 834504199}
   HIT_STAMINA_PENALTY: 10
@@ -2513,7 +2514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225189958954227899, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1225189958954227899, guid: 75f4ade4635b5ce46aea5e305d7f72a4, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2757,7 +2758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1037845103395849758, guid: 0a2bfe33ae593844184474e228f46a81, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1037845103395849758, guid: 0a2bfe33ae593844184474e228f46a81, type: 3}
       propertyPath: m_AnchorMax.x
