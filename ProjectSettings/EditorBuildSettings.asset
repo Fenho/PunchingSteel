@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EnemyMenu.unity
     guid: fe24f506b403849068ff4856c4bced22
+  - enabled: 1
+    path: Assets/Scenes/FightHeadBox.unity
+    guid: 1a8847373473de44988dc51675ef422d
   m_configObjects: {}
