@@ -986,7 +986,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select your Oponent
+  m_text: Select your Opponent
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6392eabc3f6c949e1a886cc3915e66ad, type: 2}
   m_sharedMaterial: {fileID: 4910451177898952394, guid: 6392eabc3f6c949e1a886cc3915e66ad, type: 2}

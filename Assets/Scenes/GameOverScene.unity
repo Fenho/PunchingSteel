@@ -1032,7 +1032,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Select Oponent
+  m_Text: Select Opponent
 --- !u!222 &1379946876
 CanvasRenderer:
   m_ObjectHideFlags: 0
