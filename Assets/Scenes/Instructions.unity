@@ -1778,9 +1778,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The trainer and robot have to collaborate to win! For some moves, the trainer
-    has to act first for the robot to move, while in others the robot can act on
-    its own.
+  m_text: Team up to defeat the enemy! Decide who is the robot or the trainer. The
+    trainer and robot have to collaborate to win! For some moves, the trainer has
+    to act first for the robot to move, while in others the robot can act on its
+    own.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1874,7 +1875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d19882d9962b4b37bfccdbe8dfe3b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jabSpeed: 0.6
+  jabTime: 0.6
   animator: {fileID: 0}
   trainerState: idle
 --- !u!1001 &1738585427
@@ -2102,7 +2103,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 473.97, y: -164.15}
+  m_AnchoredPosition: {x: 401, y: -206}
   m_SizeDelta: {x: 211.5538, y: 50.2922}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1952549293
@@ -2226,7 +2227,7 @@ MonoBehaviour:
   dodgeSound2: {fileID: 0}
   missSound: {fileID: 0}
   volume: 1
-  jabSpeed: 0.5
+  jabTime: 0.5
   teamState: idle
   animator: {fileID: 0}
   playerState: idle
@@ -2385,7 +2386,7 @@ RectTransform:
   m_GameObject: {fileID: 2097040886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7083, y: 0.7083, z: 0.7083}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1512706858}
@@ -2393,7 +2394,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 218, y: -50}
+  m_AnchoredPosition: {x: 163, y: -47}
   m_SizeDelta: {x: 381.6704, y: 47.1002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2097040888
@@ -2418,8 +2419,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: How To Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6392eabc3f6c949e1a886cc3915e66ad, type: 2}
+  m_sharedMaterial: {fileID: 4910451177898952394, guid: 6392eabc3f6c949e1a886cc3915e66ad, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2479,7 +2480,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -312.1381, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2503,6 +2504,18 @@ PrefabInstance:
     - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.4909477
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.584698
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.19577879
       objectReference: {fileID: 0}
     - target: {fileID: 8907585382558615471, guid: f5018b17c0feba84b87d41b45ca8e8f7, type: 3}
       propertyPath: m_LocalPosition.x

@@ -628,6 +628,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6478849604453932742, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478849604453932742, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 38
+      objectReference: {fileID: 0}
     - target: {fileID: 6478849604597769280, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.65525
@@ -689,8 +697,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6478849604683209757, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
+      propertyPath: m_text
+      value: 'Team
+
+        Punching Steel'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478849604683209757, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 3355443200
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 6478849604807329257, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
       propertyPath: m_EffectColor.a
@@ -1105,8 +1119,12 @@ PrefabInstance:
       value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 6478849606178596697, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
+      propertyPath: m_text
+      value: "Team \nPunching Steel"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478849606178596697, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 3372220415
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3acb62915f5b4c52b9207dc126ff4f1, type: 3}
