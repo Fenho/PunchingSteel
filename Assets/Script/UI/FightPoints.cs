@@ -11,6 +11,7 @@ public class FightPoints : MonoBehaviour
     public Text scoreEffect1;
     public Text scoreEffect2;
     public Text scoreEffect3;
+    public Text comboTextGO;
     
 /*     public List<Text> effectList;
 
@@ -55,10 +56,19 @@ public class FightPoints : MonoBehaviour
             yield return new WaitForSeconds(0.3f); 
             scoreEffect2.gameObject.SetActive(false);
         }
-        
-
         notDoingEffect = true;
+    }
 
+    public void doComboEffect(int comboCounter){
+        StartCoroutine(comboEffectWaiter(comboCounter));
+    }
+
+    IEnumerator comboEffectWaiter(int comboCounter)
+    {
+        comboTextGO.gameObject.SetActive(true);
+        comboTextGO.text = "Combo x" + comboCounter.ToString();
+        yield return new WaitForSeconds(0.3f); 
+        comboTextGO.gameObject.SetActive(false);
     }
 
 }

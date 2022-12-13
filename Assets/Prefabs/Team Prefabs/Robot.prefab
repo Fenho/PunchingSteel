@@ -133,6 +133,9 @@ MonoBehaviour:
   dodgeSound2: {fileID: 8300000, guid: 58f6b73e38dddc08daa8091150bb9a35, type: 3}
   missSound: {fileID: 8300000, guid: 5ae2055b0287795b6b44e58a0ba9501d, type: 3}
   blockSound: {fileID: 8300000, guid: 72e024b7c4a7b2c4d9eea22109ae6567, type: 3}
+  comboAudioSource: {fileID: 0}
+  comboSound: {fileID: 8300000, guid: 4bc4360ddca37f027842eeead6404a43, type: 3}
+  comboVolume: 0.15
   volume: 1
   jabTime: 0.5
   gameLogic: {fileID: 0}
@@ -142,6 +145,9 @@ MonoBehaviour:
   jabActivated: 1
   dodgeActivated: 1
   blockActivated: 1
+  comboCounter: 0
+  comboExpirationTimeLeft: 0
+  fightPoints: {fileID: 0}
 --- !u!114 &8907585382558615470
 MonoBehaviour:
   m_ObjectHideFlags: 0

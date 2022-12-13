@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 
 public class Player : AbstractRobot
@@ -30,6 +31,10 @@ public class Player : AbstractRobot
     public AudioClip dodgeSound2;
     public AudioClip missSound;
     public AudioClip blockSound;
+    // Combo sounds
+    public AudioSource comboAudioSource;
+    public AudioClip comboSound;
+    public float comboVolume = 0.15f;
 
     public float volume = 1.0f;
 
@@ -57,6 +62,18 @@ public class Player : AbstractRobot
     public bool jabActivated = true;
     public bool dodgeActivated = true;
     public bool blockActivated = true;
+
+    // Combo state multiplier and counters
+    private double comboMultiplier = 1.5;
+    [SerializeField] private int comboCounter = 0;
+    private int comboMax = 3;
+    // TTL for combo
+    private float comboExpirationTime = 2.0f;
+    [SerializeField] private float comboExpirationTimeLeft = 0.0f;
+
+    // Combo UI
+    public FightPoints fightPoints;
+
 
     public void Awake() {
         flashEffect = GetComponent<SimpleFlash>();
@@ -147,9 +164,41 @@ public class Player : AbstractRobot
         blockActivated = false;
     }
 
-     private bool isInPauseMenu()
+    private bool isInPauseMenu()
     {
         return StaticVars.isInPauseMenu;
+    }
+
+    private void HandleCombo(GameLogic.PunchResult punchResult) {
+        if (!punchResult.Equals(GameLogic.PunchResult.HIT)) {
+            ResetCombo();
+            return;
+        } else {
+            comboCounter = Math.Min(comboCounter + 1, comboMax);
+            comboExpirationTimeLeft = comboExpirationTime;
+            if (comboAudioSource != null && comboSound != null) {
+                comboAudioSource.pitch = (float)Math.Pow(comboMultiplier, comboCounter);
+                comboAudioSource.PlayOneShot(comboSound, comboVolume);
+            }
+            if (fightPoints != null)
+                fightPoints.doComboEffect(comboCounter);
+        }
+    }
+
+    private void UpdateComboExpiration() {
+        if (comboExpirationTimeLeft > 0.0f) {
+            comboExpirationTimeLeft -= Time.deltaTime;
+            if (comboExpirationTimeLeft <= 0.0f) {
+                ResetCombo();
+            }
+        }
+    }
+
+    public void ResetCombo() {
+        comboCounter = 0;
+        comboExpirationTimeLeft = 0.0f;
+        if (comboAudioSource != null)
+            comboAudioSource.pitch = 1.0f;
     }
 
 
@@ -160,8 +209,11 @@ public class Player : AbstractRobot
                 playerState = teamState = RobotState.JAB;
                 animator.Play(RobotState.JAB);
                 StartCoroutine(LetAnimationRunForTime(jabTime));
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE, "Right");
+                int damageWithCombo = (int)Math.Ceiling(DAMAGE * Math.Pow(comboMultiplier, comboCounter));
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(damageWithCombo, "Right");
                 stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
+                HandleCombo(punchResult);
+                
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound1, volume);
                     StaticVars.addPointsByType("LeftJabTeam");
@@ -190,8 +242,11 @@ public class Player : AbstractRobot
                 playerState = teamState = RobotState.RIGHT;
                 animator.Play(RobotState.RIGHT);
                 StartCoroutine(LetAnimationRunForTime(jabTime));
-                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(DAMAGE, "Left");
+                int damageWithCombo = (int)Math.Ceiling(DAMAGE * Math.Pow(comboMultiplier, comboCounter));
+                GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(damageWithCombo, "Left");
                 stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
+                HandleCombo(punchResult);
+
                 if (punchResult == GameLogic.PunchResult.HIT) {
                     audioSource.PlayOneShot(punchSound2, volume);
                     StaticVars.addPointsByType("RightJabTeam");
@@ -298,9 +353,19 @@ public class Player : AbstractRobot
         }
     }
 
+    void UpdateCombo() {
+        if (comboExpirationTimeLeft - Time.deltaTime <= 0) {
+            comboExpirationTimeLeft = 0;
+            comboCounter = 0;
+        } else {
+            comboExpirationTimeLeft -= Time.deltaTime;
+        }
+    }
+
     // Update is called once per frame
     protected virtual void Update()
     {
+
         if (IsGameOver()) {
             if (shouldPlayWinLoseAfterGameOver) {
                 StartCoroutine(PlayWinLoseAfterGameOver(jabTime));
@@ -319,5 +384,8 @@ public class Player : AbstractRobot
             playerState = teamState = RobotState.IDLE;
             animator.Play(RobotState.IDLE);
         }
+
+        // Reduce the time left for the combo
+        UpdateComboExpiration();
     }
 }

@@ -94,6 +94,7 @@ public class GameLogic : MonoBehaviour
             action = PunchResult.HIT;
         }
         DamageTeam(damage);
+        robot.ResetCombo();
         return action;
     }
 
