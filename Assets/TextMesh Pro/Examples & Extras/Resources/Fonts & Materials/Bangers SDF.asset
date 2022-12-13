@@ -441,6 +441,20 @@ MonoBehaviour:
       m_Height: 107
     m_Scale: 1
     m_AtlasIndex: 0
+  - m_Index: 81
+    m_Metrics:
+      m_Width: 72.703125
+      m_Height: 105.890625
+      m_HorizontalBearingX: 0.5625
+      m_HorizontalBearingY: 105.1875
+      m_HorizontalAdvance: 63.5625
+    m_GlyphRect:
+      m_X: 298
+      m_Y: 525
+      m_Width: 74
+      m_Height: 107
+    m_Scale: 1
+    m_AtlasIndex: 0
   - m_Index: 82
     m_Metrics:
       m_Width: 64.40625
@@ -707,6 +721,10 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 99
     m_GlyphIndex: 80
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 100
+    m_GlyphIndex: 81
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 101

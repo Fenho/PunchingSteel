@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8731931014404102577}
   - component: {fileID: 2052352229673326159}
   m_Layer: 5
-  m_Name: EKey
+  m_Name: OKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 317c76ec981504746be406f0bf1955b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0173d8a018ea1a54daa6aee4550d9599, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 8080416156595781142}
   - component: {fileID: 8525008069428537966}
   m_Layer: 5
-  m_Name: QText
+  m_Name: UText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 6398330947522385104}
   - component: {fileID: 7043035470513353643}
   m_Layer: 5
-  m_Name: DText
+  m_Name: LText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 6410922959610906000}
   - component: {fileID: 7976322825541494679}
   m_Layer: 5
-  m_Name: QKey
+  m_Name: UKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d1dd4f4d995822040b0bdebe38c2109d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63b47789977a8d34ca21e00184d9861d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 6020442363531730544}
   - component: {fileID: 352262472919834541}
   m_Layer: 5
-  m_Name: WKey
+  m_Name: IKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4a29a4c8624d93549a5004cee87c6db3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d125b8ce93ddb1545913ae7d576b04f1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 1892148610637279797}
   - component: {fileID: 7095567623739483765}
   m_Layer: 5
-  m_Name: AKey
+  m_Name: JKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,7 +568,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 271976b60d4580349ac5bb2cd189ae92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6aaf7516e6ac0db4eaaa01c2be72c995, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -590,7 +590,7 @@ GameObject:
   - component: {fileID: 4271699086035139835}
   - component: {fileID: 5759999725310312991}
   m_Layer: 5
-  m_Name: DText
+  m_Name: IText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -725,7 +725,7 @@ GameObject:
   - component: {fileID: 1136178745972959014}
   - component: {fileID: 9162109524222581392}
   m_Layer: 5
-  m_Name: AText
+  m_Name: JText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: 5179798944839727933}
   - component: {fileID: 614657790944818320}
   m_Layer: 5
-  m_Name: DKey
+  m_Name: LKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -915,7 +915,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9bf545ff8247ef54b86176b907f9a23c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a9983c5602d9f854cad370039af433d4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -937,7 +937,7 @@ GameObject:
   - component: {fileID: 1115616247011337125}
   - component: {fileID: 5283184319336942539}
   m_Layer: 5
-  m_Name: EText
+  m_Name: OText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 8958804275594249924}
   - component: {fileID: 8958804275594249925}
   m_Layer: 5
-  m_Name: Robot Instructions
+  m_Name: Player Instructions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Robot
+  m_text: Trainer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6392eabc3f6c949e1a886cc3915e66ad, type: 2}
   m_sharedMaterial: {fileID: 4910451177898952394, guid: 6392eabc3f6c949e1a886cc3915e66ad, type: 2}
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.1
+  m_fontSize: 18.7
   m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 1
