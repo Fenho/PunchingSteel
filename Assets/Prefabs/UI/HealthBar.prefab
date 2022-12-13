@@ -492,5 +492,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 3093036788722623819}
   endGameAnimations: {fileID: 0}
-  koAnimationDuration: 8
+  koAnimationDuration: 5.5
   gameSounds: {fileID: 0}
