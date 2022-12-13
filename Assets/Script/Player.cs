@@ -50,11 +50,10 @@ public class Player : AbstractRobot
     protected bool shouldPlayWinLoseAfterGameOver = true;
 
     // Stamina
-    protected int maxStamina = 100;
-    protected int currentStamina = 100;
+
     protected int DODGE_STAMINA_PENALTY = 12;
     protected int HIT_STAMINA_PENALTY = 20;
-    [SerializeField] protected StaminaBar stamina;
+    [SerializeField] protected StaminaBar staminaBar;
     // Every second the player will win stamina
     protected float interval = 1.0f; 
     protected float nextTime = 0;
@@ -96,12 +95,6 @@ public class Player : AbstractRobot
         observer = GameObject.FindWithTag("Observer");
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        stamina.SetMaxStamina(100);
-    }
-    
     public void PlayBlockSound() {
         audioSource.PlayOneShot(blockSound, volume);
     }
@@ -122,7 +115,7 @@ public class Player : AbstractRobot
     private bool isTeamBlocking() {
         if(teamState.Equals(RobotState.BLOCK)){
             flashEffect.Flash();
-            stamina.DecreaseStaminaBy(100);
+            staminaBar.DecreaseStaminaBy(100);
             return true;
         }
         return false ;
@@ -205,13 +198,13 @@ public class Player : AbstractRobot
     public override void OnJab(InputAction.CallbackContext context) {
         if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.JAB && stamina.slider.value > HIT_STAMINA_PENALTY && jabActivated) {
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.JAB && staminaBar.stamina  > HIT_STAMINA_PENALTY && jabActivated) {
                 playerState = teamState = RobotState.JAB;
                 animator.Play(RobotState.JAB);
                 StartCoroutine(LetAnimationRunForTime(jabTime));
                 int damageWithCombo = (int)Math.Ceiling(DAMAGE * Math.Pow(comboMultiplier, comboCounter));
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(damageWithCombo, "Right");
-                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
+                staminaBar.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
                 HandleCombo(punchResult);
                 
                 if (punchResult == GameLogic.PunchResult.HIT) {
@@ -226,11 +219,11 @@ public class Player : AbstractRobot
                 }
                 SendMessageToObserver("OnJab");
             }
-            else if (stamina.slider.value <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY)) {
+            else if (staminaBar.stamina <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY)) {
                 flashEffect.Flash2();
                 StaticVars.addPointsByType("UncoordinatedTeam");
                 SendMessageToObserver("OnNotEnoughStamina");
-                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY);
+                staminaBar.DecreaseStaminaBy(HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY);
             }
         }
     }
@@ -238,13 +231,13 @@ public class Player : AbstractRobot
     public override void OnRight(InputAction.CallbackContext context) {
         if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.RIGHT && stamina.slider.value > HIT_STAMINA_PENALTY) {
+            if (context.ReadValueAsButton() && !DoingSomething() && trainer != null && trainer.trainerState == RobotState.RIGHT && staminaBar.stamina > HIT_STAMINA_PENALTY) {
                 playerState = teamState = RobotState.RIGHT;
                 animator.Play(RobotState.RIGHT);
                 StartCoroutine(LetAnimationRunForTime(jabTime));
                 int damageWithCombo = (int)Math.Ceiling(DAMAGE * Math.Pow(comboMultiplier, comboCounter));
                 GameLogic.PunchResult punchResult = gameLogic.TakeDamageEnemy(damageWithCombo, "Left");
-                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
+                staminaBar.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
                 HandleCombo(punchResult);
 
                 if (punchResult == GameLogic.PunchResult.HIT) {
@@ -259,12 +252,12 @@ public class Player : AbstractRobot
                 }
                 SendMessageToObserver("OnRight");
             }
-            else if (stamina.slider.value <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY))
+            else if (staminaBar.stamina <= (HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY))
             {
                 flashEffect.Flash2();
                 StaticVars.addPointsByType("UncoordinatedTeam");
                 SendMessageToObserver("OnNotEnoughStamina");
-                stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY);
+                staminaBar.DecreaseStaminaBy(HIT_STAMINA_PENALTY + trainer.HIT_STAMINA_PENALTY);
             }
         }
     }
@@ -272,18 +265,18 @@ public class Player : AbstractRobot
     public override void OnDodgeRight(InputAction.CallbackContext context) {
         if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
-                playerState = teamState = RobotState.DODGE_RIGHT;
-                animator.Play(RobotState.DODGE_RIGHT);
-                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
+            if (context.ReadValueAsButton() && !DoingSomething() && staminaBar.stamina > DODGE_STAMINA_PENALTY && dodgeActivated) {
+                playerState = teamState = State.DODGE_RIGHT;
+                animator.Play(State.DODGE_RIGHT);
+                staminaBar.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound1, volume);
                 StaticVars.addPointsByType("RightDodgeTeam");
                 StartCoroutine(LetAnimationRunForTime(jabTime));
                 SendMessageToObserver("OnDodge");
-            } else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
+            } else if (staminaBar.stamina <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
                 StaticVars.addPointsByType("UncoordinatedTeam");
-                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
+                staminaBar.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 SendMessageToObserver("OnDodgePenalty");
             }
         }
@@ -292,19 +285,19 @@ public class Player : AbstractRobot
     public override void OnDodgeLeft(InputAction.CallbackContext context) {
         if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
-            if (context.ReadValueAsButton() && !DoingSomething() && stamina.slider.value > DODGE_STAMINA_PENALTY && dodgeActivated) {
-                playerState = teamState = RobotState.DODGE_LEFT;
-                animator.Play(RobotState.DODGE_LEFT);
-                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
+            if (context.ReadValueAsButton() && !DoingSomething() && staminaBar.stamina > DODGE_STAMINA_PENALTY && dodgeActivated) {
+                playerState = teamState = State.DODGE_LEFT;
+                animator.Play(State.DODGE_LEFT);
+                staminaBar.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound2, volume);
                 StaticVars.addPointsByType("LeftDodgeTeam");
                 StartCoroutine(LetAnimationRunForTime(jabTime));
                 SendMessageToObserver("OnDodge");
             }
-            else if (stamina.slider.value <= DODGE_STAMINA_PENALTY) {
+            else if (staminaBar.stamina <= DODGE_STAMINA_PENALTY) {
                 flashEffect.Flash2();
                 StaticVars.addPointsByType("UncoordinatedTeam");
-                stamina.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
+                staminaBar.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 SendMessageToObserver("OnDodgePenalty");
             }
         }
@@ -347,7 +340,7 @@ public class Player : AbstractRobot
             // Debug.Log("Time.time: " + Time.time);
             // Debug.Log("Interval: " + interval);
             // Debug.Log("NextTime: " + nextTime);
-            stamina.IncreaseStaminaBy(10);
+            staminaBar.IncreaseStaminaBy(10);
             nextTime += interval; 
             // Debug.Log("NextTime: " + nextTime);
         }
