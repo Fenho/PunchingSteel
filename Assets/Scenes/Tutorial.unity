@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 971526838162785155, guid: ca9dfb349b2749f45bc16ce670fb42d6, type: 3}
       propertyPath: teamHealthBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1058533456}
     - target: {fileID: 971526838162785155, guid: ca9dfb349b2749f45bc16ce670fb42d6, type: 3}
       propertyPath: enemyHealthBar
       value: 
@@ -823,7 +823,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a4a00fe75f192e23bb8d930b280588f9, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -993,6 +993,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73cfbaae617fbdf488afc2e0ef6d7874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1058533456 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 456326407, guid: 8936d77f06caacc49b3b9a3ca51f4189, type: 3}
+  m_PrefabInstance: {fileID: 411362516}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e009954da37f547b8f1ee6d4b49430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1061436185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1114,7 +1125,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 36bb4d16593ef974d951f193c7e5ec4e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1582,7 +1593,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 33a16e6089b554a46846ff688e64d79c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2210,7 +2221,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 67aec7ffa97f58f98bb6322e21b3a41c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

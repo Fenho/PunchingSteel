@@ -31,6 +31,10 @@ public class Player : AbstractRobot
     public AudioClip dodgeSound2;
     public AudioClip missSound;
     public AudioClip blockSound;
+    // Combo sounds
+    public AudioSource comboAudioSource;
+    public AudioClip comboSound;
+    public float comboVolume = 0.15f;
 
     public float volume = 1.0f;
 
@@ -66,6 +70,9 @@ public class Player : AbstractRobot
     // TTL for combo
     private float comboExpirationTime = 2.0f;
     [SerializeField] private float comboExpirationTimeLeft = 0.0f;
+
+    // Combo UI
+    public FightPoints fightPoints;
 
 
     public void Awake() {
@@ -169,6 +176,12 @@ public class Player : AbstractRobot
         } else {
             comboCounter = Math.Min(comboCounter + 1, comboMax);
             comboExpirationTimeLeft = comboExpirationTime;
+            if (comboAudioSource != null && comboSound != null) {
+                comboAudioSource.pitch = (float)Math.Pow(comboMultiplier, comboCounter);
+                comboAudioSource.PlayOneShot(comboSound, comboVolume);
+            }
+            if (fightPoints != null)
+                fightPoints.doComboEffect(comboCounter);
         }
     }
 
@@ -184,6 +197,8 @@ public class Player : AbstractRobot
     public void ResetCombo() {
         comboCounter = 0;
         comboExpirationTimeLeft = 0.0f;
+        if (comboAudioSource != null)
+            comboAudioSource.pitch = 1.0f;
     }
 
 
