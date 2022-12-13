@@ -42,6 +42,7 @@ public class Player : AbstractRobot
 
     // Animation Variables
     [SerializeField] public string playerState = RobotState.IDLE;
+    protected bool shouldPlayWinLoseAfterGameOver = true;
 
     // Stamina
     protected int maxStamina = 100;
@@ -266,6 +267,17 @@ public class Player : AbstractRobot
         BackToIdle();
     }
 
+    protected IEnumerator PlayWinLoseAfterGameOver(float time)
+    {
+        yield return new WaitForSeconds(time);
+        // The Static Vars win variable is set to true if the player has won
+        if (StaticVars.win) {
+            animator.Play(RobotState.WIN);
+        } else {
+            animator.Play(RobotState.LOSE);
+        }
+    }
+
     private void BackToIdle() {
         if (playerState == RobotState.BLOCK) {
             animator.Play(RobotState.BLOCK);
@@ -289,7 +301,14 @@ public class Player : AbstractRobot
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (IsGameOver()) return;
+        if (IsGameOver()) {
+            if (shouldPlayWinLoseAfterGameOver) {
+                StartCoroutine(PlayWinLoseAfterGameOver(jabTime));
+                shouldPlayWinLoseAfterGameOver = false;
+            }
+            return;
+        }
+        
         Regen();
         if (trainer.trainerState == RobotState.BLOCK && blockActivated) {
             playerState = teamState = RobotState.BLOCK;

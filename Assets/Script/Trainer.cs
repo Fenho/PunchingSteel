@@ -27,6 +27,7 @@ public class Trainer : MonoBehaviour
     
     // Animation Variables
     public string trainerState = RobotState.IDLE;
+    private bool shouldPlayWinLoseAfterGameOver = true;
     
     // Stamina
     [SerializeField] private StaminaBar stamina;
@@ -147,6 +148,14 @@ public class Trainer : MonoBehaviour
     void Update()
     {
         if (IsGameOver()) {
+            if (shouldPlayWinLoseAfterGameOver) {
+                if (StaticVars.win) {
+                    animator.Play(RobotState.WIN);
+                } else {
+                    animator.Play(RobotState.LOSE);
+                }
+                shouldPlayWinLoseAfterGameOver = false;
+            }
             return;
         }
         if (Time.time >= next && trainerState == RobotState.BLOCK) {
