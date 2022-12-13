@@ -23,6 +23,7 @@ public class EnemyHealthBar : MonoBehaviour
         //StaticVars.addPoints( health );
         if (health <= 0) {
             StaticVars.winGame();
+            PersistentManager.Instance.UnlockEnemy(true);
             gameSounds.PlayEndGame();
             endGameAnimations.playKO();
             StartCoroutine(LoadGameOverAfterDelay(koAnimationDuration));
@@ -31,8 +32,20 @@ public class EnemyHealthBar : MonoBehaviour
 
     IEnumerator LoadGameOverAfterDelay(float time)
     {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+ 
+        
         yield return new WaitForSeconds(time);
         // Code to execute after the delay
-        SceneManager.LoadScene("GameOverScene");
+        if (sceneName == "Fight") 
+        {
+            SceneManager.LoadScene("GameOverScene");
+        } 
+        else
+        {
+            SceneManager.LoadScene("GameOverSceneEnemy2");
+        }
+
     }
 }

@@ -39,5 +39,17 @@ public class HealthBar : MonoBehaviour
         yield return new WaitForSeconds(time);
         // Code to execute after the delay
         SceneManager.LoadScene("GameOverScene");
+        
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        if (sceneName == "Fight") 
+        {
+            SceneManager.LoadScene("GameOverScene");
+        } 
+        else
+        {
+            SceneManager.LoadScene("GameOverSceneEnemy2");
+        }
+
     }
 }

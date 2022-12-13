@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FightHeadBox.unity
     guid: 1a8847373473de44988dc51675ef422d
+  - enabled: 1
+    path: Assets/Scenes/GameOverSceneEnemy2.unity
+    guid: 07591a3ef4d3c4c96abc7bf9cf045cd5
   m_configObjects: {}
