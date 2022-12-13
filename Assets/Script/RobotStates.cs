@@ -7,4 +7,6 @@ public class RobotState {
     public static string BLOCK => "block";
     public static string JAB_CUE => "jab-cue";
     public static string RIGHT_CUE => "right-cue";
+    public static string WIN => "win";
+    public static string LOSE => "lose";
 }

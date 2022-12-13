@@ -15,4 +15,6 @@ public class EnemyState {
     public static string TRIPLE_CUE => "triple-cue";
     public static string DOUBLE => "double";
     public static string DOUBLE_CUE => "double-cue";
+    public static string WIN => "win";
+    public static string LOSE => "lose";
 }

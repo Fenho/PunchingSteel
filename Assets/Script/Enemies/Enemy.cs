@@ -13,6 +13,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected bool shouldCueJab = true;
     [SerializeField] protected bool shouldTakeTeamHealth = true;
     [SerializeField] protected bool shouldPlayDodgeSound = true;
+    [SerializeField] protected bool shouldPlayWinLoseAfterGameOver = true;
 
     [SerializeField] protected float jabTime = 0.3f;
     [SerializeField] protected float cueTime = 0.3f;
@@ -145,6 +146,18 @@ public abstract class Enemy : MonoBehaviour
         DisableCues();
     }
 
+    protected IEnumerator PlayWinLoseAfterGameOver(float time)
+    {
+        yield return new WaitForSeconds(time);
+        // The Static Vars win variable is set to true if the player has won
+        // so the **enemy** plays the lose animation.
+        if (StaticVars.win) {
+            animator.Play(EnemyState.LOSE);
+        } else {
+            animator.Play(EnemyState.WIN);
+        }
+    }
+
     protected virtual void DisableCues() {
         shouldCueRightHitting = false;
         shouldCueJab = false;
@@ -186,6 +199,10 @@ public abstract class Enemy : MonoBehaviour
     {
         // Do not update if game is over
         if (StaticVars.gameOver) {
+            if (shouldPlayWinLoseAfterGameOver) {
+                StartCoroutine(PlayWinLoseAfterGameOver(jabTime));
+                shouldPlayWinLoseAfterGameOver = false;
+            }
             return;
         }
         if (action == EnemyState.JAB) {
