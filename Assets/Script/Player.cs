@@ -266,8 +266,8 @@ public class Player : AbstractRobot
         if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && staminaBar.stamina > DODGE_STAMINA_PENALTY && dodgeActivated) {
-                playerState = teamState = State.DODGE_RIGHT;
-                animator.Play(State.DODGE_RIGHT);
+                playerState = teamState = RobotState.DODGE_RIGHT;
+                animator.Play(RobotState.DODGE_RIGHT);
                 staminaBar.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound1, volume);
                 StaticVars.addPointsByType("RightDodgeTeam");
@@ -286,8 +286,8 @@ public class Player : AbstractRobot
         if (IsGameOver() || isInPauseMenu()) return;
         if (!isTeamBlocking()) {
             if (context.ReadValueAsButton() && !DoingSomething() && staminaBar.stamina > DODGE_STAMINA_PENALTY && dodgeActivated) {
-                playerState = teamState = State.DODGE_LEFT;
-                animator.Play(State.DODGE_LEFT);
+                playerState = teamState = RobotState.DODGE_LEFT;
+                animator.Play(RobotState.DODGE_LEFT);
                 staminaBar.DecreaseStaminaBy(DODGE_STAMINA_PENALTY);
                 audioSource.PlayOneShot(dodgeSound2, volume);
                 StaticVars.addPointsByType("LeftDodgeTeam");
