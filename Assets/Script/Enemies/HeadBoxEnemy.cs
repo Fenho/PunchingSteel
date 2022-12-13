@@ -139,8 +139,13 @@ public class HeadBoxEnemy : Enemy
     // Update is called once per frame
     protected override void Update()
     {
-        // Do not update if game is over
+         // Do not update if game is over
         if (StaticVars.gameOver) {
+            if (shouldPlayWinLoseAfterGameOver) {
+                // Inherited from Enemy
+                StartCoroutine(PlayWinLoseAfterGameOver(jabTime));
+                shouldPlayWinLoseAfterGameOver = false;
+            }
             return;
         }
         if (action == EnemyState.JAB) {
