@@ -707,8 +707,8 @@ MonoBehaviour:
     m_GlyphIndex: 86
     m_Scale: 1
   - m_ElementType: 1
-    m_Unicode: 116
-    m_GlyphIndex: 87
+    m_Unicode: 121
+    m_GlyphIndex: 92
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 117
