@@ -278,7 +278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: R Dodge
+  m_text: R dodge
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
   m_sharedMaterial: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
@@ -590,7 +590,7 @@ GameObject:
   - component: {fileID: 4271699086035139835}
   - component: {fileID: 5759999725310312991}
   m_Layer: 5
-  m_Name: DText
+  m_Name: WText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -779,7 +779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: L Dodge
+  m_text: L dodge
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
   m_sharedMaterial: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 8958804275594249924}
   - component: {fileID: 8958804275594249925}
   m_Layer: 5
-  m_Name: Robot Instructions
+  m_Name: Robot instructions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.1
+  m_fontSize: 23.5
   m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 1
