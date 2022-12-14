@@ -39,7 +39,7 @@ public abstract class Enemy : MonoBehaviour
     protected string[] actions = new string[] { EnemyState.JAB, EnemyState.RIGHT, EnemyState.BLOCK, EnemyState.DODGE_LEFT, EnemyState.DODGE_RIGHT};
 
     // Health
-    protected int DAMAGE = 10;
+    protected int DAMAGE = 4;
     
     public void SetBlocking() {
         enemyState = action = EnemyState.BLOCK;
@@ -184,7 +184,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void ReactToHit() {
         int randomValue = Random.Range(0, 99);
 
-        if (enemyState == EnemyState.IDLE && randomValue < 50) {
+        if (enemyState == EnemyState.IDLE && randomValue < 30) {
             SetBlocking();
         }
     }

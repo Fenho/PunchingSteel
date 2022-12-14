@@ -12,6 +12,8 @@ public class HeadBoxEnemy : Enemy
     private int DOUBLE_DAMAGE = 10;
     private int HEAD_BUTT_DAMAGE = 10;
 
+    protected float HIT_TIME = 1.5f;
+
     public override string GetEnemyType() {
         return "HeadBoxEnemy";
     }
@@ -125,15 +127,21 @@ public class HeadBoxEnemy : Enemy
         }
     }
 
-    protected float RandomHitTime()
+    protected IEnumerator RandomHitTime()
     {
-        return Random.Range(jabTime + cueTime, 1f);
+        float time = Random.Range(jabTime + cueTime, HIT_TIME);
+        yield return new WaitForSeconds(time);
+        Choose();
+    }
+
+    protected void CallRandomHit() {
+        StartCoroutine(RandomHitTime());
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        InvokeRepeating("Choose", 1f, RandomHitTime());
+        InvokeRepeating("CallRandomHit", 1f, HIT_TIME);
     }
 
     // Update is called once per frame

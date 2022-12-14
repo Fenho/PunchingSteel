@@ -11,7 +11,7 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private HealthBar teamHealthBar;
     [SerializeField] private Enemy enemy;
     [SerializeField] private Player robot;
-    [SerializeField] private float blockDamageFactor = 0.03f;
+    [SerializeField] private float blockDamageFactor = 0.95f;
 
     public enum PunchResult {
         MISS,
@@ -56,10 +56,10 @@ public class GameLogic : MonoBehaviour
         switch(enemy.GetEnemyType())
         {
             case "Enemy":
-                if (enemy.enemyState == EnemyState.RIGHT && robot.teamState == RobotState.DODGE_LEFT) {
+                if (enemy.enemyState == EnemyState.RIGHT && robot.teamState == RobotState.DODGE_RIGHT) {
                     return PunchResult.MISS;
                 }
-                if (enemy.enemyState == EnemyState.JAB && robot.teamState == RobotState.DODGE_RIGHT) {
+                if (enemy.enemyState == EnemyState.JAB && robot.teamState == RobotState.DODGE_LEFT) {
                     return PunchResult.MISS;
                 }
                 break;
