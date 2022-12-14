@@ -37,7 +37,7 @@ public class InitialMusicController : MonoBehaviour
     {
         Debug.Log("Scene loaded: " + scene.name);
         // here you can use scene.buildIndex or scene.name to check which scene was loaded
-        if (scene.name == "Fight"){
+        if (scene.name.StartsWith("Fight")) {
             // Destroy the gameobject this script is attached to
             Destroy(gameObject);
         } 
