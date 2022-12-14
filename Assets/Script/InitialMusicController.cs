@@ -23,19 +23,16 @@ public class InitialMusicController : MonoBehaviour
 
     public void OnEnable()
     {
-        Debug.Log("MusicController enabled");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
     public void OnDisable()
     {
-        Debug.Log("MusicController disabled");
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Scene loaded: " + scene.name);
         // here you can use scene.buildIndex or scene.name to check which scene was loaded
         if (scene.name.StartsWith("Fight") || scene.name == "Training" || scene.name == "Tutorial") {
             // Destroy the gameobject this script is attached to
