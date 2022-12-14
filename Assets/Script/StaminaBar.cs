@@ -14,7 +14,7 @@ public class StaminaBar : MonoBehaviour
         slider.value = stamina;
     }
 
-    public void DecreaseStaminaBy(int stamina)
+    public void DecreaseStaminaBy(float stamina)
     {
         if(slider.value - stamina >= slider.maxValue){
             slider.value = slider.maxValue;
@@ -28,7 +28,7 @@ public class StaminaBar : MonoBehaviour
         }
     }
 
-    public void IncreaseStaminaBy(int stamina)
+    public void IncreaseStaminaBy(float stamina)
     {
         if(slider.value + stamina >= slider.maxValue){
             slider.value += slider.maxValue;

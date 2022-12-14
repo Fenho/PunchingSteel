@@ -21,7 +21,7 @@ public class Trainer : MonoBehaviour
     private InputAction dodgeLeftAction;
     private InputAction dodgeRightAction;
     
-    [SerializeField] private float jabTime = 0.6f;
+    [SerializeField] private float jabTime = 0.3f;
     
     private Animator animator;
     
@@ -31,11 +31,11 @@ public class Trainer : MonoBehaviour
     
     // Stamina
     [SerializeField] private StaminaBar stamina;
-    public int HIT_STAMINA_PENALTY = 10;
-    private int BLOCK_STAMINA_PENALTY = 5;
-    // Every second the player will lose stamina
-    int duration = 2; 
-    float next = 0;
+    public float JAB_STAMINA_PENALTY = 5f;
+    public float RIGHT_STAMINA_PENALTY = 10f;
+    private float BLOCK_STAMINA_PENALTY = 20f;
+    private float BLOCK_STAMINA_BASE_PENALTY = 1f;
+    private bool justPressedBlock = false;
 
     private void OnDisable() {
         jabAction.Disable();
@@ -83,7 +83,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.JAB;
             animator.Play(RobotState.JAB);
-            stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
+            stamina.DecreaseStaminaBy(JAB_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound1, volume);
             StartCoroutine(LetAnimationRunForTime(jabTime));
         }
@@ -93,7 +93,7 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.RIGHT;
             animator.Play(RobotState.RIGHT);
-            stamina.DecreaseStaminaBy(HIT_STAMINA_PENALTY);
+            stamina.DecreaseStaminaBy(RIGHT_STAMINA_PENALTY);
             // audioSource.PlayOneShot(punchSound2, volume);
             StartCoroutine(LetAnimationRunForTime(jabTime));
         }
@@ -103,7 +103,9 @@ public class Trainer : MonoBehaviour
         if (context.ReadValueAsButton() && !DoingSomething() && !IsGameOver() && !isInPauseMenu()) {
             trainerState = RobotState.BLOCK;
             animator.Play(RobotState.BLOCK);
+            justPressedBlock = true;
         } else {
+            justPressedBlock = false;
             trainerState = RobotState.IDLE;
             animator.Play(RobotState.IDLE);
         }
@@ -158,9 +160,12 @@ public class Trainer : MonoBehaviour
             }
             return;
         }
-        if (Time.time >= next && trainerState == RobotState.BLOCK) {
-            stamina.DecreaseStaminaBy(BLOCK_STAMINA_PENALTY);
-            next = Time.time + duration/2; 
+        if (trainerState == RobotState.BLOCK) {
+            if (justPressedBlock) {
+                stamina.DecreaseStaminaBy(BLOCK_STAMINA_BASE_PENALTY);
+                justPressedBlock = false;
+            }
+            stamina.DecreaseStaminaBy(BLOCK_STAMINA_PENALTY * Time.deltaTime);
         }
     }
 }
