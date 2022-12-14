@@ -39,7 +39,7 @@ public abstract class Enemy : MonoBehaviour
     protected string[] actions = new string[] { EnemyState.JAB, EnemyState.RIGHT, EnemyState.BLOCK, EnemyState.DODGE_LEFT, EnemyState.DODGE_RIGHT};
 
     // Health
-    protected int DAMAGE = 4;
+    protected int DAMAGE = 6;
     
     public void SetBlocking() {
         enemyState = action = EnemyState.BLOCK;

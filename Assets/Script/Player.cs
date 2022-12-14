@@ -55,7 +55,7 @@ public class Player : AbstractRobot
     protected int maxStamina = 100;
     protected int currentStamina = 100;
     protected int DODGE_STAMINA_PENALTY = 8;
-    protected int JAB_STAMINA_PENALTY = 3;
+    protected int JAB_STAMINA_PENALTY = 6;
     protected int RIGHT_STAMINA_PENALTY = 9;
     [SerializeField] protected StaminaBar stamina;
 
